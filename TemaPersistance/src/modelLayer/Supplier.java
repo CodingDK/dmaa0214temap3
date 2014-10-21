@@ -11,10 +11,12 @@ public class Supplier {
 	private int zipcode;
 	private String city;
 	
-	public Supplier(int id, String name, String phone) {
+	public Supplier() {
+
+	}
+
+	public void setId(int id) {
 		this.id = id;
-		this.name = name;
-		this.phone = phone;
 	}
 
 	public String getName() {
