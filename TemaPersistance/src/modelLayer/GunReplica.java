@@ -1,8 +1,8 @@
 package modelLayer;
 
-public class GunReplicas {
+public class GunReplica {
 	
-	public GunReplicas() {
+	public GunReplica() {
 		// TODO Auto-generated constructor stub
 	}
 	

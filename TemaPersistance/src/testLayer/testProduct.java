@@ -1,9 +1,8 @@
 package testLayer;
 
-import static org.junit.Assert.*;
-import modelLayer.Product;
-
 import org.junit.Test;
+
+import modelLayer.Product;
 
 public class testProduct {
 
