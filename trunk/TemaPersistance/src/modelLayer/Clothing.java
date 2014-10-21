@@ -4,13 +4,10 @@ public class Clothing extends Product {
 	
 	private String size;
 	private String colour;
-	private static int idIterator = 1;
-	private int id;
 	
-	public Clothing(String name, double salesPrice, String size) {
-		super(name, salesPrice);
+	public Clothing(int id, String name, double salesPrice, String size) {
+		super(id, name, salesPrice);
 		this.size = size;
-		id = idIterator++;
 	}
 
 	/**
@@ -45,7 +42,7 @@ public class Clothing extends Product {
 	 * @return the id
 	 */
 	public int getId() {
-		return id;
+		return super.getId();
 	}
 	
 	

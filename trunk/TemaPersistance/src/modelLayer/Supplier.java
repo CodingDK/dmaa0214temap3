@@ -2,7 +2,6 @@ package modelLayer;
 
 public class Supplier {
 	
-	private static int idIterator = 1;
 	private int id;
 	private String name;
 	private String address;
@@ -10,10 +9,10 @@ public class Supplier {
 	private String phone;
 	private String email;
 	
-	public Supplier(String name, String phone) {
+	public Supplier(int id, String name, String phone) {
+		this.id = id;
 		this.name = name;
 		this.phone = phone;
-		id = idIterator++;
 	}
 
 	public String getName() {

@@ -2,7 +2,6 @@ package modelLayer;
 
 public class Product {
 	
-	private static int idIterator = 1;
 	private int id;
 	private String name;
 	private String countryOrigin;
@@ -12,8 +11,8 @@ public class Product {
 	private double salesPrice;
 	private double rentPrice;
 		
-	public Product(String name, double salesPrice) {
-		id = idIterator++;
+	public Product(int id, String name, double salesPrice) {
+		this.id = id;
 		this.name = name;
 		this.salesPrice = salesPrice;
 	}
