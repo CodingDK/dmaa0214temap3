@@ -12,8 +12,9 @@ public class Customer {
 	private int zipcode;
 	private String city;
 	private String phone;
+	private boolean hidden = false;
 	/**
-	 * A Customer object
+	 * Create a Customer object
 	 * @param id The id of the Customer
 	 * @param name The name of the Customer
 	 * @param address The address of the Customer
@@ -29,6 +30,32 @@ public class Customer {
 		this.zipcode = zipcode;
 		this.city = city;
 		this.phone = phone;
+		hidden = false;
+	}
+	/**
+	 * Create a Customer object
+	 */
+	public Customer() {
+		
+	}
+	/**
+	 * Create a Customer object
+	 * @param id the id of the Customer
+	 */
+	public Customer(int id){
+		this.id = id;
+	}
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 	/**
 	 * @return the name
@@ -91,10 +118,16 @@ public class Customer {
 		this.phone = phone;
 	}
 	/**
-	 * @return the id
+	 * @return the hidden
 	 */
-	public int getId() {
-		return id;
+	public boolean isHidden() {
+		return hidden;
+	}
+	/**
+	 * @param hidden the hidden to set
+	 */
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 	
 }
