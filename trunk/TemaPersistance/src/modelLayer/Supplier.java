@@ -8,6 +8,8 @@ public class Supplier {
 	private String country;
 	private String phone;
 	private String email;
+	private int zipcode;
+	private String city;
 	
 	public Supplier(int id, String name, String phone) {
 		this.id = id;
@@ -58,5 +60,35 @@ public class Supplier {
 	public int getId() {
 		return id;
 	}
+
+	/**
+	 * @return the zipcode
+	 */
+	public int getZipcode() {
+		return zipcode;
+	}
+
+	/**
+	 * @param zipcode the zipcode to set
+	 */
+	public void setZipcode(int zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	
 	
 }
