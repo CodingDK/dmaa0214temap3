@@ -2,7 +2,11 @@ package modelLayer;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+/**
+ * An Order Object
+ * @author Group 3
+ *
+ */
 public class Order {
 	
 	private int ordreID;
@@ -13,6 +17,7 @@ public class Order {
 	private ArrayList<PartOrder> partOrders;
 	private Customer customer;
 	/**
+	 * Create an Order object.
 	 * @param ordreID
 	 * @param date
 	 * @param deliveryStatus
