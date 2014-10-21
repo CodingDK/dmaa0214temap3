@@ -14,10 +14,6 @@ public class DBConnection {
 	
 	private static DBConnection instance;
 	
-	public static void main(String[] args){
-		Connection db = DBConnection.getInstance().getDBCon();
-	}
-	
 	/**
 	 * Initial Connection to Database
 	 * @throws NullPointerException
