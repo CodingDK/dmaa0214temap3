@@ -37,12 +37,4 @@ public class Equipment extends Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return super.getId();
-	}
-	
 }
