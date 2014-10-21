@@ -36,15 +36,5 @@ public class Clothing extends Product {
 	 */
 	public void setColour(String colour) {
 		this.colour = colour;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return super.getId();
-	}
-	
-	
-	
+	}	
 }
