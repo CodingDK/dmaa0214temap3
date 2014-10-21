@@ -16,10 +16,10 @@ public class testProduct {
 		Product p2 = new Product("navn", 123);
 		Product p3 = new Product("navn", 123);
 		Product p4 = new Product("navn", 123);
-		System.out.println(p1.getID());
-		System.out.println(p2.getID());
-		System.out.println(p3.getID());
-		System.out.println(p4.getID());
+		System.out.println(p1.getId());
+		System.out.println(p2.getId());
+		System.out.println(p3.getId());
+		System.out.println(p4.getId());
 		
 	}
 
