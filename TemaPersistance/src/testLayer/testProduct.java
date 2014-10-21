@@ -1,8 +1,7 @@
 package testLayer;
 
-import org.junit.Test;
-
 import modelLayer.Product;
+import org.junit.Test;
 
 public class testProduct {
 
