@@ -15,7 +15,7 @@ public class DBConnectionTestCase {
 	public void setUp() throws Exception {}
 	
 	@Test
-	public void test() {
+	public void dbTest() {
 		Connection db = DBConnection.getInstance().getDBCon();
 		assertNotNull(db);
 	}
