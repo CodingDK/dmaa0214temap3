@@ -22,7 +22,7 @@ public interface IFDBSupplier {
 	public int insertSupplier(Supplier sp) throws Exception;
 	
 	// updates a Employee
-	public int updateEmployee(Supplier sp);
+	public int updateSupplier(Supplier sp);
 	
 	// Remove Supplier
 	public int removeSupplier(Supplier sp);

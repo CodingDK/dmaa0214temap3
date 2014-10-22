@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import modelLayer.Supplier;
+import modelLayer.Zipcode;
 
 import org.junit.Test;
 
@@ -65,8 +66,6 @@ public class DBSupplierTestCase {
 		DBSupplier dbSup = new DBSupplier();
 		Supplier sp = new Supplier();
 		boolean test = false;
-		
-		int id = 0;
 
 		{
 			sp.setName("Nick");
@@ -74,14 +73,13 @@ public class DBSupplierTestCase {
 			sp.setCountry("Denmark");
 			sp.setPhone("00000000");
 			sp.setEmail("Noget@noget.dk");
-			sp.setZipcode(9440);
+			sp.setZipCode(new Zipcode(8832, "Skals"));
 			
 			int rc = -1;
 			
 			try {
 				rc = dbSup.insertSupplier(sp);
 				System.out.println(rc);
-				id = sp.getId();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -100,7 +98,7 @@ public class DBSupplierTestCase {
 			int rc = -1;
 			
 			try {
-				rc = dbSup.updateEmployee(sp);
+				rc = dbSup.updateSupplier(sp);
 				System.out.println(rc);
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -8,6 +8,6 @@ public interface IFDBZipcode {
 	
 	public int updateOrInsertZipcode(Zipcode zipObj);
 	
-	public int deleteZipcode(Zipcode zipObj);
+	public void deleteZipcode(Zipcode zipObj);
 	
 }
