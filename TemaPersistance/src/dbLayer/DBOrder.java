@@ -29,6 +29,12 @@ public class DBOrder implements IFDBOrder {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Order getOrderByID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
 	public int insertOrder(Order order) {
@@ -47,5 +53,5 @@ public class DBOrder implements IFDBOrder {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 }
