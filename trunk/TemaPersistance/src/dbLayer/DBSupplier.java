@@ -18,11 +18,11 @@ public class DBSupplier implements IFDBSupplier {
 	}
 
 	public ArrayList<Supplier> findSuppliersByName(String name) {
-		return miscWhere("name LIKE '" + name + "'");
+		return miscWhere("name LIKE '%" + name + "%'");
 	}
 	
 	public ArrayList<Supplier> findSuppliersByPhone(String phone) {
-		return miscWhere("phone = '" + phone + "'");
+		return miscWhere("phone LIKE '%" + phone + "%'");
 	}
 	
 	public Supplier findSuppliersByID(int id) {
@@ -31,40 +31,34 @@ public class DBSupplier implements IFDBSupplier {
 	
 	public int insertSupplier(Supplier sp){
 		int rc = -1;
-		
 		int zip = insertUpdateZipCode(sp.getZipCode());
 		
 		if(zip != -1){
-			String query = "INSERT INTO SUPPLIER(name, address, country, phone, email, zipcode) VALUES ('" +
-					        sp.getName() + "','" + 
-					        sp.getAddress() + "','" + 
-					        sp.getCountry() + "','" + 
-					        sp.getPhone() + "','" + 
-					        sp.getEmail() + "'," +
-					        sp.getZipCode().getZipcode() + ");";
-			
-			System.out.println("Insert - Supplier : " + query);
-			
 			try{
-				Statement stmt = con.createStatement();
+				String query = "INSERT INTO SUPPLIER(name, address, country, phone, email, zipcode) VALUES "
+						+ "(?,?,?,?,?,?);";
+				PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 				stmt.setQueryTimeout(5);
-				rc = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, sp.getName());
+				stmt.setString(2, sp.getAddress());
+				stmt.setString(3, sp.getCountry());
+				stmt.setString(4, sp.getPhone());
+				stmt.setString(5, sp.getEmail());
+				stmt.setInt(6, sp.getZipCode().getZipcode());
+				rc = stmt.executeUpdate();
 				
 				ResultSet rs = stmt.getGeneratedKeys();
 				if(rs.next()){
 					sp.setId(rs.getInt(1));
 				}
 				
-				
 				stmt.close();
 				
-				
 			}catch(Exception e){
-				System.out.println("Error Inserting new Supplier : ");
+				System.out.println("Error Inserting new Supplier:");
 				e.printStackTrace();
 			}
 		}
-		
 		return rc;
 	}
 
@@ -101,7 +95,7 @@ public class DBSupplier implements IFDBSupplier {
 				
 				new DBZipcode().removeZipcode(zipObj);
 			}catch(Exception e){
-				System.out.println("Error Updating Supplier : ");
+				System.out.println("Error Updating Supplier: ");
 				e.printStackTrace();
 			}
 		}
@@ -120,7 +114,7 @@ public class DBSupplier implements IFDBSupplier {
 			rc = stmt.executeUpdate(query);
 			stmt.close();
 		}catch(Exception e){
-			System.out.println("Error Deleting supplier : ");
+			System.out.println("Error Deleting supplier: ");
 			e.printStackTrace();
 		}
 		
