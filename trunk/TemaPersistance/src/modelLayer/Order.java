@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Order {
 	
-	private int ordreID;
+	private int orderID;
 	private Date date;
 	private String deliveryStatus;
 	private Date deliveryDate;
@@ -26,10 +26,10 @@ public class Order {
 	 * @param partOrders
 	 * @param customer
 	 */
-	public Order(int ordreID, Date date, String deliveryStatus,
+	public Order(int orderID, Date date, String deliveryStatus,
 			Date deliveryDate, Invoice invoice, ArrayList<PartOrder> partOrders,
 			Customer customer) {
-		this.ordreID = ordreID;
+		this.orderID = orderID;
 		this.date = date;
 		this.deliveryStatus = deliveryStatus;
 		this.deliveryDate = deliveryDate;
@@ -38,17 +38,21 @@ public class Order {
 		this.customer = customer;
 	}
 	
+	public Order(int orderID) {
+		this.orderID = orderID;
+	}
+
 	/**
 	 * @return the ordreID
 	 */
-	public int getOrdreID() {
-		return ordreID;
+	public int getOrderID() {
+		return orderID;
 	}
 	/**
 	 * @param ordreID the ordreID to set
 	 */
-	public void setOrdreID(int ordreID) {
-		this.ordreID = ordreID;
+	public void setOrderID(int ordreID) {
+		this.orderID = ordreID;
 	}
 	/**
 	 * @return the date

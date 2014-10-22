@@ -12,6 +12,9 @@ public interface IFDBProduct {
 	// Search Products by name
 	public ArrayList<Product> searchProduct(String name);
 	
+	//Get product by ID
+	public Product getProductByID(int id);
+	
 	// Insert a Product
 	public int insertProduct(Product prod) throws Exception;
 	

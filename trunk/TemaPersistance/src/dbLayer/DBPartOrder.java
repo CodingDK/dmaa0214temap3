@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import modelLayer.Order;
 import modelLayer.PartOrder;
+import modelLayer.Product;
 
 public class DBPartOrder implements IFDBPartOrder {
 	private Connection con;
@@ -51,10 +52,17 @@ public class DBPartOrder implements IFDBPartOrder {
 			
 			while(rs.next()){
 				PartOrder pO = new PartOrder();
-				pO.setAmount(amount);
-				pO.setParent(parent);
-				pO.setProduct(product);
-				pO.setUnitPrice(unitPrice);
+				pO.setAmount(rs.getInt("amount"));
+				pO.setParent(new Order(rs.getInt("orderid")));
+				pO.setProduct(new Product(rs.getInt("productID")));
+				pO.setUnitPrice(rs.getFloat("price"));
+				if(retAsso){
+					DBOrder dbO = new DBOrder();
+					pO.setParent(dbO.getOrderByID(pO.getParent().getOrderID()));
+					
+					DBProduct dbP = new DBProduct();
+					
+				}
 			}
 		}catch(Exception e){
 			System.out.println("Error Selecting PartOrder");
