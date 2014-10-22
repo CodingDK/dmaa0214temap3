@@ -56,8 +56,7 @@ public class DBCustomer implements IFDBCustomer {
 			rc = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 					
 			ResultSet genRs = stmt.getGeneratedKeys();
-			if (genRs != null) {
-				genRs.next();
+			if (genRs.next()) {
 				cust.setId(genRs.getInt(1));
 				//System.out.println("GeneratedID: " + genRs.getInt(1));
 			} 
