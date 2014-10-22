@@ -99,7 +99,7 @@ public class DBSupplier implements IFDBSupplier {
 				
 				stmt.close();
 				
-				new DBZipcode().deleteZipcode(zipObj);
+				new DBZipcode().removeZipcode(zipObj);
 			}catch(Exception e){
 				System.out.println("Error Updating Supplier : ");
 				e.printStackTrace();
@@ -124,7 +124,7 @@ public class DBSupplier implements IFDBSupplier {
 			e.printStackTrace();
 		}
 		
-		new DBZipcode().deleteZipcode(sp.getZipCode());
+		new DBZipcode().removeZipcode(sp.getZipCode());
 		
 		return rc;
 	}
@@ -200,7 +200,10 @@ public class DBSupplier implements IFDBSupplier {
 			supObj.setAddress(rs.getString("address"));
 			supObj.setCountry(rs.getString("country"));
 			supObj.setEmail(rs.getString("email"));
-			supObj.setZipCode(new Zipcode(rs.getInt("zipcode"), rs.getString("city")));
+			int zip = rs.getInt("zipcode");
+			if(zip != 0){
+				supObj.setZipCode(new Zipcode(zip, rs.getString("city")));
+			}
 		}catch(Exception e){
 			System.out.println("Error building Supplier Object");
 			e.printStackTrace();
