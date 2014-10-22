@@ -185,6 +185,7 @@ public class DBCustomer implements IFDBCustomer {
 			cus.setHidden(results.getBoolean("hidden"));
 		}
 		catch(Exception e) {
+			cus = null;
 			System.out.println("error in building the customer object");
 		}
 		return cus;
