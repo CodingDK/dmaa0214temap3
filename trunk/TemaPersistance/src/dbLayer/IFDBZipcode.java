@@ -1,5 +1,7 @@
 package dbLayer;
 
+import modelLayer.Zipcode;
+
 public interface IFDBZipcode {
 	
 	public Zipcode getZipcode(int zip);
