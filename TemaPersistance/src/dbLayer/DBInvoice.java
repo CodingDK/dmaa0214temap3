@@ -72,7 +72,7 @@ public class DBInvoice implements IFDBInvoice {
 		int rc = -1;
 		try {
 			String query = "UPDATE INVOICE SET"
-				+ " invoiceDate = ?,"
+				+ " invoiceDate = ?"
 				+ " WHERE invoiceID= ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
