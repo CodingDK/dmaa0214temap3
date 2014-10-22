@@ -7,19 +7,39 @@ import modelLayer.Invoice;
 
 public interface IFDBInvoice {
 	
-	// get all Invoices
+	/**
+	 * get all Invoices
+	 * @param retAsso
+	 * @return
+	 */
 	public ArrayList<Invoice> getAllInvoices(boolean retAsso);
 	
-	// Get Invoices by Customer
+	/**
+	 * Get Invoices by Customer
+	 * @param customer
+	 * @return
+	 */
 	public ArrayList<Invoice> getInvoicesByCustomer(Customer customer);
 	
-	// Insert a new Invoice
+	/**
+	 * Insert a new Invoice
+	 * @param invoice
+	 * @return
+	 */
 	public int insertInvoice(Invoice invoice);
 	
-	// Update a Invoice
+	/**
+	 * Update a Invoice
+	 * @param invoice
+	 * @return
+	 */
 	public int updateInvoice(Invoice invoice);
 	
-	// Remove Invoice
+	/**
+	 * Remove Invoice
+	 * @param invoice
+	 * @return
+	 */
 	public int removeInvoice(Invoice invoice);
 	
 }
