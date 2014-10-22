@@ -6,6 +6,7 @@ package modelLayer;
  */
 public class PartOrder {
 	
+	private Order parent;
 	private int amount;
 	private double unitPrice;
 	private Product product;
@@ -16,11 +17,7 @@ public class PartOrder {
 	 * @param unitPrice The unit price for the product
 	 * @param product The product too add
 	 */
-	public PartOrder(int amount, double unitPrice, Product product) {
-		this.amount = amount;
-		this.unitPrice = unitPrice;
-		this.product = product;
-	}
+	public PartOrder() {}
 
 	/**
 	 * @return the amount
@@ -63,6 +60,21 @@ public class PartOrder {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+	/**
+	 * @return the parent
+	 */
+	public Order getParent() {
+		return parent;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(Order parent) {
+		this.parent = parent;
+	}
+	
 	
 	
 	
