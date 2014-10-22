@@ -17,6 +17,9 @@ public interface IFDBOrder {
 	// Get Orders by Customer
 	public ArrayList<Order> getOrdersByCustomer(Customer customer);
 	
+	//
+	public Order getOrderByID(int id);
+	
 	// Insert new Order
 	public int insertOrder(Order order);
 	
