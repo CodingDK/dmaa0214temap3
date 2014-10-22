@@ -1,12 +1,10 @@
 package dbLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
 import modelLayer.Customer;
 import modelLayer.Invoice;
 import modelLayer.Order;
@@ -62,8 +60,9 @@ public class DBInvoice implements IFDBInvoice {
 			}
 			stmt.close();		
 		}
-		catch(SQLException e) {
-			
+		catch(Exception e) {
+			System.out.println("Invoice is not inserted correct");
+			e.printStackTrace();
 		}
 		return rc;
 	}
@@ -73,12 +72,13 @@ public class DBInvoice implements IFDBInvoice {
 		int rc = -1;
 		try {
 			String query = "UPDATE INVOICE SET"
-				+ " invoiceDate = " + invoice.getDate()
-				+ " WHERE invoiceID=" + invoice.getInvoiceID();
-			Statement stmt = conn.createStatement();
+				+ " invoiceDate = ?,"
+				+ " WHERE invoiceID= ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setQueryTimeout(5);
-			
-			rc = stmt.executeUpdate(query);
+			stmt.setDate(1, new java.sql.Date(invoice.getDate().getTime()));
+			stmt.setInt(2, invoice.getInvoiceID());
+			rc = stmt.executeUpdate();
 			
 			stmt.close();
 		}
@@ -91,9 +91,17 @@ public class DBInvoice implements IFDBInvoice {
 
 	@Override
 	public int removeInvoice(Invoice invoice) {
-		// TODO Auto-generated method stub
 		int rc = -1;
-		
+		try {
+			String query = "DELETE FROM INVOICE WHERE invoiceID=" + invoice.getInvoiceID();
+			Statement stmt = conn.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			stmt.close();
+		}
+		catch(Exception e) {
+			System.out.println("Delete exception in invoice table: " + e);
+		}
 		return rc;
 	}
 
