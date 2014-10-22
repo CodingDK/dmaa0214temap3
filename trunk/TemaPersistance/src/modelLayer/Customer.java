@@ -93,6 +93,16 @@ public class Customer {
 		return hidden;
 	}
 	/**
+	 * @return the hidden as int
+	 */
+	public int isHiddenAsInt() {
+		int i = 0;
+		if(hidden) {
+			i = 1;
+		}
+		return i;
+	}
+	/**
 	 * @param hidden the hidden to set
 	 */
 	public void setHidden(boolean hidden) {

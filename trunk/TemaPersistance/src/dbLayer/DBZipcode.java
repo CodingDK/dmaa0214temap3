@@ -3,6 +3,9 @@ package dbLayer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import modelLayer.Zipcode;
 
 public class DBZipcode implements IFDBZipcode {
@@ -40,6 +43,12 @@ public class DBZipcode implements IFDBZipcode {
 			stmt.setQueryTimeout(5);
 			stmt.executeUpdate(query);
 			stmt.close();
+		}catch(SQLServerException e) {
+			if(e.getErrorCode() == 547) {
+				System.out.println("ZipCode is used");
+			} else {
+				e.printStackTrace();
+			}
 		}catch(Exception e){
 			System.out.println("Error Delete ZipCode");
 			e.printStackTrace();
