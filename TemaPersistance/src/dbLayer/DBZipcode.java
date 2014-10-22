@@ -30,7 +30,6 @@ public class DBZipcode implements IFDBZipcode {
 			rc = insertZipcode(zipObj);
 		}
 		
-		
 		return rc;
 	}
 	
