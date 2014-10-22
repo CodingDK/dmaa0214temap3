@@ -17,6 +17,10 @@ public class Product {
 		this.salesPrice = salesPrice;
 	}
 
+	public Product(int id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the name
 	 */

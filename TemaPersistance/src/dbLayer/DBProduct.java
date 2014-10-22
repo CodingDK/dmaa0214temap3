@@ -23,6 +23,12 @@ public class DBProduct implements IFDBProduct {
 	}
 	
 	@Override
+	public Product getProductByID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public int insertProduct(Product prod) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
