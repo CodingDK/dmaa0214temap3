@@ -174,7 +174,6 @@ public class DBSupplier implements IFDBSupplier {
 			e.printStackTrace();
 		}
 		
-		
 		return list;
 	}
 
