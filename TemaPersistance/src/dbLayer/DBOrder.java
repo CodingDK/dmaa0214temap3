@@ -76,14 +76,70 @@ public class DBOrder implements IFDBOrder {
 	
 	@Override
 	public int updateOrder(Order order) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		
+		String query = "UPDATE ORDER SET " +
+					   "deliveryStatus = ?, " +
+					   "deliveryDate = ?, " +
+					   "invoiceID = ?, " +
+					   "customerID = ? " +
+					   "WHERE orderID = ?";
+		try{
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			
+			stmt.setString(1, order.getDeliveryStatus());
+			if(order.getDeliveryDate() != null){
+				stmt.setDate(2, new java.sql.Date(order.getDeliveryDate().getTime()));
+			}else{
+				stmt.setNull(2, java.sql.Types.NULL);
+			}
+			
+			if(order.getInvoice() != null){
+				stmt.setInt(3, order.getInvoice().getInvoiceID());
+			}else{
+				stmt.setNull(3, java.sql.Types.NULL);
+			}
+			
+			if(order.getCustomer() != null){
+				stmt.setInt(4, order.getCustomer().getId());
+			}else{
+				stmt.setNull(4, java.sql.Types.NULL);
+			}
+			
+			stmt.setInt(5, order.getOrderID());
+			
+			rc = stmt.executeUpdate();
+			
+			stmt.close();
+			
+		}catch(Exception e){
+			System.out.println("Update Order Error : Order");
+			e.printStackTrace();
+		}
+		
+		
+		
+		return rc;
 	}
 	
 	@Override
 	public int removeOrder(Order order) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		String query = "DELETE FROM ORDERS WHERE ORDERID = " + order.getOrderID();
+		
+		try{
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("Error Remove Order : Order");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 	
 	private ArrayList<Order> miscWhere(String wQuery, boolean retAsso){
