@@ -9,29 +9,10 @@ public class Customer {
 	private int id;
 	private String name;
 	private String address;
-	private int zipcode;
-	private String city;
+	private Zipcode zipcode;
 	private String phone;
 	private boolean hidden = false;
-	/**
-	 * Create a Customer object
-	 * @param id The id of the Customer
-	 * @param name The name of the Customer
-	 * @param address The address of the Customer
-	 * @param zipcode The zipcode of the Customer
-	 * @param city The city of the Customer
-	 * @param phone The phoneNumber of the Customer
-	 */
-	public Customer(int id, String name, String address, int zipcode,
-			String city, String phone) {
-		this.id = id;
-		this.name = name;
-		this.address = address;
-		this.zipcode = zipcode;
-		this.city = city;
-		this.phone = phone;
-		hidden = false;
-	}
+	
 	/**
 	 * Create a Customer object
 	 */
@@ -84,26 +65,14 @@ public class Customer {
 	/**
 	 * @return the zipcode
 	 */
-	public int getZipcode() {
+	public Zipcode getZipcode() {
 		return zipcode;
 	}
 	/**
 	 * @param zipcode the zipcode to set
 	 */
-	public void setZipcode(int zipcode) {
+	public void setZipcode(Zipcode zipcode) {
 		this.zipcode = zipcode;
-	}
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return city;
-	}
-	/**
-	 * @param city the city to set
-	 */
-	public void setCity(String city) {
-		this.city = city;
 	}
 	/**
 	 * @return the phone
