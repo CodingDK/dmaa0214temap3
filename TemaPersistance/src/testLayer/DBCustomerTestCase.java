@@ -58,7 +58,7 @@ public class DBCustomerTestCase {
 		int update = dbCus.updateCustomer(cus);
 		assertTrue(update == 1);
 		System.out.println("updateTest: " + update);
-		int delete = dbCus.deleteCustomer(cus);
+		int delete = dbCus.removeCustomer(cus);
 		assertTrue(delete == 1);
 		System.out.println("deleteTest: " + delete);
 	}
@@ -66,7 +66,7 @@ public class DBCustomerTestCase {
 	@Test
 	public void testDeleteUsedCustomer() {
 		Customer cus = dbCus.getCustomerByID(2);
-		int delete = dbCus.deleteCustomer(cus);
+		int delete = dbCus.removeCustomer(cus);
 		assertTrue(delete != -1);
 		cus.setHidden(false);
 		int update = dbCus.updateCustomer(cus);

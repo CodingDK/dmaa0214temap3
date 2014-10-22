@@ -34,7 +34,7 @@ public class DBZipcode implements IFDBZipcode {
 	}
 	
 	@Override
-	public void deleteZipcode(Zipcode zipObj) {
+	public void removeZipcode(Zipcode zipObj) {
 		String query = "DELETE FROM ZIPCODES WHERE zipcode = " + zipObj.getZipcode();
 		
 		try{

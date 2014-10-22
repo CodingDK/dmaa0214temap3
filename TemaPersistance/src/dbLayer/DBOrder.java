@@ -1,6 +1,7 @@
 package dbLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,8 +39,39 @@ public class DBOrder implements IFDBOrder {
 	
 	@Override
 	public int insertOrder(Order order) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		String query = "INSERT INTO ORDER (deliverStatus, deliveryDate, invoiceID, customerID) VALUES (?,?,?,?)";
+		
+		try{
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, order.getDeliveryStatus());
+			if(order.getDeliveryDate() != null){
+				stmt.setDate(2, new java.sql.Date(order.getDeliveryDate().getTime()));
+			}else{
+				stmt.setNull(2, java.sql.Types.NULL);
+			}
+			
+			if(order.getInvoice() != null){
+				stmt.setInt(3, order.getInvoice().getInvoiceID());
+			}else{
+				stmt.setNull(3, java.sql.Types.NULL);
+			}
+			
+			if(order.getCustomer() != null){
+				stmt.setInt(4, order.getCustomer().getId());
+			}else{
+				stmt.setNull(4, java.sql.Types.NULL);
+			}
+			
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate();
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("Insert Order Failed : Order");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 	
 	@Override
@@ -97,11 +129,15 @@ public class DBOrder implements IFDBOrder {
 			if(rs.next()){
 				o = buildOrder(rs);
 				if(retAsso){
-					DBCustomer dbC = new DBCustomer();
-					o.setCustomer(dbC.getCustomerByID(o.getCustomer().getId()));
+					if(o.getCustomer() != null){
+						DBCustomer dbC = new DBCustomer();
+						o.setCustomer(dbC.getCustomerByID(o.getCustomer().getId()));
+					}
 					
-					DBInvoice dbI = new DBInvoice();
-					o.setInvoice(dbI.getInvoiceByID(o.getInvoice().getInvoiceID()));
+					if(o.getInvoice() != null){
+						DBInvoice dbI = new DBInvoice();
+						o.setInvoice(dbI.getInvoiceByID(o.getInvoice().getInvoiceID()));
+					}
 				}
 			}			
 			
@@ -118,13 +154,23 @@ public class DBOrder implements IFDBOrder {
 		Order o = new Order();
 		
 		try{
-			o.setCustomer(new Customer(rs.getInt("customerID")));
+			int cusID = rs.getInt("customerID");
+			if(cusID != 0){
+				o.setCustomer(new Customer(cusID));
+			}
+			
 			o.setDate(rs.getDate("orderDate"));
 			o.setDeliveryDate(rs.getDate("deliveryDate"));
 			o.setDeliveryStatus(rs.getString("deliveryStatus"));
-			o.setInvoice(new Invoice(rs.getInt("invoiceID")));
+			
+			int invID = rs.getInt("invoiceID");
+			if(invID != 0){
+				o.setInvoice(new Invoice(invID));
+			}
+			
 			o.setOrderID(rs.getInt("orderID"));
 		}catch(Exception e){
+			o = null;
 			System.out.println("Building Order Failed : Order");
 			e.printStackTrace();
 		}

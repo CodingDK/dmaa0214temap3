@@ -52,6 +52,6 @@ public interface IFDBCustomer {
 	 * @param cust The Customer object to insert
 	 * @return numbers of affected rows
 	 */
-	public int deleteCustomer(Customer cust);
+	public int removeCustomer(Customer cust);
 
 }

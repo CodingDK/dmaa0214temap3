@@ -91,7 +91,7 @@ public class DBCustomer implements IFDBCustomer {
 		 	 	rc = stmt.executeUpdate(query);
 		 	 	stmt.close();
 		 	 	
-		 	 	new DBZipcode().deleteZipcode(zipOldObj);
+		 	 	new DBZipcode().removeZipcode(zipOldObj);
 		 	 	
 			}
 			catch(Exception e) {
@@ -103,7 +103,7 @@ public class DBCustomer implements IFDBCustomer {
 	}
 	
 	@Override
-	public int deleteCustomer(Customer cust) {
+	public int removeCustomer(Customer cust) {
 		int rc = -1;
 		try {
 			String query = "DELETE FROM CUSTOMER WHERE customerID=" + cust.getId();
@@ -112,7 +112,7 @@ public class DBCustomer implements IFDBCustomer {
 			rc = stmt.executeUpdate(query);
 			stmt.close();
 		
-			new DBZipcode().deleteZipcode(cust.getZipcode());
+			new DBZipcode().removeZipcode(cust.getZipcode());
 		}
 		catch(SQLServerException e) {
 			// 547 foreign key error
