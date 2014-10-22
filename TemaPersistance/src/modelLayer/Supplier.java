@@ -8,8 +8,7 @@ public class Supplier {
 	private String country;
 	private String phone;
 	private String email;
-	private int zipcode;
-	private String city;
+	private Zipcode zipCode;
 	
 	public Supplier() {
 
@@ -64,32 +63,20 @@ public class Supplier {
 	}
 
 	/**
-	 * @return the zipcode
+	 * @return the zipCode
 	 */
-	public int getZipcode() {
-		return zipcode;
+	public Zipcode getZipCode() {
+		return zipCode;
 	}
 
 	/**
-	 * @param zipcode the zipcode to set
+	 * @param zipCode the zipCode to set
 	 */
-	public void setZipcode(int zipcode) {
-		this.zipcode = zipcode;
+	public void setZipCode(Zipcode zipCode) {
+		this.zipCode = zipCode;
 	}
 
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return city;
-	}
-
-	/**
-	 * @param city the city to set
-	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
+	
 	
 	
 	

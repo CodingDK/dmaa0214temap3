@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import modelLayer.Supplier;
+import modelLayer.Zipcode;
 
 public class DBSupplier implements IFDBSupplier {
 	private Connection con;
@@ -184,8 +185,7 @@ public class DBSupplier implements IFDBSupplier {
 			supObj.setAddress(rs.getString("address"));
 			supObj.setCountry(rs.getString("country"));
 			supObj.setEmail(rs.getString("email"));
-			supObj.setCity(rs.getString("city"));
-			supObj.setZipcode(rs.getInt("zipcode"));
+			supObj.setZipCode(new Zipcode(rs.getInt("zipcode"), rs.getString("city")));
 		}catch(Exception e){
 			System.out.println("Error building Supplier Object");
 			e.printStackTrace();
@@ -193,6 +193,12 @@ public class DBSupplier implements IFDBSupplier {
 		
 		
 		return supObj;
+	}
+	
+	private int zipCode(int zipcode){
+		
+		
+		return zipcode;
 	}
 	
 }
