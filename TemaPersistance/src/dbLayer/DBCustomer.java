@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import modelLayer.Customer;
+import modelLayer.Zipcode;
 
 public class DBCustomer implements IFDBCustomer {
 
@@ -34,37 +37,31 @@ public class DBCustomer implements IFDBCustomer {
 	@Override
 	public int insertCustomer(Customer cust) {
 		int rc = -1;
-		try {
-			Statement stmt = conn.createStatement();
-			stmt.setQueryTimeout(5);
-			String zipSelectQuery = "Select * from ZIPCODES where zipcode='" + cust.getZipcode() + "'";
-			ResultSet results = stmt.executeQuery(zipSelectQuery);
-			
-			if(!results.next()) {
-				String ZipInsertQuery = "Insert into ZIPCODES (zipcode, city) VALUES ("
-					+ "'" + cust.getZipcode() + "','" + cust.getCity() + "');";		
-				stmt.executeUpdate(ZipInsertQuery);
+		int zipInsert = new DBZipcode().updateOrInsertZipcode(cust.getZipcode());
+		if(zipInsert != -1) {
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.setQueryTimeout(5);
+				
+				String query = "INSERT INTO CUSTOMER"
+					+ " (name, address, zipcode, phone) VALUES ("
+					+ "'" + cust.getName() + "',"
+					+ "'" + cust.getAddress() + "',"
+					+ cust.getZipcode().getZipcode() + ","
+					+ "'" + cust.getPhone() + "')";
+				rc = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+						
+				ResultSet genRs = stmt.getGeneratedKeys();
+				if (genRs.next()) {
+					cust.setId(genRs.getInt(1));
+					//System.out.println("GeneratedID: " + genRs.getInt(1));
+				} 
+				stmt.close();
 			}
-			results.close();		
-			String query = "INSERT INTO CUSTOMER"
-				+ " (name, address, zipcode, phone) VALUES ("
-				+ "'" + cust.getName() + "',"
-				+ "'" + cust.getAddress() + "',"
-				+ "'" + cust.getZipcode() + "',"
-				+ "'" + cust.getPhone() + "')";
-			//System.out.println("Query: " + query);
-			rc = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-					
-			ResultSet genRs = stmt.getGeneratedKeys();
-			if (genRs.next()) {
-				cust.setId(genRs.getInt(1));
-				//System.out.println("GeneratedID: " + genRs.getInt(1));
-			} 
-			
-		}
-		catch(SQLException e) {
-			System.out.println("Customer is not inserted correct");
-			e.printStackTrace();
+			catch(SQLException e) {
+				System.out.println("Customer is not inserted correct");
+				e.printStackTrace();
+			}
 		}
 		return rc;
 	}
@@ -72,25 +69,31 @@ public class DBCustomer implements IFDBCustomer {
 	@Override
 	public int updateCustomer(Customer cust) {
 		int rc = -1;
-		
-		try {
-			String query="UPDATE CUSTOMER SET "
-				+ "name = '" + cust.getName() + "',"
-				+ "address = '" + cust.getAddress() + "',"
-				+ "zipcode = '" + cust.getZipcode() + "',"
-				+ "phone = '" + cust.getPhone() + "'"
-				+ " WHERE customerID='" + cust.getId() + "'";
-			Statement stmt = conn.createStatement();
-	 		stmt.setQueryTimeout(5);
-	 	 	rc = stmt.executeUpdate(query);
-
-	 	 	stmt.close();	
+		int zipInsert = new DBZipcode().updateOrInsertZipcode(cust.getZipcode());
+		if(zipInsert != -1) {
+			try {
+				Zipcode zipOldObj = singleWhere("customerID=" + cust.getId()).getZipcode();
+				String query="UPDATE CUSTOMER SET "
+					+ "name = '" + cust.getName() + "',"
+					+ "address = '" + cust.getAddress() + "',"
+					+ "zipcode = " + cust.getZipcode().getZipcode() + ","
+					+ "phone = '" + cust.getPhone() + "',"
+					+ "hidden = " + cust.isHiddenAsInt()
+					+ " WHERE customerID=" + cust.getId();
+				System.out.println(query);
+				Statement stmt = conn.createStatement();
+		 		stmt.setQueryTimeout(5);
+		 	 	rc = stmt.executeUpdate(query);
+		 	 	stmt.close();
+		 	 	
+		 	 	new DBZipcode().deleteZipcode(zipOldObj);
+		 	 	
+			}
+			catch(Exception e) {
+				System.out.println("Update Customer failed");
+				e.printStackTrace();
+			}
 		}
-		catch(Exception e) {
-			System.out.println("Update Customer failed");
-			e.printStackTrace();
-		}
-		
 		return rc;
 	}
 	
@@ -98,16 +101,47 @@ public class DBCustomer implements IFDBCustomer {
 	public int deleteCustomer(Customer cust) {
 		int rc = -1;
 		try {
-			String query = "DELETE FROM CUSTOMER WHERE customerID='" + cust.getId() + "'";
+			String query = "DELETE FROM CUSTOMER WHERE customerID=" + cust.getId();
 			Statement stmt = conn.createStatement();
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
+		
+			new DBZipcode().deleteZipcode(cust.getZipcode());
+		}
+		catch(SQLServerException e) {
+			// 547 foreign key error
+			if(e.getErrorCode() == 547) {
+				cust.setHidden(true);
+				rc = updateCustomer(cust);
+				System.out.println("Customer is now hidden");
+			} else {
+				e.printStackTrace();
+			}
 		}
 		catch(Exception e) {
 			System.out.println("Delete exception in department db: "+e);
 		}
 		return rc;
+	}
+	
+	private Customer singleWhere(String wQuery) {
+		Customer cus = null;
+		
+		try {
+			String query = buildQuery(wQuery);
+			Statement stmt = conn.createStatement();
+			stmt.setQueryTimeout(5);
+			ResultSet results = stmt.executeQuery(query);
+			if(results.next()) {
+				cus = buildCustomer(results);
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Query exception - select: " + e);
+		}
+		
+		return cus;
 	}
 	
 	private ArrayList<Customer> miscWhere(String wQuery) {
@@ -140,8 +174,8 @@ public class DBCustomer implements IFDBCustomer {
 			cus.setId(results.getInt("customerID"));
 			cus.setName(results.getString("name"));
 			cus.setAddress(results.getString("address"));
-			cus.setCity(results.getString("city"));
-			cus.setZipcode(results.getInt("zipcode"));
+			Zipcode zipObj = new Zipcode(results.getInt("zipcode"), results.getString("city"));
+			cus.setZipcode(zipObj);
 			cus.setPhone(results.getString("phone"));
 			cus.setHidden(results.getBoolean("hidden"));
 		}

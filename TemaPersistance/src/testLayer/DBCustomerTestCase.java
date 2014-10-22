@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import modelLayer.Customer;
+import modelLayer.Zipcode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,14 +41,14 @@ public class DBCustomerTestCase {
 		assertNotNull(list);
 		assertTrue(list.size() != 0);
 	}
-
+/*
 	@Test
 	public void testCreateUpdateDeleteCustomer() {
 		Customer cus = new Customer();
 		cus.setName("DB TEST");
-		cus.setAddress("Testvejen 21");
-		cus.setZipcode(9520);
-		cus.setCity("Skørping");
+		cus.setAddress("Testvejen 11");
+		Zipcode zipcode = new Zipcode(9520, "Skørping");
+		cus.setZipcode(zipcode);
 		cus.setPhone("53453453");
 		int insert = dbCus.insertCustomer(cus);
 		assertTrue(insert == 1);
@@ -59,6 +60,15 @@ public class DBCustomerTestCase {
 		System.out.println("updateTest: " + update);
 		int delete = dbCus.deleteCustomer(cus);
 		assertTrue(delete == 1);
+		System.out.println("deleteTest: " + delete);
+	}
+*/	
+	@Test
+	public void testDeleteUsedCustomer() {
+		Customer cus = new Customer(2);
+		Zipcode zipcode = new Zipcode(8832, "Skals");
+		cus.setZipcode(zipcode);
+		int delete = dbCus.deleteCustomer(cus);
 		System.out.println("deleteTest: " + delete);
 	}
 
