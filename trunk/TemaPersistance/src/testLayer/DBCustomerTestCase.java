@@ -43,7 +43,7 @@ public class DBCustomerTestCase {
 	}
 
 	@Test
-	public void testCreateUpdateDeleteCustomer() {
+	public void testInsertUpdateDeleteCustomer() {
 		Customer cus = new Customer();
 		cus.setName("DB TEST");
 		cus.setAddress("Testvejen 11");
@@ -61,6 +61,12 @@ public class DBCustomerTestCase {
 		int delete = dbCus.removeCustomer(cus);
 		assertTrue(delete == 1);
 		System.out.println("deleteTest: " + delete);
+	}
+	
+	@Test
+	public void testGetCustomerByID() {
+		Customer cus = dbCus.getCustomerByID(2);
+		assertNotNull(cus);
 	}
 
 	@Test
