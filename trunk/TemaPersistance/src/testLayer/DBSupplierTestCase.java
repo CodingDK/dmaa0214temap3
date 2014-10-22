@@ -106,7 +106,7 @@ public class DBSupplierTestCase {
 				e.printStackTrace();
 			}
 	
-			if(rc == 0){
+			if(rc == 1){
 				test = true;
 			}else{
 				System.out.println("Update failed");
