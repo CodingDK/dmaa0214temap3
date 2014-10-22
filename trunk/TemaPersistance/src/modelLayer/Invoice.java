@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Invoice {
 	
-	private int InvoiceID;
+	private int invoiceID;
 	private Date date;
 	
 	/**
@@ -12,14 +12,17 @@ public class Invoice {
 	 * @param date
 	 */
 	public Invoice(int invoiceID, Date date) {
-		InvoiceID = invoiceID;
+		this.invoiceID = invoiceID;
 		this.date = date;
 	}
 
 	public Invoice(int id) {
-		this.InvoiceID = id;
+		this.invoiceID = id;
 	}
-
+	
+	public Invoice() {
+		
+	}
 	/**
 	 * @return the date
 	 */
@@ -38,7 +41,11 @@ public class Invoice {
 	 * @return the invoiceID
 	 */
 	public int getInvoiceID() {
-		return InvoiceID;
+		return invoiceID;
+	}
+
+	public void setInvoiceID(int invoiceID) {
+		this.invoiceID = invoiceID;
 	}
 	
 	
