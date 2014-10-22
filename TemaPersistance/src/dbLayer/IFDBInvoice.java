@@ -8,11 +8,11 @@ import modelLayer.Invoice;
 public interface IFDBInvoice {
 	
 	/**
-	 * get all Invoices
+	 * Get all Invoices
 	 * @param retAsso
 	 * @return
 	 */
-	public ArrayList<Invoice> getAllInvoices(boolean retAsso);
+	public ArrayList<Invoice> getAllInvoices();
 	
 	/**
 	 * Get Invoices by Customer
@@ -21,6 +21,11 @@ public interface IFDBInvoice {
 	 */
 	public ArrayList<Invoice> getInvoicesByCustomer(Customer customer);
 	
+	/**
+	 * Get a Invoice by id
+	 * @param id
+	 * @return
+	 */
 	public Invoice getInvoiceByID(int id);
 	
 	/**
