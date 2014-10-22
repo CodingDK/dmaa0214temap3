@@ -28,7 +28,7 @@ public class DBSupplier implements IFDBSupplier {
 		return singleWhere("supplierID = " + id);
 	}
 	
-	public int insertSupplier(Supplier sp) throws Exception {
+	public int insertSupplier(Supplier sp){
 		int rc = -1;
 		
 		String query = "INSERT INTO SUPPLIER(name, address, country, phone, email, zipcode) VALUES ('" +
@@ -44,11 +44,17 @@ public class DBSupplier implements IFDBSupplier {
 		try{
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
-			rc = stmt.executeUpdate(query);
+			rc = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.next()){
+				sp.setId(rs.getInt(1));
+			}
+			
 			
 			stmt.close();
 			
-			sp.setId(getLatestID());
+			
 		}catch(Exception e){
 			System.out.println("Error Inserting new Supplier : ");
 			e.printStackTrace();
@@ -86,7 +92,8 @@ public class DBSupplier implements IFDBSupplier {
 			System.out.println("Error Updating Supplier : ");
 			e.printStackTrace();
 		}
-		return 0;
+		
+		return rc;
 	}
 
 	public int removeSupplier(Supplier sp) {
@@ -186,29 +193,6 @@ public class DBSupplier implements IFDBSupplier {
 		
 		
 		return supObj;
-	}
-	
-	private int getLatestID(){
-		int id = -1;
-		ResultSet rs = null;
-		
-		String query = "SELECT IDENT_CURRENT( 'SUPPLIER' );";
-		
-		try{
-			Statement stmt = con.createStatement();
-			stmt.setQueryTimeout(5);
-			rs = stmt.executeQuery(query);
-			
-			if(rs.next()){
-				id = rs.getInt(1);
-			}
-		}catch(Exception e){
-			System.out.println("Error getting the latest ID");
-			e.printStackTrace();
-		}
-		
-		
-		return id;
 	}
 	
 }
