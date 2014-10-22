@@ -16,6 +16,10 @@ public class Invoice {
 		this.date = date;
 	}
 
+	public Invoice(int id) {
+		this.InvoiceID = id;
+	}
+
 	/**
 	 * @return the date
 	 */

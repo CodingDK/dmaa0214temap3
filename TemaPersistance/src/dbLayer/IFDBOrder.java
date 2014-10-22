@@ -12,13 +12,13 @@ public interface IFDBOrder {
 	public ArrayList<Order> getAllOrders();
 	
 	// Get Orders by Invoice
-	public ArrayList<Order> getOrdersByInvoice(Invoice invoice);
+	public ArrayList<Order> getOrdersByInvoice(Invoice invoice, boolean retAsso);
 	
 	// Get Orders by Customer
-	public ArrayList<Order> getOrdersByCustomer(Customer customer);
+	public ArrayList<Order> getOrdersByCustomer(Customer customer, boolean retAsso);
 	
 	//
-	public Order getOrderByID(int id);
+	public Order getOrderByID(int id, boolean retAsso);
 	
 	// Insert new Order
 	public int insertOrder(Order order);

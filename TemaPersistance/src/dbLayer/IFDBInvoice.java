@@ -21,6 +21,8 @@ public interface IFDBInvoice {
 	 */
 	public ArrayList<Invoice> getInvoicesByCustomer(Customer customer);
 	
+	public Invoice getInvoiceByID(int id);
+	
 	/**
 	 * Insert a new Invoice
 	 * @param invoice

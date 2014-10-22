@@ -1,6 +1,7 @@
 package dbLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -17,27 +18,73 @@ public class DBPartOrder implements IFDBPartOrder {
 	}
 	
 	@Override
-	public ArrayList<PartOrder> findPartOrders(Order order) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<PartOrder> findPartOrders(Order order, boolean retAsso) {
+		return miscWhere("ORDERID = " + order.getOrderID(), retAsso);
 	}
 	
 	@Override
 	public int insertPartOrder(PartOrder pOrder) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rc = -1;
+		String query = "INSERT INTO PARTORDER (orderID, productID, amount, unitPrice) values (?,?,?,?)";
+		
+		try{
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			stmt.setInt(1, pOrder.getParent().getOrderID());
+			stmt.setInt(2, pOrder.getProduct().getId());
+			stmt.setInt(3, pOrder.getAmount());
+			stmt.setDouble(4, pOrder.getUnitPrice());
+			
+			rc = stmt.executeUpdate();
+			
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("Error Inserting : Part Order");
+			e.printStackTrace();
+		}
+		
+		
+		return rc;
 	}
 	
 	@Override
-	public int updateEmployee(PartOrder pOrder) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updatePartOrder(PartOrder pOrder) {
+		int rc = -1;
+		String query = "UPDATE PARTORDER " + 
+					   "SET productID = " + pOrder.getProduct().getId() + ", " +
+					   "SET amount = " + pOrder.getAmount() + ", " +
+					   "SET unitPrice = " + pOrder.getUnitPrice() + " " +
+					   "WHERE orderID = " + pOrder.getParent().getOrderID();
+		
+		try{
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("Error Updating : Part Order");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 	
 	@Override
-	public int removePartOrder(PartOrder pORder) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int removePartOrder(PartOrder pOrder) {
+		int rc = -1;
+		String query = "DELETE FROM PARTORDER WHERE ORDERID = " + pOrder.getParent().getOrderID();
+		
+		try{
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			rc = stmt.executeUpdate(query);
+			stmt.close();
+		}catch(Exception e){
+			System.out.println("Query Exception : Remove Part Order");
+			e.printStackTrace();
+		}
+		
+		return rc;
 	}
 	
 	private ArrayList<PartOrder> miscWhere(String wQuery, boolean retAsso){
@@ -58,19 +105,23 @@ public class DBPartOrder implements IFDBPartOrder {
 				pO.setUnitPrice(rs.getFloat("price"));
 				if(retAsso){
 					DBOrder dbO = new DBOrder();
-					pO.setParent(dbO.getOrderByID(pO.getParent().getOrderID()));
+					pO.setParent(dbO.getOrderByID(pO.getParent().getOrderID(), false));
 					
 					DBProduct dbP = new DBProduct();
-					
+					pO.setProduct(dbP.getProductByID(pO.getProduct().getId()));
 				}
+				
+				list.add(pO);
 			}
+			
+			stmt.close();
 		}catch(Exception e){
 			System.out.println("Error Selecting PartOrder");
 			e.printStackTrace();
 		}
 		
 		
-		return null;
+		return list;
 	}
 	
 	private String buildQuery(String wQuery){

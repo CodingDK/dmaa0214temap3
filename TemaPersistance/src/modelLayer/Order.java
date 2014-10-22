@@ -42,6 +42,8 @@ public class Order {
 		this.orderID = orderID;
 	}
 
+	public Order() {}
+
 	/**
 	 * @return the ordreID
 	 */
