@@ -21,17 +21,22 @@ public class DBCustomer implements IFDBCustomer {
 
 	@Override
 	public ArrayList<Customer> getAllCustomers() {
-		return miscWhere(" hidden=0");
+		return miscWhere("hidden=0");
 	}
 
 	@Override
 	public ArrayList<Customer> findCustomerByName(String name) {
-		return miscWhere(" hidden=0 AND name Like '%" + name + "%'");
+		return miscWhere("hidden=0 AND name Like '%" + name + "%'");
 	}
 
 	@Override
 	public ArrayList<Customer> findCustomerByPhone(String phone) {
-		return miscWhere(" hidden=0 AND phone Like '%" + phone + "%'");
+		return miscWhere("hidden=0 AND phone Like '%" + phone + "%'");
+	}
+
+	@Override
+	public Customer getCustomerByID(int id) {
+		return singleWhere("customerID = " + id);
 	}
 
 	@Override
@@ -80,7 +85,7 @@ public class DBCustomer implements IFDBCustomer {
 					+ "phone = '" + cust.getPhone() + "',"
 					+ "hidden = " + cust.isHiddenAsInt()
 					+ " WHERE customerID=" + cust.getId();
-				System.out.println(query);
+				//System.out.println(query);
 				Statement stmt = conn.createStatement();
 		 		stmt.setQueryTimeout(5);
 		 	 	rc = stmt.executeUpdate(query);

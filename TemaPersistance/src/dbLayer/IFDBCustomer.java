@@ -27,6 +27,13 @@ public interface IFDBCustomer {
 	public ArrayList<Customer> findCustomerByPhone(String phone);
 	
 	/**
+	 * Find a Customer by ID
+	 * @param id The id of the Customer
+	 * @return the found Customer
+	 */
+	public Customer getCustomerByID(int id);
+	
+	/**
 	 * Insert a new Customer
 	 * @param cust The Customer object to insert
 	 * @return numbers of affected rows

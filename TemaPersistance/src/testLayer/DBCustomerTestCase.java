@@ -41,7 +41,7 @@ public class DBCustomerTestCase {
 		assertNotNull(list);
 		assertTrue(list.size() != 0);
 	}
-/*
+
 	@Test
 	public void testCreateUpdateDeleteCustomer() {
 		Customer cus = new Customer();
@@ -62,14 +62,15 @@ public class DBCustomerTestCase {
 		assertTrue(delete == 1);
 		System.out.println("deleteTest: " + delete);
 	}
-*/	
+
 	@Test
 	public void testDeleteUsedCustomer() {
-		Customer cus = new Customer(2);
-		Zipcode zipcode = new Zipcode(8832, "Skals");
-		cus.setZipcode(zipcode);
+		Customer cus = dbCus.getCustomerByID(2);
 		int delete = dbCus.deleteCustomer(cus);
-		System.out.println("deleteTest: " + delete);
+		assertTrue(delete != -1);
+		cus.setHidden(false);
+		int update = dbCus.updateCustomer(cus);
+		assertTrue(update != -1);
 	}
 
 }
