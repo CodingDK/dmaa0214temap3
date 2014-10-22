@@ -50,16 +50,20 @@ public class DBPartOrder implements IFDBPartOrder {
 	@Override
 	public int updatePartOrder(PartOrder pOrder) {
 		int rc = -1;
-		String query = "UPDATE PARTORDER " + 
-					   "SET productID = " + pOrder.getProduct().getId() + ", " +
-					   "SET amount = " + pOrder.getAmount() + ", " +
-					   "SET unitPrice = " + pOrder.getUnitPrice() + " " +
-					   "WHERE orderID = " + pOrder.getParent().getOrderID();
 		
 		try{
-			Statement stmt = con.createStatement();
+			String query = "UPDATE PARTORDER SET"
+					+ " productID = ?,"
+					+ " amount = ?"
+					+ " unitPrice = ?"
+					+ " WHERE orderID = ?";
+			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
-			rc = stmt.executeUpdate(query);
+			stmt.setInt(1, pOrder.getProduct().getId());
+			stmt.setInt(2, pOrder.getAmount());
+			stmt.setDouble(3, pOrder.getUnitPrice());
+			stmt.setInt(4, pOrder.getParent().getOrderID());
+			rc = stmt.executeUpdate();
 			stmt.close();
 		}catch(Exception e){
 			System.out.println("Error Updating : Part Order");
