@@ -24,11 +24,13 @@ import java.awt.event.ActionEvent;
 public class ProductPanel extends JPanel {
 	private JTextField txtName;
 	private JTextField txtID;
+	private OrderPanel parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public ProductPanel() {
+	public ProductPanel(OrderPanel parent) {
+		this.parent = parent;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {

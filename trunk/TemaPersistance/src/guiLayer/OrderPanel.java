@@ -211,8 +211,8 @@ public class OrderPanel extends JPanel {
 		add(cardPanel, "4, 4, fill, fill");
 		cardPanel.setLayout(new CardLayout(0, 0));
 		
-		ProductPanel pPanel = new ProductPanel();
-		CustomerPanel cPanel = new CustomerPanel();
+		ProductPanel pPanel = new ProductPanel(this);
+		CustomerPanel cPanel = new CustomerPanel(this);
 		
 		cardPanel.add(pPanel, "Product");
 		cardPanel.add(cPanel, "Customer");
