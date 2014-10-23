@@ -97,11 +97,11 @@ public class ProductPanel extends JPanel {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JButton btnSearchProduct = new JButton("Search Product");
-		panel_2.add(btnSearchProduct, "1, 1, left, default");
-		
 		JButton btnAddSelected = new JButton("Add Selected");
-		panel_2.add(btnAddSelected, "3, 1, right, default");
+		panel_2.add(btnAddSelected, "1, 1, left, default");
+		
+		JButton btnSearchProduct = new JButton("Search Customer");
+		panel_2.add(btnSearchProduct, "3, 1, right, default");
 		
 		JPanel panel = new JPanel();
 		add(panel, "1, 3, fill, fill");
