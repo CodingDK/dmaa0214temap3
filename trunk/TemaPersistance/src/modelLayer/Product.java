@@ -153,5 +153,9 @@ public class Product {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }
