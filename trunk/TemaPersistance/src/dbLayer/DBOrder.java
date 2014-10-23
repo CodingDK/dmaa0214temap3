@@ -17,27 +17,27 @@ public class DBOrder implements IFDBOrder {
 		con = DBConnection.getInstance().getDBCon();
 	}
 	
-	@Override
+	
 	public ArrayList<Order> getAllOrders() {
 		return miscWhere("", false);
 	}
 	
-	@Override
+	
 	public ArrayList<Order> getOrdersByInvoice(Invoice invoice, boolean retAsso) {
 		return miscWhere("invoiceID = " + invoice.getInvoiceID(), retAsso);
 	}
 	
-	@Override
+	
 	public ArrayList<Order> getOrdersByCustomer(Customer customer, boolean retAsso) {
 		return miscWhere("customerID = " + customer.getId(), retAsso);
 	}
 
-	@Override
+	
 	public Order getOrderByID(int id, boolean retAsso) {
 		return singleWhere("orderID = " + id, retAsso);
 	}
 	
-	@Override
+	
 	public int insertOrder(Order order) {
 		int rc = -1;
 		String query = "INSERT INTO ORDER (deliverStatus, deliveryDate, invoiceID, customerID) VALUES (?,?,?,?)";
@@ -74,7 +74,7 @@ public class DBOrder implements IFDBOrder {
 		return rc;
 	}
 	
-	@Override
+	
 	public int updateOrder(Order order) {
 		int rc = -1;
 		
@@ -123,7 +123,7 @@ public class DBOrder implements IFDBOrder {
 		return rc;
 	}
 	
-	@Override
+	
 	public int removeOrder(Order order) {
 		int rc = -1;
 		String query = "DELETE FROM ORDERS WHERE ORDERID = " + order.getOrderID();

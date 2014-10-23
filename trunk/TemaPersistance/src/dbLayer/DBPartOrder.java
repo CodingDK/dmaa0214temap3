@@ -17,12 +17,12 @@ public class DBPartOrder implements IFDBPartOrder {
 		con = DBConnection.getInstance().getDBCon();
 	}
 	
-	@Override
+	
 	public ArrayList<PartOrder> findPartOrders(Order order, boolean retAsso) {
 		return miscWhere("ORDERID = " + order.getOrderID(), retAsso);
 	}
 	
-	@Override
+	
 	public int insertPartOrder(PartOrder pOrder) {
 		int rc = -1;
 		String query = "INSERT INTO PARTORDER (orderID, productID, amount, unitPrice) values (?,?,?,?)";
@@ -47,7 +47,7 @@ public class DBPartOrder implements IFDBPartOrder {
 		return rc;
 	}
 	
-	@Override
+	
 	public int updatePartOrder(PartOrder pOrder) {
 		int rc = -1;
 		
@@ -73,7 +73,7 @@ public class DBPartOrder implements IFDBPartOrder {
 		return rc;
 	}
 	
-	@Override
+	
 	public int removePartOrder(PartOrder pOrder) {
 		int rc = -1;
 		String query = "DELETE FROM PARTORDER WHERE ORDERID = " + pOrder.getParent().getOrderID();

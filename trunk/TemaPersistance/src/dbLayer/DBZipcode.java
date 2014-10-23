@@ -15,12 +15,12 @@ public class DBZipcode implements IFDBZipcode {
 		con = DBConnection.getInstance().getDBCon();
 	}
 	
-	@Override
+	
 	public Zipcode getZipcode(int zip) {
 		return singleWhere("zipcode = " + zip);
 	}
 	
-	@Override
+	
 	public int updateOrInsertZipcode(Zipcode zipObj) {
 		int rc = -1;
 		
@@ -33,7 +33,7 @@ public class DBZipcode implements IFDBZipcode {
 		return rc;
 	}
 	
-	@Override
+	
 	public void removeZipcode(Zipcode zipObj) {
 		String query = "DELETE FROM ZIPCODES WHERE zipcode = " + zipObj.getZipcode();
 		

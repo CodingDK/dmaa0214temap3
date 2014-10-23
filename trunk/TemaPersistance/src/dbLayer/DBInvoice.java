@@ -17,12 +17,12 @@ public class DBInvoice implements IFDBInvoice {
 		conn = DBConnection.getInstance().getDBCon();
 	}
 
-	@Override
+	
 	public ArrayList<Invoice> getAllInvoices() {
 		return miscWhere("");
 	}
 
-	@Override
+	
 	public ArrayList<Invoice> getInvoicesByCustomer(Customer customer) {
 		ArrayList<Order> orders = new DBOrder().getOrdersByCustomer(customer, false);
 		ArrayList<Invoice> retInvoice = new ArrayList<Invoice>();
@@ -39,12 +39,12 @@ public class DBInvoice implements IFDBInvoice {
 		return retInvoice;
 	}
 
-	@Override
+	
 	public Invoice getInvoiceByID(int id) {
 		return singleWhere("invoiceID = " + id);
 	}
 
-	@Override
+	
 	public int insertInvoice(Invoice invoice) {
 		int rc = -1;
 		try {
@@ -67,7 +67,7 @@ public class DBInvoice implements IFDBInvoice {
 		return rc;
 	}
 
-	@Override
+	
 	public int updateInvoice(Invoice invoice) {
 		int rc = -1;
 		try {
@@ -89,7 +89,7 @@ public class DBInvoice implements IFDBInvoice {
 		return rc;
 	}
 
-	@Override
+	
 	public int removeInvoice(Invoice invoice) {
 		int rc = -1;
 		try {
