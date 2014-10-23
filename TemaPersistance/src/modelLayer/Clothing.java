@@ -5,9 +5,12 @@ public class Clothing extends Product {
 	private String size;
 	private String colour;
 	
-	public Clothing(int id, String name, double salesPrice, String size) {
-		super(id, name, salesPrice);
+	public Clothing(int id, String name, double salesPrice, String size, boolean hidden) {
+		super(id, name, salesPrice, hidden);
 		this.size = size;
+	}
+
+	public Clothing() {
 	}
 
 	/**

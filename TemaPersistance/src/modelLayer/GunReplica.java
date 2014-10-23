@@ -16,10 +16,13 @@ public class GunReplica extends Product {
 	 * @param fabric
 	 * @param calibre
 	 */
-	public GunReplica(int id, String name, double salesPrice, String fabric, String calibre) {
-		super(id, name, salesPrice);
+	public GunReplica(int id, String name, double salesPrice, String fabric, String calibre, boolean hidden) {
+		super(id, name, salesPrice, hidden);
 		this.fabric = fabric;
 		this.calibre = calibre;
+	}
+	
+	public GunReplica(){
 	}
 
 	/**

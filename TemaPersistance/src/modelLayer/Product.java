@@ -10,15 +10,20 @@ public class Product {
 	private double purchasePrice;
 	private double salesPrice;
 	private double rentPrice;
+	private boolean hidden = false;
 		
-	public Product(int id, String name, double salesPrice) {
+	public Product(int id, String name, double salesPrice, boolean hidden) {
 		this.id = id;
 		this.name = name;
 		this.salesPrice = salesPrice;
+		this.setHidden(hidden);
 	}
 
 	public Product(int id) {
 		this.id = id;
+	}
+	
+	public Product() {
 	}
 
 	/**
@@ -124,6 +129,14 @@ public class Product {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 	
 
