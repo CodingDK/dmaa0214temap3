@@ -17,11 +17,14 @@ import ctrLayer.OrderCtr;
 import javax.swing.BoxLayout;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.Color;
 
@@ -47,13 +50,15 @@ public class CustomerPanel extends JPanel {
 	private JTextField txtID;
 	private JTextField txtName;
 	private IFOrderCtr oCtr;
-	private JList list;
+	private JList<Customer> list;
 	private OrderPanel parent;
+	private ArrayList<Component> fields;
 
 	/**
 	 * Create the panel.
 	 */
 	public CustomerPanel(OrderPanel parent) {
+		fields = new ArrayList<Component>();
 		this.parent = parent;
 		oCtr = new OrderCtr();
 		buildPanel();
@@ -106,6 +111,7 @@ public class CustomerPanel extends JPanel {
 		txtID = new JTextField();
 		panel_3.add(txtID, "3, 3, fill, default");
 		txtID.setColumns(10);
+		fields.add(txtID);
 		
 		JLabel lblNewLabel_1 = new JLabel("Name:");
 		panel_3.add(lblNewLabel_1, "1, 5, left, default");
@@ -113,6 +119,7 @@ public class CustomerPanel extends JPanel {
 		txtName = new JTextField();
 		panel_3.add(txtName, "3, 5, fill, default");
 		txtName.setColumns(10);
+		fields.add(txtName);
 		
 		JLabel lblNewLabel_2 = new JLabel("Phone:");
 		panel_3.add(lblNewLabel_2, "1, 7, left, default");
@@ -120,6 +127,7 @@ public class CustomerPanel extends JPanel {
 		txtPhone = new JTextField();
 		panel_3.add(txtPhone, "3, 7, fill, default");
 		txtPhone.setColumns(10);
+		fields.add(txtPhone);
 		
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, "2, 4, fill, fill");
@@ -153,11 +161,13 @@ public class CustomerPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
-		list = new JList();
+		list = new JList<Customer>();
 		CustomerCellRender cRender = new CustomerCellRender();
 		list.setCellRenderer(cRender);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
+		
+		addOnChangeListener();
 
 	}
 	
@@ -207,6 +217,55 @@ public class CustomerPanel extends JPanel {
 				list.setModel(model);
 			}
 		});
+	}
+	
+
+	private void addOnChangeListener() {
+		for (final Component c : fields) {
+			if(c instanceof JTextField) {
+			((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void changedUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void insertUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void removeUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+
+				});
+			} 
+			else if(c instanceof JComboBox) {
+				((JComboBox<?>) c).addActionListener (new ActionListener () {
+				    public void actionPerformed(ActionEvent e) {
+				        updateFields(c);
+				    }
+				});
+			}
+				
+		}
+		
+	}
+
+	private void updateFields(Component c) {
+		boolean empty = true;
+		if(c instanceof JTextField) {
+			empty = ((JTextField) c).getText().isEmpty();
+		}
+		if(!empty) {
+			for (Component component : fields) {
+				component.setEnabled(false);
+			}
+			c.setEnabled(true);
+		} else {
+			for (Component component : fields) {
+				component.setEnabled(true);
+			}
+		}
 	}
 
 }

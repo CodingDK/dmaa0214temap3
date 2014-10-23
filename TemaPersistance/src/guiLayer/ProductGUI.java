@@ -2,6 +2,7 @@ package guiLayer;
 
 import javax.swing.JPanel;
 
+import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -22,6 +23,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import modelLayer.Customer;
 
@@ -40,6 +43,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 
 public class ProductGUI extends JPanel {
 	private JTable prodTable;
@@ -56,11 +60,13 @@ public class ProductGUI extends JPanel {
 	private JTextField txtType2;
 	private JLabel lblType1;
 	private JLabel lblType2;
+	private ArrayList<Component> fields;
 
 	/**
 	 * Create the panel.
 	 */
 	public ProductGUI() {
+		fields = new ArrayList<Component>();
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("652px:grow"),
@@ -152,6 +158,7 @@ public class ProductGUI extends JPanel {
 		txtID = new JTextField();
 		panel_4.add(txtID, "3, 1, fill, default");
 		txtID.setColumns(10);
+		fields.add(txtID);
 		
 		JLabel lblNewLabel_2 = new JLabel("Name:");
 		panel_4.add(lblNewLabel_2, "1, 3, left, default");
@@ -159,12 +166,14 @@ public class ProductGUI extends JPanel {
 		txtName = new JTextField();
 		panel_4.add(txtName, "3, 3, fill, default");
 		txtName.setColumns(10);
+		fields.add(txtName);
 		
 		JLabel lblNewLabel_3 = new JLabel("Type:");
 		panel_4.add(lblNewLabel_3, "1, 5, left, default");
 		
 		JComboBox comboBox = new JComboBox();
 		panel_4.add(comboBox, "3, 5, fill, default");
+		fields.add(comboBox);
 		
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5, "1, 7, 3, 1, fill, fill");
@@ -328,6 +337,8 @@ public class ProductGUI extends JPanel {
 		
 		JButton btnNewButton_2 = new JButton("Create");
 		panel_9.add(btnNewButton_2, "4, 1, right, default");
+		
+		addOnChangeListener();
 
 	}
 
@@ -352,6 +363,58 @@ public class ProductGUI extends JPanel {
 			txtType1.setVisible(true);
 			lblType2.setVisible(true);
 			txtType2.setVisible(true);
+		}
+	}
+	
+	
+	private void addOnChangeListener() {
+		for (final Component c : fields) {
+			if(c instanceof JTextField) {
+			((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void changedUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void insertUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void removeUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+
+				});
+			} 
+			else if(c instanceof JComboBox) {
+				((JComboBox<?>) c).addActionListener (new ActionListener () {
+				    public void actionPerformed(ActionEvent e) {
+				        updateFields(c);
+				    }
+				});
+			}
+				
+		}
+		
+	}
+
+	private void updateFields(Component c) {
+		boolean empty = true;
+		if(c instanceof JTextField) {
+			empty = ((JTextField) c).getText().isEmpty();
+		}
+		if(c instanceof JComboBox) {
+			empty = (((JComboBox<?>) c).getSelectedIndex() == 0);
+		}
+		if(!empty) {
+			for (Component component : fields) {
+				component.setEnabled(false);
+			}
+			c.setEnabled(true);
+		} else {
+			for (Component component : fields) {
+				component.setEnabled(true);
+			}
 		}
 	}
 }
