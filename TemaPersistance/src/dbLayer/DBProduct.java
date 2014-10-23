@@ -249,6 +249,9 @@ public class DBProduct implements IFDBProduct {
 		Product retP = null;
 		try{
 			String type = rs.getString("type");
+			if(type == null) {
+				type = "N/A";
+			}
 			if(type.equalsIgnoreCase("GunReplica")) {
 				GunReplica product = new GunReplica();
 				product.setCalibre(rs.getString("calibre"));
@@ -298,7 +301,7 @@ public class DBProduct implements IFDBProduct {
 			query2 = " left join EQUIPMENT e on p.productID = e.productID";
 		} else if(type.equalsIgnoreCase("GunReplica")){
 			query += ", g.fabric, g.calibre";
-			query2 = " left join GUNREPLICA g on p.productID = g.productID";
+			query2 = " left join GUNREPLICAS g on p.productID = g.productID";
 		} else if(type.isEmpty()){
 			query += ", c.size, c.colour, e.type, e.description, g.fabric, g.calibre";
 			query2 =  " left join CLOTHING c on p.productID = c.productID" 
@@ -307,15 +310,30 @@ public class DBProduct implements IFDBProduct {
 		}
 
 		query += " FROM PRODUCT p " + query2;
-				
-		if(!wQuery.isEmpty()){
-			query += " WHERE " + wQuery;
+		if(!wQuery.isEmpty() || !type.isEmpty()) {
+			query += " WHERE ";
 		}
-		System.out.println(type + "= " + query);
+		
+		if(!wQuery.isEmpty()){
+			query += " " + wQuery;
+		}
+		if(!type.isEmpty()) {
+			if(!wQuery.isEmpty()) {
+				query += " AND";
+			}
+			if(type.equals("N/A")) {
+				query += " p.type is null";
+			} else {
+				query += " p.type = '" + type + "'";
+			}
+			
+		}
+		//System.out.println(type + "= " + query);
 		return query;
 	}
 
 	public ArrayList<Product> getProductsByType(String type) {
-		return miscWhere("p.type = '" + type + "'", type);
+		
+		return miscWhere("", type);
 	}	
 }
