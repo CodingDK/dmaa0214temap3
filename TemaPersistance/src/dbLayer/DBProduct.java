@@ -37,15 +37,165 @@ public class DBProduct implements IFDBProduct {
 	}
 	
 	
-	public int insertProduct(Product prod) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertProduct(Product product) throws Exception {
+		int rc = -1;
+		
+		try{
+			
+			String type = "";
+			String exQuery = "";
+			String att1 = null;
+			String att2 = null;
+						
+			if(product instanceof Equipment){
+				type = "Equipment";
+				exQuery = "type, description)";
+				att1 = ((Equipment) product).getType();
+				att2 = ((Equipment) product).getDescription();
+				
+			}
+			else if(product instanceof Clothing){
+				type = "Clothing";
+				exQuery = "size, colour)";
+				att1 = ((Clothing) product).getSize();
+				att2 = ((Clothing) product).getColour();
+			}
+			else if(product instanceof GunReplica){
+				type = "GunReplica";
+				exQuery = "fabric, calibre)";
+				att1 = ((GunReplica) product).getFabric();
+				att2 = ((GunReplica) product).getCalibre();
+			}
+			
+			
+			String query = "INSERT INTO PRODUCT " 
+					+ "(name, stock, purchasePrice, salesPrice, rentPrice, countryOrigin, minStock, hidden) VALUES "
+					+ "(?,    ?,     ?,             ?,          ?,         ?,             ?,        ?);";
+			
+			
+			PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			
+			stmt.setQueryTimeout(5);
+			stmt.setString(1, product.getName());
+			stmt.setInt(2, product.getStock());
+			stmt.setDouble(3, product.getPurchasePrice());
+			stmt.setDouble(4, product.getSalesPrice());
+			stmt.setDouble(5, product.getRentPrice());
+			stmt.setString(6, product.getCountryOrigin());
+			stmt.setInt(7, product.getMinStock());
+			if(product.getSupplier() != null){
+				stmt.setInt(8, product.getSupplier().getId());
+			}else{
+				stmt.setNull(8, java.sql.Types.NULL);
+			}
+			stmt.setBoolean(9, product.isHidden());
+			
+			if(type != null){
+				stmt.setString(10, att1);
+				stmt.setString(11, att2);
+			}
+			
+			rc = stmt.executeUpdate();
+			
+			ResultSet genRs = stmt.getGeneratedKeys();
+			if (genRs.next()) {
+				product.setId(genRs.getInt(1));
+				//System.out.println("GeneratedID: " + genRs.getInt(1));
+				exQuery = "INSERT INTO" + type + "(productID, " + exQuery + " VALUES (?, ?, ?)";
+				if(!exQuery.isEmpty()){
+					PreparedStatement stmt2 = con.prepareStatement(exQuery);
+					rc += stmt2.executeUpdate(); 
+				}
+			} 
+			stmt.close();
+		}
+		catch(Exception e){
+			System.out.println("Error in inserting product - " + e);
+		}
+		
+		
+		return rc;
 	}
 	
 	
-	public int updateProduct(Product prod) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateProduct(Product product) {
+		int rc = -1;		
+		try{
+
+			String type = null;
+			String exQuery = "";
+			String att1 = null;
+			String att2 = null;
+						
+			if(product instanceof Equipment){
+				type = "Equipment";
+				exQuery = "type = ?, description = ?";
+				att1 = ((Equipment) product).getType();
+				att2 = ((Equipment) product).getDescription();
+			}
+			else if(product instanceof GunReplica){
+				type = "GunReplica";
+				exQuery = "fabric = ?, calibre = ?";
+				att1 = ((GunReplica) product).getFabric();
+				att2 = ((GunReplica) product).getCalibre();
+			}
+			else if(product instanceof Clothing){
+				type = "Clothing";
+				exQuery = "size = ?, colour = ?";
+				att1 = ((Clothing) product).getSize();
+				att2 = ((Clothing) product).getColour();
+			}
+			
+			String query = "UPDATE PRODUCT SET"
+					+ " name = ?,"
+					+ " stock = ?,"
+					+ " purchasePrice = ?,"
+					+ " salesPrice = ?,"
+					+ " rentPrice = ?,"
+					+ " countryOrigin = ?,"
+					+ " minStock = ?,"
+					+ " supplierID = ?,"
+					+ " hidden = ?"
+					+ " WHERE productID = ?; "; 
+			
+			String query2 = " UPDATE " + type + " SET " + exQuery + " WHERE productID = ?";
+			
+			if(type != null){
+				query += query2;
+			}
+			
+			System.out.println(query); //TODO Delete later
+			
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setQueryTimeout(5);
+			stmt.setString(1, product.getName());
+			stmt.setInt(2, product.getStock());
+			stmt.setDouble(3, product.getPurchasePrice());
+			stmt.setDouble(4, product.getSalesPrice());
+			stmt.setDouble(5, product.getRentPrice());
+			stmt.setString(6, product.getCountryOrigin());
+			stmt.setInt(7, product.getMinStock());
+			if(product.getSupplier() != null){
+				stmt.setInt(8, product.getSupplier().getId());
+			}else{
+				stmt.setNull(8, java.sql.Types.NULL);
+			}
+			stmt.setBoolean(9, product.isHidden());
+			
+			if(type != null){
+				stmt.setString(10, att1);
+				stmt.setString(11, att2);
+			}
+
+	 	 	rc = stmt.executeUpdate();
+	 	 	stmt.close();
+					
+		}
+		catch(Exception e){
+			System.out.println("Error in update product - " + e);
+		}
+		
+		return rc;
 	}
 	
 	
@@ -69,7 +219,7 @@ public class DBProduct implements IFDBProduct {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("Delete exception in customer table: "+e);
+			System.out.println("Delete exception in product table: " + e);
 		}
 		return rp;
 	}
@@ -142,5 +292,5 @@ public class DBProduct implements IFDBProduct {
 			query += " WHERE " + wQuery;
 		}
 		return query;
-	}
+	}	
 }
