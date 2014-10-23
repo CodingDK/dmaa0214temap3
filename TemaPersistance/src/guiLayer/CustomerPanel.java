@@ -128,6 +128,11 @@ public class CustomerPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnAddSelected = new JButton("Add Selected");
+		btnAddSelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedCustomer();
+			}
+		});
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 		
 		JButton btnSearchCustomer = new JButton("Search Customer");
@@ -153,6 +158,15 @@ public class CustomerPanel extends JPanel {
 
 	}
 	
+	protected void selectedCustomer() {
+		if(list.getSelectedValue() != null){
+			Customer c = (Customer) list.getSelectedValue();
+			
+			parent.setCustomer(c);
+			parent.switchPanel();
+		}
+	}
+
 	private void searchCustomer(){
 		if(!txtID.getText().isEmpty()){
 			ArrayList<Customer> customers = new ArrayList<Customer>();
