@@ -18,41 +18,32 @@ public class DBProduct implements IFDBProduct {
 		con = DBConnection.getInstance().getDBCon();
 	}
 	
-	
 	public ArrayList<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		return miscWhere("hidden = 0", "");
 	}
-	
 	
 	public ArrayList<Product> searchProduct(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return miscWhere("hidden = 0 AND name LIKE '%" + name + "%'", "");
+		
+
 	}
-	
 	
 	public Product getProductByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return singleWhere("p.productID = " + id, "");
 	}
-	
 	
 	public int insertProduct(Product product) throws Exception {
 		int rc = -1;
-		
 		try{
-			
 			String type = "";
 			String exQuery = "";
 			String att1 = null;
-			String att2 = null;
-						
+			String att2 = null;			
 			if(product instanceof Equipment){
 				type = "Equipment";
 				exQuery = "type, description)";
 				att1 = ((Equipment) product).getType();
-				att2 = ((Equipment) product).getDescription();
-				
+				att2 = ((Equipment) product).getDescription();	
 			}
 			else if(product instanceof Clothing){
 				type = "Clothing";
@@ -66,15 +57,11 @@ public class DBProduct implements IFDBProduct {
 				att1 = ((GunReplica) product).getFabric();
 				att2 = ((GunReplica) product).getCalibre();
 			}
-			
-			
 			String query = "INSERT INTO PRODUCT " 
 					+ "(name, stock, purchasePrice, salesPrice, rentPrice, countryOrigin, minStock, hidden) VALUES "
 					+ "(?,    ?,     ?,             ?,          ?,         ?,             ?,        ?);";
 			
-			
 			PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-			
 			stmt.setQueryTimeout(5);
 			stmt.setString(1, product.getName());
 			stmt.setInt(2, product.getStock());
@@ -89,18 +76,15 @@ public class DBProduct implements IFDBProduct {
 				stmt.setNull(8, java.sql.Types.NULL);
 			}
 			stmt.setBoolean(9, product.isHidden());
-			
 			if(type != null){
 				stmt.setString(10, att1);
 				stmt.setString(11, att2);
 			}
-			
 			rc = stmt.executeUpdate();
-			
 			ResultSet genRs = stmt.getGeneratedKeys();
 			if (genRs.next()) {
 				product.setId(genRs.getInt(1));
-				//System.out.println("GeneratedID: " + genRs.getInt(1));
+				System.out.println("GeneratedID: " + genRs.getInt(1)); //TODO Delete later
 				exQuery = "INSERT INTO" + type + "(productID, " + exQuery + " VALUES (?, ?, ?)";
 				if(!exQuery.isEmpty()){
 					PreparedStatement stmt2 = con.prepareStatement(exQuery);
@@ -112,11 +96,8 @@ public class DBProduct implements IFDBProduct {
 		catch(Exception e){
 			System.out.println("Error in inserting product - " + e);
 		}
-		
-		
 		return rc;
 	}
-	
 	
 	public int updateProduct(Product product) {
 		int rc = -1;		
@@ -198,7 +179,6 @@ public class DBProduct implements IFDBProduct {
 		return rc;
 	}
 	
-	
 	public int removeProduct(Product product) {
 		int rp = -1;
 		try {
@@ -224,30 +204,48 @@ public class DBProduct implements IFDBProduct {
 		return rp;
 	}
 		
-	public ArrayList<Product> miscWhere(String wQuery) {
-		ArrayList<Product> products = null;
+	private ArrayList<Product> miscWhere(String wQuery, String type) {
+		ArrayList<Product> products = new ArrayList<Product>();
 		try{
-			
+			String query = buildQuery(wQuery, type);
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Product prod = buildProduct(rs);
+				if(prod != null){
+					products.add(prod);
+				}
+			}
+			stmt.close();
 		}
 		catch(Exception e) {
 			System.out.println("Query exception - select: " + e);
+			e.printStackTrace();
 		}
 		return products;
 	}
 	
-	public Product singleWhere(String wQuery){
+	private Product singleWhere(String wQuery, String type){
 		Product product = null;
 		try{
-			String query = buildQuery(wQuery);
+			String query = buildQuery(wQuery, type);
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			ResultSet rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				product = buildProduct(rs);
+			}
 			
 		}
 		catch(Exception e) {
 			System.out.println("Query exception - select: " + e);
+			e.printStackTrace();
 		}
 		return product;
 	}
 	
-	public Product buildProduct(ResultSet rs){
+	private Product buildProduct(ResultSet rs){
 		Product retP = null;
 		try{
 			String type = rs.getString("type");
@@ -267,7 +265,7 @@ public class DBProduct implements IFDBProduct {
 				product.setColour(rs.getString("colour"));
 				retP = product;
 				
-			} else if(type.equalsIgnoreCase("null")) {
+			} else {
 				Product product = new Product();
 				retP = product;
 			} 
@@ -282,15 +280,41 @@ public class DBProduct implements IFDBProduct {
 		}
 		catch(Exception e){
 			System.out.println("Error in building product - " + e);
+			e.printStackTrace();
 		}
 		return retP; 
 	}
 	
-	public String buildQuery(String wQuery) {
-		String query = "SELECT * FROM Product";
+	private String buildQuery(String wQuery, String type) {
+		String query = "SELECT p.*";
+		String query2 = "";
+		if(type.equalsIgnoreCase("Clothing")){
+			query += ", c.size, c.colour";
+			query2 = " left join CLOTHING c on p.productID = c.productID";
+		
+		} else if(type.equalsIgnoreCase("Equipment")){
+			query += ", e.type, e.description";
+			query2 = " left join EQUIPMENT e on p.productID = e.productID";
+		} else if(type.equalsIgnoreCase("GunReplica")){
+			query += ", g.fabric, g.calibre";
+			query2 = " left join GUNREPLICA g on p.productID = g.productID";
+		} else if(type.isEmpty()){
+			query += ", c.size, c.colour, e.type, e.description, g.fabric, g.calibre";
+			query2 =  " left join CLOTHING c on p.productID = c.productID" 
+					+ " left join EQUIPMENT e on p.productID = e.productID"
+					+ " left join GUNREPLICAS g on p.productID = g.productID";
+		}
+
+		query += " FROM PRODUCT p " + query2;
+				
 		if(!wQuery.isEmpty()){
 			query += " WHERE " + wQuery;
 		}
+		System.out.println(type + "= " + query);
 		return query;
+	}
+
+	public ArrayList<Product> getProductsByType(String type) {
+		return miscWhere("p.type = '" + type + "'", type);
 	}	
 }
