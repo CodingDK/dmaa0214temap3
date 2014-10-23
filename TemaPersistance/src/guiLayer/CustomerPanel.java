@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -193,7 +194,7 @@ public class CustomerPanel extends JPanel {
 	}
 
 	protected void redraw(final ArrayList<Customer> customers) {
-		Thread t = new Thread(){
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run(){
 				DefaultListModel<Customer> model = new DefaultListModel<Customer>();
 				if(customers.size() > 0){
@@ -203,9 +204,7 @@ public class CustomerPanel extends JPanel {
 				}
 				list.setModel(model);
 			}
-		};
-		
-		t.start();
+		});
 	}
 
 }
