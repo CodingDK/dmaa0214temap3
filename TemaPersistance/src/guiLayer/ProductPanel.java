@@ -182,14 +182,9 @@ public class ProductPanel extends JPanel {
 	}
 	
 	private void clear() {
-		for (Component c : fields) {
-			if(c instanceof JTextField) {
-				((JTextField) c).setText("");
-			}
-			else if(c instanceof JComboBox) {
-				((JComboBox<?>) c).setSelectedIndex(0);
-			}
-		}
+		txtID.setText("");
+		txtName.setText("");
+		cmbType.setSelectedIndex(0);
 	}
 
 	private void updateList(ArrayList<Product> products) {
