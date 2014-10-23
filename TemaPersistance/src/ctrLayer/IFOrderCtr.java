@@ -16,7 +16,7 @@ public interface IFOrderCtr {
 	
 	public Product getProductByID(int id);
 	
-	public PartOrder createPartOrder(Product product, int amount) throws Exception;
+	public PartOrder createPartOrder(Product product, int amount, double unitPrice) throws Exception;
 	
 	/**
 	 * Search for a customer by name
