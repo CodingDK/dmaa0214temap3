@@ -1,33 +1,55 @@
 package guiLayer;
 
 import javax.swing.JPanel;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import ctrLayer.CustomerCtr;
+import ctrLayer.IFCustomerCtr;
+
 import javax.swing.BoxLayout;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
+
+import modelLayer.Customer;
 
 public class CustomerPanel extends JPanel {
 	private JTextField txtPhone;
 	private JTextField txtID;
 	private JTextField txtName;
+	private IFCustomerCtr cCtr;
+	private JList list;
 
 	/**
 	 * Create the panel.
 	 */
 	public CustomerPanel() {
+		cCtr = new CustomerCtr();
+		buildPanel();
+	}
+
+	private void buildPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
@@ -111,19 +133,29 @@ public class CustomerPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Frederik", "LauGO", "LasseGO"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		list = new JList();
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
+	}
+	
+	
+	protected void redraw() {
+		Thread t = new Thread(){
+			public void run(){
+				
+				ArrayList<Customer> customers =cCtr.searchCustomerByName("");
+		
+				DefaultListModel<Customer> model = new DefaultListModel<Customer>();
+				for(Customer c : customers){
+					model.addElement(c);
+				}
+				
+				list.setModel(model);
+			}
+		};
+		
+		t.start();
 	}
 
 }
