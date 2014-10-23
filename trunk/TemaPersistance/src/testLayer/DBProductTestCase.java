@@ -52,7 +52,12 @@ public class DBProductTestCase {
 		pr.setRentPrice(7213.5);
 		pr.setSalesPrice(1237.7);
 		pr.setStock(9);
-		int insert = dbProd.insertProduct(pr);		
+		try {
+			int insert = dbProd.insertProduct(pr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	@Test
