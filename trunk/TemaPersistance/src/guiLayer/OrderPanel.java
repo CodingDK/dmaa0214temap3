@@ -40,6 +40,7 @@ public class OrderPanel extends JPanel {
 	private JLabel lblAddress;
 	private JLabel lblCityPostal;
 	private JPanel customerInfoPanel;
+	private Customer customer;
 
 	/**
 	 * Create the panel.
@@ -210,7 +211,7 @@ public class OrderPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(61dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("100px"),},
+				ColumnSpec.decode("120px"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
@@ -240,7 +241,11 @@ public class OrderPanel extends JPanel {
 		    cl.show(cardPanel, "Customer");
 		    switchPanel = false;
 		}else{
-			btnCustomerProduct.setText("Add Customer");
+			if(customer != null){
+				btnCustomerProduct.setText("Change Customer");
+			}else{
+				btnCustomerProduct.setText("Add Customer");
+			}
 			cl.show(cardPanel, "Product");
 			switchPanel = true;
 		}
@@ -248,6 +253,7 @@ public class OrderPanel extends JPanel {
 	
 	public void setCustomer(Customer c){
 		if(c != null){
+			customer = c;
 			lblAddress.setText(c.getAddress());
 			lblCityPostal.setText(c.getZipcode().getZipcode() + " - " + c.getZipcode().getCity());
 			lblName.setText(c.getName());
