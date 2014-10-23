@@ -1,36 +1,57 @@
 package guiLayer;
 
+import guiLayer.extensions.ProductCellRender;
+
 import javax.swing.JPanel;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.BoxLayout;
+
+import ctrLayer.IFOrderCtr;
+import ctrLayer.OrderCtr;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.Font;
+
 import javax.swing.JButton;
+
+import modelLayer.Product;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class ProductPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JTextField txtName;
 	private JTextField txtID;
 	private OrderPanel parent;
+	private IFOrderCtr oCtr;
+	private JList<Product> list;
 
 	/**
 	 * Create the panel.
 	 */
 	public ProductPanel(OrderPanel parent) {
 		this.parent = parent;
+		oCtr = new OrderCtr();
+		
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
@@ -119,23 +140,35 @@ public class ProductPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Noget", "Noget Andet", "Noget HELT! Andet"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		list = new JList<Product>();
+		ProductCellRender render = new ProductCellRender();
+		list.setCellRenderer(render);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
 	}
 
 	private void searchCustomer() {
-		
+		if(!txtID.getText().isEmpty()) {
+			Product p = oCtr.getProductByID(Integer.parseInt(txtID.getText()));
+			ArrayList<Product> pList = new ArrayList<Product>();
+			if(p != null) {
+				pList.add(p);
+			}
+			updateList(pList);
+		}
+		else if (!txtName.getText().isEmpty()) {
+			ArrayList<Product> pList = oCtr.getProductsByName(txtName.getText());
+			updateList(pList);
+		}
+	}
+
+	private void updateList(ArrayList<Product> products) {
+		DefaultListModel<Product> model = new DefaultListModel<Product>();
+		for (Product p : products) {
+			model.addElement(p);
+		}
+		list.setModel(model);
 	}
 
 }
