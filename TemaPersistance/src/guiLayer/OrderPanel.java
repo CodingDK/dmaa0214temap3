@@ -1,21 +1,30 @@
 package guiLayer;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
+
+import modelLayer.Customer;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
@@ -175,6 +184,8 @@ public class OrderPanel extends JPanel {
 		JLabel lblCityPostal = new JLabel("8832 : Skals");
 		panel_7.add(lblCityPostal, "4, 6, right, default");
 		
+		panel_7.setVisible(false);
+		
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5, "1, 4, fill, fill");
 		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
@@ -229,6 +240,10 @@ public class OrderPanel extends JPanel {
 			cl.show(cardPanel, "Product");
 			switchPanel = true;
 		}
+	}
+	
+	public void setCustomer(Customer c){
+		
 	}
 
 }
