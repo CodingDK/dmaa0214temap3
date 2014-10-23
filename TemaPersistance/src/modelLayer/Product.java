@@ -10,6 +10,7 @@ public class Product {
 	private double purchasePrice;
 	private double salesPrice;
 	private double rentPrice;
+	private Supplier supplier;
 	private boolean hidden = false;
 		
 	public Product(int id, String name, double salesPrice, boolean hidden) {
@@ -138,7 +139,19 @@ public class Product {
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
-	
 
+	/**
+	 * @return the supplier
+	 */
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	/**
+	 * @param supplier the supplier to set
+	 */
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 	
 }
