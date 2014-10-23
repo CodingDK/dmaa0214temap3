@@ -5,9 +5,12 @@ public class Equipment extends Product {
 	private String type;
 	private String description;
 	
-	public Equipment(int id, String name, double salePrice, String type) {
-		super(id, name, salePrice);
+	public Equipment(int id, String name, double salePrice, String type, boolean hidden) {
+		super(id, name, salePrice, hidden);
 		this.type = type;
+	}
+
+	public Equipment() {
 	}
 
 	/**
