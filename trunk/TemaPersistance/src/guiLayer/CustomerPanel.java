@@ -11,6 +11,8 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.CustomerCtr;
 import ctrLayer.IFCustomerCtr;
+import ctrLayer.IFOrderCtr;
+import ctrLayer.OrderCtr;
 
 import javax.swing.BoxLayout;
 
@@ -44,7 +46,7 @@ public class CustomerPanel extends JPanel {
 	private JTextField txtPhone;
 	private JTextField txtID;
 	private JTextField txtName;
-	private IFCustomerCtr cCtr;
+	private IFOrderCtr oCtr;
 	private JList list;
 	private OrderPanel parent;
 
@@ -53,7 +55,7 @@ public class CustomerPanel extends JPanel {
 	 */
 	public CustomerPanel(OrderPanel parent) {
 		this.parent = parent;
-		cCtr = new CustomerCtr();
+		oCtr = new OrderCtr();
 		buildPanel();
 	}
 
@@ -171,16 +173,16 @@ public class CustomerPanel extends JPanel {
 	private void searchCustomer(){
 		if(!txtID.getText().isEmpty()){
 			ArrayList<Customer> customers = new ArrayList<Customer>();
-			Customer c = cCtr.searchCustomerByID(Integer.parseInt(txtID.getText()));
+			Customer c = oCtr.searchCustomerByID(Integer.parseInt(txtID.getText()));
 			if(c != null){
 				customers.add(c);
 			}
 			redraw(customers);
 		}else if(!txtName.getText().isEmpty()){
-			ArrayList<Customer> customers = cCtr.searchCustomerByName(txtName.getText());
+			ArrayList<Customer> customers = oCtr.searchCustomerByName(txtName.getText());
 			redraw(customers);
 		}else if(!txtPhone.getText().isEmpty()){
-			ArrayList<Customer> customers = cCtr.searchCustomerByPhone(txtPhone.getText());
+			ArrayList<Customer> customers = oCtr.searchCustomerByPhone(txtPhone.getText());
 			redraw(customers);
 		}
 		clear();
