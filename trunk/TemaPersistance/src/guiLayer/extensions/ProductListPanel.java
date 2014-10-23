@@ -16,14 +16,21 @@ import modelLayer.Clothing;
 import modelLayer.Equipment;
 import modelLayer.GunReplica;
 import modelLayer.Product;
+import java.awt.Dimension;
 
 public class ProductListPanel extends JPanel {
-
+	private JPanel listPanel;
 	private static final long serialVersionUID = 1L;
 
 	public ProductListPanel(Product product, boolean isSelected) {
-		
 		setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		listPanel = new JPanel();
+		listPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		add(listPanel, "1, 1, fill, fill");
+		listPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -32,20 +39,20 @@ public class ProductListPanel extends JPanel {
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblIdName = new JLabel("#" + product.getId() + " - " + product.getName());
-		add(lblIdName, "1, 2, 4, 1, center, default");
+		listPanel.add(lblIdName, "1, 2, 4, 1, center, default");
 		
 		JPanel panel = new JPanel();
 		
 		if(!isSelected){
-			setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(100, 0, 0)));
+			listPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(100, 0, 0)));
 		}else{
-			setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+			listPanel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		}
 		
-		add(panel, "1, 4, 4, 1, fill, fill");
+		listPanel.add(panel, "1, 4, 4, 1, fill, fill");
 		
 		JLabel lblPurprice = new JLabel("PurPrice: " + product.getPurchasePrice());
 		
@@ -63,7 +70,7 @@ public class ProductListPanel extends JPanel {
 					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,},
 					new RowSpec[] {
 					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.NARROW_LINE_GAP_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,}));
 
 			panel.add(lblPurprice, "2, 3");
@@ -82,7 +89,8 @@ public class ProductListPanel extends JPanel {
 					FormFactory.NARROW_LINE_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.NARROW_LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,}));
+					RowSpec.decode("default:grow"),
+					FormFactory.RELATED_GAP_ROWSPEC,}));
 			
 			String text1 = "";
 			String text2 = "";
@@ -118,6 +126,9 @@ public class ProductListPanel extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Stock: " + product.getStock());
 		panel.add(lblNewLabel, "4, 1");
+		
+		
+		setPreferredSize(new Dimension(213, 78));
 		
 	}
 
