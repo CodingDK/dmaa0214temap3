@@ -1,5 +1,7 @@
 package guiLayer.extensions;
 
+import java.awt.Color;
+
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -8,6 +10,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JLabel;
+import javax.swing.border.MatteBorder;
 
 import modelLayer.Clothing;
 import modelLayer.Equipment;
@@ -35,6 +38,13 @@ public class ProductListPanel extends JPanel {
 		add(lblIdName, "1, 2, 4, 1, center, default");
 		
 		JPanel panel = new JPanel();
+		
+		if(!isSelected){
+			setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(100, 0, 0)));
+		}else{
+			setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		}
+		
 		add(panel, "1, 4, 4, 1, fill, fill");
 		
 		JLabel lblPurprice = new JLabel("PurPrice: " + product.getPurchasePrice());
