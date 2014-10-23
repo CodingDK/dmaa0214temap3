@@ -268,7 +268,8 @@ public class DBProduct implements IFDBProduct {
 			} else {
 				Product product = new Product();
 				retP = product;
-			} 
+			}
+			retP.setId(rs.getInt("productID"));
 			retP.setName(rs.getString("name"));
 			retP.setCountryOrigin(rs.getString("countryOrigin"));
 			retP.setHidden(rs.getBoolean("hidden"));
