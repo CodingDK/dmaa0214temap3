@@ -18,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ProductPanel extends JPanel {
 	private JTextField txtName;
@@ -78,7 +80,7 @@ public class ProductPanel extends JPanel {
 		panel_3.add(lblNewLabel_1, "1, 5, left, default");
 		
 		JComboBox cmbType = new JComboBox();
-		cmbType.setModel(new DefaultComboBoxModel(new String[] {"None", "Clothing", "Equipment", "Gunreplicas"}));
+		cmbType.setModel(new DefaultComboBoxModel(new String[] {"All", "Clothing", "Equipment", "Gunreplicas"}));
 		panel_3.add(cmbType, "3, 5, fill, default");
 		
 		JLabel lblNewLabel_2 = new JLabel("Name:");
@@ -101,6 +103,11 @@ public class ProductPanel extends JPanel {
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 		
 		JButton btnSearchProduct = new JButton("Search Customer");
+		btnSearchProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchCustomer();
+			}
+		});
 		panel_2.add(btnSearchProduct, "3, 1, right, default");
 		
 		JPanel panel = new JPanel();
@@ -123,6 +130,10 @@ public class ProductPanel extends JPanel {
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
+	}
+
+	private void searchCustomer() {
+		
 	}
 
 }
