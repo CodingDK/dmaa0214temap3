@@ -42,7 +42,7 @@ public class OrderPanel extends JPanel {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("20px"),
 				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("526px:grow"),
+				RowSpec.decode("400px:grow"),
 				FormFactory.LINE_GAP_ROWSPEC,}));
 		
 		JLabel lblNewLabel = new JLabel("Order");
@@ -53,7 +53,7 @@ public class OrderPanel extends JPanel {
 		add(panel_1, "2, 4, fill, fill");
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 200, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 113, 0};
 		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
@@ -99,14 +99,12 @@ public class OrderPanel extends JPanel {
 		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("170px"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
+				ColumnSpec.decode("170px"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("75px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("65px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("fill:24px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
@@ -147,7 +145,7 @@ public class OrderPanel extends JPanel {
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new LineBorder(Color.GRAY));
-		panel_4.add(panel_7, "1, 4, fill, fill");
+		panel_4.add(panel_7, "3, 2, fill, fill");
 		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -178,7 +176,7 @@ public class OrderPanel extends JPanel {
 		panel_7.add(lblCityPostal, "4, 6, right, default");
 		
 		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5, "1, 6, fill, fill");
+		panel_4.add(panel_5, "1, 4, fill, fill");
 		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -195,7 +193,7 @@ public class OrderPanel extends JPanel {
 		panel_2.add(panel_3, gbc_panel_3);
 		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(61dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("100px"),},
 			new RowSpec[] {
