@@ -48,8 +48,8 @@ public class Main extends JFrame {
 		OrderPanel panel = new OrderPanel();
 		tabbedPane.addTab("Order", null, panel, null);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		ProductGUI panel_1 = new ProductGUI();
+		tabbedPane.addTab("Product", null, panel_1, null);
 		
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_2, null);

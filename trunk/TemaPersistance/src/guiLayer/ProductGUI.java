@@ -30,11 +30,16 @@ import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
+import javax.swing.DefaultComboBoxModel;
+
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ProductGUI extends JPanel {
 	private JTable prodTable;
@@ -46,8 +51,11 @@ public class ProductGUI extends JPanel {
 	private JTextField txtPurchasePrice;
 	private JTextField txtSalesPrice;
 	private JTextField txtRentPrice;
-	private JTextField txtClothingSize;
-	private JTextField txtClothingColour;
+	private JComboBox cmbCreateType;
+	private JTextField txtType1;
+	private JTextField txtType2;
+	private JLabel lblType1;
+	private JLabel lblType2;
 
 	/**
 	 * Create the panel.
@@ -105,9 +113,11 @@ public class ProductGUI extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("135dlu"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("47dlu:grow"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(166dlu;default):grow"),}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -221,7 +231,13 @@ public class ProductGUI extends JPanel {
 		JLabel lblNewLabel_5 = new JLabel("Type:");
 		panel_6.add(lblNewLabel_5, "1, 3, left, default");
 		
-		JComboBox cmbCreateType = new JComboBox();
+		cmbCreateType = new JComboBox();
+		cmbCreateType.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				switchPanel(cmbCreateType.getSelectedItem());
+			}
+		});
+		cmbCreateType.setModel(new DefaultComboBoxModel(new String[] {"None", "Clothing", "Gunreplica", "Equipment"}));
 		panel_6.add(cmbCreateType, "3, 3, fill, default");
 		
 		JLabel lblNewLabel_6 = new JLabel("Minimum Stock:");
@@ -266,87 +282,76 @@ public class ProductGUI extends JPanel {
 		panel_6.add(cmbSupplier, "3, 15, fill, default");
 		panel_2.setLayout(gl_panel_2);
 		
-		boolean something = true;
+		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new TitledBorder(null, "Type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.add(panel_7, "1, 5, fill, fill");
+		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		if(false){
-			JPanel panel_7 = new JPanel();
-			panel_7.setBorder(new TitledBorder(null, "Type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.add(panel_7, "1, 5, fill, fill");
-			
-			JPanel panel_8 = new JPanel();
-			GroupLayout gl_panel_7 = new GroupLayout(panel_7);
-			gl_panel_7.setHorizontalGroup(
-				gl_panel_7.createParallelGroup(Alignment.LEADING)
-					.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-			);
-			gl_panel_7.setVerticalGroup(
-				gl_panel_7.createParallelGroup(Alignment.LEADING)
-					.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-			);
-			panel_8.setLayout(new FormLayout(new ColumnSpec[] {
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					RowSpec.decode("default:grow"),}));
-			
-			JLabel lblNewLabel_12 = new JLabel("Type:");
-			panel_8.add(lblNewLabel_12, "1, 1, left, default");
-			
-			txtClothingSize = new JTextField();
-			panel_8.add(txtClothingSize, "3, 1, fill, default");
-			txtClothingSize.setColumns(10);
-			
-			JLabel lblNewLabel_13 = new JLabel("Description:");
-			panel_8.add(lblNewLabel_13, "1, 3, 3, 1, center, default");
-			
-			JTextArea txtEquipmentDesc = new JTextArea();
-			panel_8.add(txtEquipmentDesc, "1, 5, 3, 1, fill, fill");
-			
-			panel_7.setLayout(gl_panel_7);
+		lblType1 = new JLabel("New label");
+		panel_7.add(lblType1, "1, 1, left, default");
+		lblType1.setVisible(false);
+		
+		
+		txtType1 = new JTextField();
+		panel_7.add(txtType1, "3, 1, fill, default");
+		txtType1.setColumns(10);
+		txtType1.setVisible(false);
+		
+		lblType2 = new JLabel("New label");
+		panel_7.add(lblType2, "1, 3, left, default");
+		lblType2.setVisible(false);
+		
+		txtType2 = new JTextField();
+		panel_7.add(txtType2, "3, 3, fill, default");
+		txtType2.setColumns(10);
+		txtType2.setVisible(false);
+		
+		JPanel panel_9 = new JPanel();
+		panel.add(panel_9, "1, 7, fill, fill");
+		panel_9.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JButton btnClear = new JButton("Clear");
+		panel_9.add(btnClear, "2, 1, left, default");
+		
+		JButton btnNewButton_2 = new JButton("Create");
+		panel_9.add(btnNewButton_2, "4, 1, right, default");
+
+	}
+
+	protected void switchPanel(Object selectedItem) {
+		if(selectedItem.equals("None")){
+			lblType1.setVisible(false);
+			txtType1.setVisible(false);
+			lblType2.setVisible(false);
+			txtType2.setVisible(false);
 		}else{
-			JPanel panel_7 = new JPanel();
-			panel_7.setBorder(new TitledBorder(null, "Type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.add(panel_7, "1, 5, fill, fill");
-			
-			JPanel panel_8 = new JPanel();
-			GroupLayout gl_panel_7 = new GroupLayout(panel_7);
-			gl_panel_7.setHorizontalGroup(
-				gl_panel_7.createParallelGroup(Alignment.LEADING)
-					.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-			);
-			gl_panel_7.setVerticalGroup(
-				gl_panel_7.createParallelGroup(Alignment.LEADING)
-					.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-			);
-			panel_8.setLayout(new FormLayout(new ColumnSpec[] {
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,}));
-			
-			JLabel lblNewLabel_12 = new JLabel("Size:");
-			panel_8.add(lblNewLabel_12, "1, 1, left, default");
-			
-			txtClothingSize = new JTextField();
-			panel_8.add(txtClothingSize, "3, 1, fill, default");
-			txtClothingSize.setColumns(10);
-			
-			JLabel lblNewLabel_14 = new JLabel("Colour:");
-			panel_8.add(lblNewLabel_14, "1, 3, left, default");
-			
-			txtClothingColour = new JTextField();
-			panel_8.add(txtClothingColour, "3, 3, fill, default");
-			txtClothingColour.setColumns(10);
-			
-			panel_7.setLayout(gl_panel_7);
+			if(selectedItem.equals("Clothing")){
+				lblType1.setText("Size:");
+				lblType2.setText("Colour:");
+			}else if(selectedItem.equals("Equipment")){
+				lblType1.setText("Type:");
+				lblType2.setText("Description:");
+			}else if(selectedItem.equals("Gunreplica")){
+				lblType1.setText("Fabric:");
+				lblType2.setText("Calibre:");
+			}
+			lblType1.setVisible(true);
+			txtType1.setVisible(true);
+			lblType2.setVisible(true);
+			txtType2.setVisible(true);
 		}
 	}
 }
