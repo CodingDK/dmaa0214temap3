@@ -152,24 +152,30 @@ public class CustomerPanel extends JPanel {
 	}
 	
 	private void searchCustomer(){
-
 		if(!txtID.getText().isEmpty()){
 			ArrayList<Customer> customers = new ArrayList<Customer>();
 			Customer c = cCtr.searchCustomerByID(Integer.parseInt(txtID.getText()));
 			if(c != null){
 				customers.add(c);
 			}
-
 			redraw(customers);
-	
+		}else if(!txtName.getText().isEmpty()){
+			ArrayList<Customer> customers = cCtr.searchCustomerByName(txtName.getText());
+			redraw(customers);
+		}else if(!txtPhone.getText().isEmpty()){
+			ArrayList<Customer> customers = cCtr.searchCustomerByPhone(txtPhone.getText());
+			redraw(customers);
 		}
-		
-		
-		
-		ArrayList<Customer> customers = cCtr.searchCustomerByName("");
+		clear();
 	}
 	
 	
+	private void clear() {
+		txtID.setText("");
+		txtName.setText("");
+		txtPhone.setText("");
+	}
+
 	protected void redraw(final ArrayList<Customer> customers) {
 		Thread t = new Thread(){
 			public void run(){
