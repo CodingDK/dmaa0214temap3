@@ -1,5 +1,7 @@
 package guiLayer;
 
+import guiLayer.extensions.CustomerCellRender;
+
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 import modelLayer.Customer;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CustomerPanel extends JPanel {
 	private JTextField txtPhone;
@@ -124,6 +129,11 @@ public class CustomerPanel extends JPanel {
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 		
 		JButton btnSearchCustomer = new JButton("Search Customer");
+		btnSearchCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchCustomer();
+			}
+		});
 		panel_2.add(btnSearchCustomer, "3, 1, right, default");
 		
 		JPanel panel = new JPanel();
@@ -134,23 +144,41 @@ public class CustomerPanel extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		list = new JList();
+		CustomerCellRender cRender = new CustomerCellRender();
+		list.setCellRenderer(cRender);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
 	}
 	
+	private void searchCustomer(){
+
+		if(!txtID.getText().isEmpty()){
+			ArrayList<Customer> customers = new ArrayList<Customer>();
+			Customer c = cCtr.searchCustomerByID(Integer.parseInt(txtID.getText()));
+			if(c != null){
+				customers.add(c);
+			}
+
+			redraw(customers);
 	
-	protected void redraw() {
+		}
+		
+		
+		
+		ArrayList<Customer> customers = cCtr.searchCustomerByName("");
+	}
+	
+	
+	protected void redraw(final ArrayList<Customer> customers) {
 		Thread t = new Thread(){
 			public void run(){
-				
-				ArrayList<Customer> customers =cCtr.searchCustomerByName("");
-		
 				DefaultListModel<Customer> model = new DefaultListModel<Customer>();
-				for(Customer c : customers){
-					model.addElement(c);
+				if(customers.size() > 0){
+					for(Customer c : customers){
+						model.addElement(c);
+					}
 				}
-				
 				list.setModel(model);
 			}
 		};
