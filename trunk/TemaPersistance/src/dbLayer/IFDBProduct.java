@@ -15,6 +15,9 @@ public interface IFDBProduct {
 	//Get product by ID
 	public Product getProductByID(int id);
 	
+	//Get product by type
+	public ArrayList<Product> getProductsByType(String type);
+	
 	// Insert a Product
 	public int insertProduct(Product prod) throws Exception;
 	
