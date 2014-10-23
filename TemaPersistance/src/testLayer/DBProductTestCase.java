@@ -17,7 +17,7 @@ public class DBProductTestCase {
 	private DBProduct dbProd;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		dbProd = new DBProduct();
 	}
 
@@ -42,7 +42,7 @@ public class DBProductTestCase {
 	}
 
 	@Test
-	public void testInsertUpdateDeleteProduct() {
+	public void testInsertUpdateDeleteProduct() throws Exception {
 		//TODO
 		Product pr = new Product();
 		pr.setCountryOrigin("Denmark");
@@ -52,6 +52,7 @@ public class DBProductTestCase {
 		pr.setRentPrice(7213.5);
 		pr.setSalesPrice(1237.7);
 		pr.setStock(9);
+
 		try {
 			int insert = dbProd.insertProduct(pr);
 		} catch (Exception e) {
