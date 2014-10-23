@@ -36,6 +36,10 @@ public class OrderPanel extends JPanel {
 	private JPanel cardPanel;
 	private boolean switchPanel = true;
 	private JButton btnCustomerProduct;
+	private JLabel lblName;
+	private JLabel lblAddress;
+	private JLabel lblCityPostal;
+	private JPanel customerInfoPanel;
 
 	/**
 	 * Create the panel.
@@ -152,10 +156,10 @@ public class OrderPanel extends JPanel {
 		JLabel lblTotal = new JLabel("120,-");
 		lblVAT.add(lblTotal, "3, 6, right, default");
 		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBorder(new LineBorder(Color.GRAY));
-		panel_4.add(panel_7, "3, 2, fill, fill");
-		panel_7.setLayout(new FormLayout(new ColumnSpec[] {
+		customerInfoPanel = new JPanel();
+		customerInfoPanel.setBorder(new LineBorder(Color.GRAY));
+		panel_4.add(customerInfoPanel, "3, 2, fill, fill");
+		customerInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -169,22 +173,22 @@ public class OrderPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblName = new JLabel("Peter Hansen");
-		panel_7.add(lblName, "1, 2, 4, 1, center, default");
+		lblName = new JLabel("");
+		customerInfoPanel.add(lblName, "1, 2, 4, 1, center, default");
 		
 		JLabel lblNewLabel_8 = new JLabel("Address:");
-		panel_7.add(lblNewLabel_8, "2, 4");
+		customerInfoPanel.add(lblNewLabel_8, "2, 4");
 		
-		JLabel lblAddress = new JLabel("Hovedgaden 35c");
-		panel_7.add(lblAddress, "4, 4, right, default");
+		lblAddress = new JLabel("");
+		customerInfoPanel.add(lblAddress, "4, 4, right, default");
 		
 		JLabel lblNewLabel_9 = new JLabel("City:");
-		panel_7.add(lblNewLabel_9, "2, 6");
+		customerInfoPanel.add(lblNewLabel_9, "2, 6");
 		
-		JLabel lblCityPostal = new JLabel("8832 : Skals");
-		panel_7.add(lblCityPostal, "4, 6, right, default");
+		lblCityPostal = new JLabel("");
+		customerInfoPanel.add(lblCityPostal, "4, 6, right, default");
 		
-		panel_7.setVisible(false);
+		customerInfoPanel.setVisible(false);
 		
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5, "1, 4, fill, fill");
@@ -229,7 +233,7 @@ public class OrderPanel extends JPanel {
 		cardPanel.add(cPanel, "Customer");
 	}
 	
-	private void switchPanel(){
+	public void switchPanel(){
 		CardLayout cl = (CardLayout)(cardPanel.getLayout());
 		if(switchPanel){
 			btnCustomerProduct.setText("Add Product");
@@ -243,7 +247,13 @@ public class OrderPanel extends JPanel {
 	}
 	
 	public void setCustomer(Customer c){
-		
+		if(c != null){
+			lblAddress.setText(c.getAddress());
+			lblCityPostal.setText(c.getZipcode().getZipcode() + " - " + c.getZipcode().getCity());
+			lblName.setText(c.getName());
+			
+			customerInfoPanel.setVisible(true);
+		}
 	}
 
 }
