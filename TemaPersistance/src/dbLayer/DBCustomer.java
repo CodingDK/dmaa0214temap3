@@ -19,27 +19,27 @@ public class DBCustomer implements IFDBCustomer {
 		conn = DBConnection.getInstance().getDBCon();
 	}
 
-	@Override
+	
 	public ArrayList<Customer> getAllCustomers() {
 		return miscWhere("hidden=0");
 	}
 
-	@Override
+	
 	public ArrayList<Customer> findCustomerByName(String name) {
 		return miscWhere("hidden=0 AND name Like '%" + name + "%'");
 	}
 
-	@Override
+	
 	public ArrayList<Customer> findCustomerByPhone(String phone) {
 		return miscWhere("hidden=0 AND phone Like '%" + phone + "%'");
 	}
 
-	@Override
+	
 	public Customer getCustomerByID(int id) {
 		return singleWhere("customerID = " + id);
 	}
 
-	@Override
+	
 	public int insertCustomer(Customer cust) {
 		int rc = -1;
 		int zipInsert = new DBZipcode().updateOrInsertZipcode(cust.getZipcode());
@@ -71,7 +71,7 @@ public class DBCustomer implements IFDBCustomer {
 		return rc;
 	}
 
-	@Override
+	
 	public int updateCustomer(Customer cust) {
 		int rc = -1;
 		int zipInsert = new DBZipcode().updateOrInsertZipcode(cust.getZipcode());
@@ -108,7 +108,7 @@ public class DBCustomer implements IFDBCustomer {
 		return rc;
 	}
 	
-	@Override
+	
 	public int removeCustomer(Customer cust) {
 		int rc = -1;
 		try {
