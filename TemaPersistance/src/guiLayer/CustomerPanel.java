@@ -45,11 +45,13 @@ public class CustomerPanel extends JPanel {
 	private JTextField txtName;
 	private IFCustomerCtr cCtr;
 	private JList list;
+	private OrderPanel parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public CustomerPanel() {
+	public CustomerPanel(OrderPanel parent) {
+		this.parent = parent;
 		cCtr = new CustomerCtr();
 		buildPanel();
 	}
