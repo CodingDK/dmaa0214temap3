@@ -13,10 +13,13 @@ import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.Color;
 
@@ -44,6 +47,8 @@ public class ProductPanel extends JPanel {
 	private OrderPanel parent;
 	private IFOrderCtr oCtr;
 	private JList<Product> list;
+	private JComboBox<String> cmbType;
+	private ArrayList<Component> fields;
 
 	/**
 	 * Create the panel.
@@ -51,6 +56,8 @@ public class ProductPanel extends JPanel {
 	public ProductPanel(OrderPanel parent) {
 		this.parent = parent;
 		oCtr = new OrderCtr();
+		
+		fields = new ArrayList<Component>();
 		
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
@@ -98,21 +105,21 @@ public class ProductPanel extends JPanel {
 		txtID = new JTextField();
 		panel_3.add(txtID, "3, 3, fill, default");
 		txtID.setColumns(10);
-		
+		fields.add(txtID);
 		JLabel lblNewLabel_1 = new JLabel("Type:");
 		panel_3.add(lblNewLabel_1, "1, 5, left, default");
 		
-		JComboBox cmbType = new JComboBox();
-		cmbType.setModel(new DefaultComboBoxModel(new String[] {"All", "Clothing", "Equipment", "Gunreplicas"}));
+		cmbType = new JComboBox<String>();
+		cmbType.setModel(new DefaultComboBoxModel<String>(new String[] {"Select", "All", "N/A", "Clothing", "Equipment", "GunReplica"}));
 		panel_3.add(cmbType, "3, 5, fill, default");
-		
+		fields.add(cmbType);
 		JLabel lblNewLabel_2 = new JLabel("Name:");
 		panel_3.add(lblNewLabel_2, "1, 7, left, default");
 		
 		txtName = new JTextField();
 		panel_3.add(txtName, "3, 7, fill, default");
 		txtName.setColumns(10);
-		
+		fields.add(txtName);
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2, "2, 4, fill, fill");
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
@@ -125,10 +132,10 @@ public class ProductPanel extends JPanel {
 		JButton btnAddSelected = new JButton("Add Selected");
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 		
-		JButton btnSearchProduct = new JButton("Search Customer");
+		JButton btnSearchProduct = new JButton("Search Product");
 		btnSearchProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				searchCustomer();
+				searchProduct();
 			}
 		});
 		panel_2.add(btnSearchProduct, "3, 1, right, default");
@@ -145,10 +152,20 @@ public class ProductPanel extends JPanel {
 		list.setCellRenderer(render);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
-
+		
+		addOnChangeListener();
 	}
 
-	private void searchCustomer() {
+	private void searchProduct() {
+		String typeStr = (String) cmbType.getSelectedItem();
+		System.out.println(typeStr);
+		if(!typeStr.equalsIgnoreCase("Select")) {
+			if(typeStr.equalsIgnoreCase("All")) {
+				typeStr = "";
+			}
+			ArrayList<Product> pList = oCtr.getProductsByType(typeStr);
+			updateList(pList);
+		}
 		if(!txtID.getText().isEmpty()) {
 			Product p = oCtr.getProductByID(Integer.parseInt(txtID.getText()));
 			ArrayList<Product> pList = new ArrayList<Product>();
@@ -161,6 +178,18 @@ public class ProductPanel extends JPanel {
 			ArrayList<Product> pList = oCtr.getProductsByName(txtName.getText());
 			updateList(pList);
 		}
+		clear();
+	}
+	
+	private void clear() {
+		for (Component c : fields) {
+			if(c instanceof JTextField) {
+				((JTextField) c).setText("");
+			}
+			else if(c instanceof JComboBox) {
+				((JComboBox<?>) c).setSelectedIndex(0);
+			}
+		}
 	}
 
 	private void updateList(ArrayList<Product> products) {
@@ -171,4 +200,54 @@ public class ProductPanel extends JPanel {
 		list.setModel(model);
 	}
 
+	private void addOnChangeListener() {
+		for (final Component c : fields) {
+			if(c instanceof JTextField) {
+			((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void changedUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void insertUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+				@Override
+				public void removeUpdate(DocumentEvent arg0) {
+					updateFields(c);
+				}
+
+				});
+			} 
+			else if(c instanceof JComboBox) {
+				((JComboBox<?>) c).addActionListener (new ActionListener () {
+				    public void actionPerformed(ActionEvent e) {
+				        updateFields(c);
+				    }
+				});
+			}
+				
+		}
+		
+	}
+
+	private void updateFields(Component c) {
+		boolean empty = true;
+		if(c instanceof JTextField) {
+			empty = ((JTextField) c).getText().isEmpty();
+		}
+		if(c instanceof JComboBox) {
+			empty = (((JComboBox<?>) c).getSelectedIndex() == 0);
+		}
+		if(!empty) {
+			for (Component component : fields) {
+				component.setEnabled(false);
+			}
+			c.setEnabled(true);
+		} else {
+			for (Component component : fields) {
+				component.setEnabled(true);
+			}
+		}
+	}
 }
