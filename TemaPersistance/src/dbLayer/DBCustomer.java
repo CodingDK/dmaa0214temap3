@@ -169,7 +169,6 @@ public class DBCustomer implements IFDBCustomer {
 					retList.add(cusObj);
 				}
 			}
-			results.close();
 			stmt.close();
 		}
 		catch(Exception e) {
