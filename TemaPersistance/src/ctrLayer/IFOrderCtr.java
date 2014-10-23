@@ -8,7 +8,7 @@ import modelLayer.Product;
 
 public interface IFOrderCtr {
 	
-	public void createOrder(ArrayList<PartOrder> poList, Customer cust);
+	public void createOrder(ArrayList<PartOrder> poList, Customer cust, boolean invoice);
 	
 	public ArrayList<Product> getProductsByName(String productName);
 	
