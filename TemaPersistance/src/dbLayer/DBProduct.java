@@ -24,8 +24,6 @@ public class DBProduct implements IFDBProduct {
 	
 	public ArrayList<Product> searchProduct(String name) {
 		return miscWhere("hidden = 0 AND name LIKE '%" + name + "%'", "");
-		
-
 	}
 	
 	public Product getProductByID(int id) {
