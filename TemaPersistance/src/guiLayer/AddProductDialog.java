@@ -120,8 +120,6 @@ public class AddProductDialog extends JDialog {
 			catch(NotEnoughStockException e){
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			
-			done = true;
 		}
 		catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "Amount must be a whole number", "Error", JOptionPane.ERROR_MESSAGE);
