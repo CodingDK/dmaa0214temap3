@@ -170,13 +170,11 @@ public class CustomerPanel extends JPanel {
 		scrollPane.setViewportView(list);
 		
 		addOnChangeListener();
-
 	}
 	
 	protected void selectedCustomer() {
 		if(list.getSelectedValue() != null){
 			Customer c = (Customer) list.getSelectedValue();
-			
 			parent.setCustomer(c);
 			parent.switchPanel();
 		}
@@ -225,20 +223,19 @@ public class CustomerPanel extends JPanel {
 	private void addOnChangeListener() {
 		for (final Component c : fields) {
 			if(c instanceof JTextField) {
-			((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
-				@Override
-				public void changedUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-				@Override
-				public void insertUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-				@Override
-				public void removeUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-
+				((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
 				});
 			} 
 			else if(c instanceof JComboBox) {
@@ -248,9 +245,7 @@ public class CustomerPanel extends JPanel {
 				    }
 				});
 			}
-				
 		}
-		
 	}
 
 	private void updateFields(Component c) {
@@ -271,5 +266,4 @@ public class CustomerPanel extends JPanel {
 			}
 		}
 	}
-
 }

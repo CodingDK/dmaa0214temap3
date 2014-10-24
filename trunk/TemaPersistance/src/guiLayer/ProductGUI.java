@@ -346,7 +346,6 @@ public class ProductGUI extends JPanel {
 		panel_9.add(btnNewButton_2, "4, 1, right, default");
 		
 		addOnChangeListener();
-
 	}
 
 	protected void switchPanel(Object selectedItem) {
@@ -377,20 +376,19 @@ public class ProductGUI extends JPanel {
 	private void addOnChangeListener() {
 		for (final Component c : fields) {
 			if(c instanceof JTextField) {
-			((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
-				@Override
-				public void changedUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-				@Override
-				public void insertUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-				@Override
-				public void removeUpdate(DocumentEvent arg0) {
-					updateFields(c);
-				}
-
+				((JTextField)c).getDocument().addDocumentListener(new DocumentListener() {
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						updateFields(c);
+					}
 				});
 			} 
 			else if(c instanceof JComboBox) {
@@ -400,9 +398,7 @@ public class ProductGUI extends JPanel {
 				    }
 				});
 			}
-				
 		}
-		
 	}
 
 	private void updateFields(Component c) {
