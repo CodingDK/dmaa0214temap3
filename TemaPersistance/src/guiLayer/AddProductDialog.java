@@ -13,6 +13,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import ctrLayer.OrderCtr;
+import ctrLayer.exceptions.NotEnoughStockException;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -27,7 +28,6 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtAmount;
 	private JTextField txtUnitPrice;
 	private Product prod;
-	private boolean done = false;
 
 	public AddProductDialog(Product prod, OrderPanel target) {
 		this.prod = prod;
@@ -96,11 +96,9 @@ public class AddProductDialog extends JDialog {
 			try{
 			oCtr.createPartOrder(product, amount, unitPrice);
 			}
-			catch(Exception e){
+			catch(NotEnoughStockException e){
 				JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			
-			done = true;
+			}	
 		}
 		catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "Amount must be a whole number", "Error", JOptionPane.ERROR_MESSAGE);
@@ -110,9 +108,6 @@ public class AddProductDialog extends JDialog {
 		//parent.addProductToOrder(po);
 	}
 
-	public Boolean isDone(){
-		return done;
-	}
 	
 
 }
