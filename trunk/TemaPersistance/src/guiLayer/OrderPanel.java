@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 
 import modelLayer.Customer;
+import modelLayer.PartOrder;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -260,6 +261,10 @@ public class OrderPanel extends JPanel {
 			
 			customerInfoPanel.setVisible(true);
 		}
+	}
+	
+	public void addProductToOrder(PartOrder pO){
+		
 	}
 
 }
