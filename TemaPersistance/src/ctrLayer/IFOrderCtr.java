@@ -2,6 +2,7 @@ package ctrLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptions.NotEnoughStockException;
 import modelLayer.Customer;
 import modelLayer.PartOrder;
 import modelLayer.Product;
@@ -16,13 +17,13 @@ public interface IFOrderCtr {
 	
 	public Product getProductByID(int id);
 	
-	public PartOrder createPartOrder(Product product, int amount, double unitPrice) throws Exception;
+	public PartOrder createPartOrder(Product product, int amount, double unitPrice) throws NotEnoughStockException;
 	
 	/**
 	 * Search for a customer by name
 	 * @param customerName The name to search for
 	 * @return The found customer object
-	 */
+	 */	
 	public ArrayList<Customer> searchCustomerByName(String customerName);
 
 	public ArrayList<Customer> searchCustomerByPhone(String phone);
