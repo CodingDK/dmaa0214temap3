@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.Color;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -168,9 +169,9 @@ public class ProductPanel extends JPanel {
 			JOptionPane.showMessageDialog(parent, "You have to choice a product", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		else {
-			//JDialog addProductDialog = new //JDialog(parent, p);
-			//addProductDialog.setLocationRelativeTo(parent);
-			//addProductDialog.setVisible(true);
+			JDialog addProductDialog = new AddProductDialog(p, parent); //JDialog(parent, p);
+			addProductDialog.setLocationRelativeTo(parent);
+			addProductDialog.setVisible(true);
 			//if (addProductDialog.isDone()) {
 			//	clear();
 			//}
