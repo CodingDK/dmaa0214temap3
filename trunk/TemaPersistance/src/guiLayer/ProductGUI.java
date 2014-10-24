@@ -1,5 +1,7 @@
 package guiLayer;
 
+import guiLayer.extensions.JTextFieldLimit;
+
 import javax.swing.JPanel;
 
 import java.awt.Component;
@@ -156,6 +158,7 @@ public class ProductGUI extends JPanel {
 		panel_4.add(lblNewLabel_1, "1, 1, left, default");
 		
 		txtID = new JTextField();
+		txtID.setDocument(new JTextFieldLimit(10, true, false));
 		panel_4.add(txtID, "3, 1, fill, default");
 		txtID.setColumns(10);
 		fields.add(txtID);
