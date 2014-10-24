@@ -11,7 +11,7 @@ public interface IFDBPartOrder {
 	public ArrayList<PartOrder> findPartOrders(Order order, boolean retAsso);
 	
 	// Insert multiple PartOrders
-	public boolean insertPartOrders(ArrayList<PartOrder> partOrders);
+	public boolean insertPartOrders(ArrayList<PartOrder> partOrders) throws Exception;
 	
 	// Update a PartOrder
 	public int updatePartOrder(PartOrder pOrder);
