@@ -163,10 +163,11 @@ public class DBProduct implements IFDBProduct {
 				stmt.setNull(8, java.sql.Types.NULL);
 			}
 			stmt.setBoolean(9, product.isHidden());
-			
+			stmt.setInt(10, product.getId());
 			if(type != null){
-				stmt.setString(10, att1);
-				stmt.setString(11, att2);
+				stmt.setString(11, att1);
+				stmt.setString(12, att2);
+				stmt.setInt(13, product.getId());
 			}
 
 	 	 	rc = stmt.executeUpdate();
@@ -175,6 +176,7 @@ public class DBProduct implements IFDBProduct {
 		}
 		catch(Exception e){
 			System.out.println("Error in update product - " + e);
+			e.printStackTrace();
 		}
 		
 		return rc;
