@@ -9,22 +9,23 @@ public class JTextFieldLimit extends PlainDocument {
 	private int limit;
 	private boolean onlyInt;
 	private boolean oneSpace;
-	
+
 	public JTextFieldLimit(int limit, boolean onlyInt, boolean oneSpace) {
 		super();
 		this.limit = limit;
 		this.onlyInt = onlyInt;
 		this.oneSpace = oneSpace;
 	}
-	
+
 	@Override
-	public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+	public void insertString(int offset, String str, AttributeSet attr)
+			throws BadLocationException {
 		if (str == null)
 			return;
 		boolean go = true;
 		if (onlyInt) {
 			char[] chars = str.toCharArray();
-			
+
 			for (int i = 0; i < chars.length; i++) {
 				try {
 					Integer.parseInt(String.valueOf(chars[i]));
@@ -47,13 +48,13 @@ public class JTextFieldLimit extends PlainDocument {
 					}
 				}
 			} else {
-				
+
 			}
 		}
-		
+
 		if (go && ((getLength() + str.length()) <= limit)) {
 			super.insertString(offset, str, attr);
 		}
 	}
-	
+
 }

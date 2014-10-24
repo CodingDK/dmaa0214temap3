@@ -1,12 +1,14 @@
 package testLayer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import modelLayer.Customer;
 import modelLayer.Invoice;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,7 @@ public class DBInvoiceTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		dbInvoice = new DBInvoice(); 
+		dbInvoice = new DBInvoice();
 	}
 
 	@Test
@@ -50,7 +52,7 @@ public class DBInvoiceTestCase {
 		int delete = dbInvoice.removeInvoice(inv);
 		assertTrue(delete == 1);
 		System.out.println("deleteTest: " + delete);
-		
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package testLayer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import org.junit.Test;
 import dbLayer.DBProduct;
 
 public class DBProductTestCase {
-	
+
 	private DBProduct dbProd;
 
 	@Before
@@ -27,7 +28,7 @@ public class DBProductTestCase {
 	public void testGetAllProducts() {
 		ArrayList<Product> list = dbProd.getAllProducts();
 		assertNotNull(list);
-		assertTrue(list.size() != 0);	
+		assertTrue(list.size() != 0);
 	}
 
 	@Test
@@ -58,7 +59,7 @@ public class DBProductTestCase {
 		pr.setRentPrice(11111);
 		pr.setSalesPrice(11.11);
 		pr.setStock(111);
-		
+
 		// Insert Equipment
 		Equipment pr2 = new Equipment();
 		pr2.setCountryOrigin("Testcountry");
@@ -70,8 +71,8 @@ public class DBProductTestCase {
 		pr2.setStock(222);
 		pr2.setDescription("Testdesc");
 		pr2.setType("Testtype");
-		
-		//Insert Clothing
+
+		// Insert Clothing
 		Clothing pr3 = new Clothing();
 		pr3.setCountryOrigin("Testcountry");
 		pr3.setMinStock(5);
@@ -82,8 +83,8 @@ public class DBProductTestCase {
 		pr3.setStock(222);
 		pr3.setSize("XL");
 		pr3.setColour("Blue");
-		
-		//Insert GunReplica
+
+		// Insert GunReplica
 		GunReplica pr4 = new GunReplica();
 		pr4.setCountryOrigin("Testcountry");
 		pr4.setMinStock(5);
@@ -91,10 +92,10 @@ public class DBProductTestCase {
 		pr4.setPurchasePrice(2.1);
 		pr4.setRentPrice(22);
 		pr4.setSalesPrice(2.11);
-		pr4.setStock(222);		
+		pr4.setStock(222);
 
 		try {
-			//Insert
+			// Insert
 			int insert = dbProd.insertProduct(pr);
 			int insert2 = dbProd.insertProduct(pr2);
 			int insert3 = dbProd.insertProduct(pr3);
@@ -107,8 +108,8 @@ public class DBProductTestCase {
 			System.out.println("Insert2: " + insert2);
 			System.out.println("Insert3: " + insert3);
 			System.out.println("Insert4: " + insert4);
-			
-			//Update
+
+			// Update
 			pr.setName("Nyt test navn 1");
 			pr2.setName("Nyt test navn 2");
 			pr2.setDescription("Ny description");
@@ -126,8 +127,8 @@ public class DBProductTestCase {
 			assertTrue(up2 == 1);
 			assertTrue(up3 == 1);
 			assertTrue(up4 == 1);
-			
-			//Delete
+
+			// Delete
 			int del1 = dbProd.removeProduct(pr);
 			int del2 = dbProd.removeProduct(pr2);
 			int del3 = dbProd.removeProduct(pr3);
@@ -140,10 +141,10 @@ public class DBProductTestCase {
 			assertTrue(del2 == 1);
 			assertTrue(del3 == 1);
 			assertTrue(del4 == 1);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Test

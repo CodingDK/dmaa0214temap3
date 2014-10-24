@@ -1,7 +1,7 @@
 package modelLayer;
 
 public class Product {
-	
+
 	private int id;
 	private String name;
 	private String countryOrigin;
@@ -12,7 +12,7 @@ public class Product {
 	private double rentPrice;
 	private Supplier supplier;
 	private boolean hidden = false;
-		
+
 	public Product(int id, String name, double salesPrice, boolean hidden) {
 		this.id = id;
 		this.name = name;
@@ -23,7 +23,7 @@ public class Product {
 	public Product(int id) {
 		this.id = id;
 	}
-	
+
 	public Product() {
 	}
 
@@ -35,7 +35,8 @@ public class Product {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -49,7 +50,8 @@ public class Product {
 	}
 
 	/**
-	 * @param countryOrigin the countryOrigin to set
+	 * @param countryOrigin
+	 *            the countryOrigin to set
 	 */
 	public void setCountryOrigin(String countryOrigin) {
 		this.countryOrigin = countryOrigin;
@@ -63,7 +65,8 @@ public class Product {
 	}
 
 	/**
-	 * @param stock the stock to set
+	 * @param stock
+	 *            the stock to set
 	 */
 	public void setStock(int stock) {
 		this.stock = stock;
@@ -77,7 +80,8 @@ public class Product {
 	}
 
 	/**
-	 * @param minStock the minStock to set
+	 * @param minStock
+	 *            the minStock to set
 	 */
 	public void setMinStock(int minStock) {
 		this.minStock = minStock;
@@ -91,7 +95,8 @@ public class Product {
 	}
 
 	/**
-	 * @param purchasePrice the purchasePrice to set
+	 * @param purchasePrice
+	 *            the purchasePrice to set
 	 */
 	public void setPurchasePrice(double purchasePrice) {
 		this.purchasePrice = purchasePrice;
@@ -105,7 +110,8 @@ public class Product {
 	}
 
 	/**
-	 * @param salesPrice the salesPrice to set
+	 * @param salesPrice
+	 *            the salesPrice to set
 	 */
 	public void setSalesPrice(double salesPrice) {
 		this.salesPrice = salesPrice;
@@ -119,7 +125,8 @@ public class Product {
 	}
 
 	/**
-	 * @param rentPrice the rentPrice to set
+	 * @param rentPrice
+	 *            the rentPrice to set
 	 */
 	public void setRentPrice(double rentPrice) {
 		this.rentPrice = rentPrice;
@@ -148,7 +155,8 @@ public class Product {
 	}
 
 	/**
-	 * @param supplier the supplier to set
+	 * @param supplier
+	 *            the supplier to set
 	 */
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
@@ -157,5 +165,5 @@ public class Product {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 }

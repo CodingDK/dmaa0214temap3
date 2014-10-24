@@ -3,10 +3,10 @@ package modelLayer;
 import java.util.Date;
 
 public class Invoice {
-	
+
 	private int invoiceID;
 	private Date date;
-	
+
 	/**
 	 * @param invoiceID
 	 * @param date
@@ -19,10 +19,11 @@ public class Invoice {
 	public Invoice(int id) {
 		this.invoiceID = id;
 	}
-	
+
 	public Invoice() {
-		
+
 	}
+
 	/**
 	 * @return the date
 	 */
@@ -31,7 +32,8 @@ public class Invoice {
 	}
 
 	/**
-	 * @param date the date to set
+	 * @param date
+	 *            the date to set
 	 */
 	public void setDate(Date date) {
 		this.date = date;
@@ -47,7 +49,5 @@ public class Invoice {
 	public void setInvoiceID(int invoiceID) {
 		this.invoiceID = invoiceID;
 	}
-	
-	
-	
+
 }

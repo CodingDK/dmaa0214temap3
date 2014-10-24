@@ -9,15 +9,15 @@ import javax.swing.text.PlainDocument;
 
 public class JDoubleField extends JTextField {
 	private static final long serialVersionUID = 1L;
-	
+
 	public JDoubleField() {
 		super();
 	}
-	
+
 	public JDoubleField(int col) {
 		super(col);
 	}
-	
+
 	@Override
 	public void setText(String t) {
 		try {
@@ -33,27 +33,29 @@ public class JDoubleField extends JTextField {
 		} catch (BadLocationException e) {
 			UIManager.getLookAndFeel().provideErrorFeedback(JDoubleField.this);
 		}
-		
+
 	}
-	
+
 	@Override
 	protected Document createDefaultModel() {
 		return new UpperCaseDocument();
 	}
-	
+
 	static class UpperCaseDocument extends PlainDocument {
 		private static final long serialVersionUID = 1L;
-		
-		public void insertString(int offs, String str, AttributeSet a, boolean forced) throws BadLocationException {
+
+		public void insertString(int offs, String str, AttributeSet a,
+				boolean forced) throws BadLocationException {
 			super.insertString(offs, str, a);
 		}
-		
+
 		@Override
-		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+		public void insertString(int offs, String str, AttributeSet a)
+				throws BadLocationException {
 			if (str == null) {
 				return;
 			}
-			
+
 			char[] chars = str.toCharArray();
 			boolean go = true;
 			for (int i = 0; i < chars.length; i++) {
@@ -74,7 +76,7 @@ public class JDoubleField extends JTextField {
 					}
 				}
 			}
-			
+
 			if (go) {
 				super.insertString(offs, new String(chars), a);
 			}

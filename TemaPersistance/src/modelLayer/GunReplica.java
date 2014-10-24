@@ -1,28 +1,32 @@
 package modelLayer;
+
 /**
  * A GunReplica Object
+ * 
  * @author Group 3
  *
  */
 public class GunReplica extends Product {
-	
+
 	private String fabric;
 	private String calibre;
 
 	/**
 	 * Create a GunReplica object
+	 * 
 	 * @param name
 	 * @param salesPrice
 	 * @param fabric
 	 * @param calibre
 	 */
-	public GunReplica(int id, String name, double salesPrice, String fabric, String calibre, boolean hidden) {
+	public GunReplica(int id, String name, double salesPrice, String fabric,
+			String calibre, boolean hidden) {
 		super(id, name, salesPrice, hidden);
 		this.fabric = fabric;
 		this.calibre = calibre;
 	}
-	
-	public GunReplica(){
+
+	public GunReplica() {
 	}
 
 	/**
@@ -33,7 +37,8 @@ public class GunReplica extends Product {
 	}
 
 	/**
-	 * @param fabric the fabric to set
+	 * @param fabric
+	 *            the fabric to set
 	 */
 	public void setFabric(String fabric) {
 		this.fabric = fabric;
@@ -47,7 +52,8 @@ public class GunReplica extends Product {
 	}
 
 	/**
-	 * @param calibre the calibre to set
+	 * @param calibre
+	 *            the calibre to set
 	 */
 	public void setCalibre(String calibre) {
 		this.calibre = calibre;

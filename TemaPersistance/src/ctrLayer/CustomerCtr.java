@@ -2,14 +2,14 @@ package ctrLayer;
 
 import java.util.ArrayList;
 
+import modelLayer.Customer;
 import dbLayer.DBCustomer;
 import dbLayer.IFDBCustomer;
-import modelLayer.Customer;
 
 public class CustomerCtr implements IFCustomerCtr {
 
 	public CustomerCtr() {
-		
+
 	}
 
 	@Override

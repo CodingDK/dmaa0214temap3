@@ -5,10 +5,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
-import javax.swing.JTabbedPane;
 
 public class Main extends JFrame {
 
@@ -21,9 +21,11 @@ public class Main extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
-					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					UIManager
+							.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					Main frame = new Main();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -43,25 +45,24 @@ public class Main extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
-		
+
 		panel = new OrderPanel(this);
 		tabbedPane.addTab("Order", null, panel, null);
-		
+
 		ProductGUI panel_1 = new ProductGUI();
 		tabbedPane.addTab("Product", null, panel_1, null);
-		
+
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_2, null);
-		
+
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_3, null);
 	}
-	
-	
-	public void replaceOrderPanel(){
+
+	public void replaceOrderPanel() {
 		tabbedPane.remove(panel);
 		panel = new OrderPanel(this);
 		tabbedPane.insertTab("Order", null, panel, null, 0);

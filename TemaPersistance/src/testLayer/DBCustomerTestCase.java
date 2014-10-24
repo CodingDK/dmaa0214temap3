@@ -1,6 +1,7 @@
 package testLayer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import dbLayer.DBCustomer;
 public class DBCustomerTestCase {
 
 	private DBCustomer dbCus;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		dbCus = new DBCustomer();
@@ -62,7 +63,7 @@ public class DBCustomerTestCase {
 		assertTrue(delete == 1);
 		System.out.println("deleteTest: " + delete);
 	}
-	
+
 	@Test
 	public void testGetCustomerByID() {
 		Customer cus = dbCus.getCustomerByID(2);
