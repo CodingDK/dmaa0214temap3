@@ -28,9 +28,11 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtAmount;
 	private JTextField txtUnitPrice;
 	private Product prod;
+	private OrderPanel target;
 
 	public AddProductDialog(Product prod, OrderPanel target) {
 		this.prod = prod;
+		this.target = target;
 		setTitle("Add Product");
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -83,6 +85,11 @@ public class AddProductDialog extends JDialog {
 		getContentPane().add(btnAdd, "5, 10");
 
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				exit();
+			}
+		});
 		getContentPane().add(btnCancel, "7, 10, right, default");
 	}
 	private void addProduct() {
@@ -94,7 +101,9 @@ public class AddProductDialog extends JDialog {
 			int amount = Integer.parseInt(txtAmount.getText());
 			Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
 			try{
-			oCtr.createPartOrder(product, amount, unitPrice);
+			PartOrder po = oCtr.createPartOrder(product, amount, unitPrice);
+			target.addProductToOrder(po);
+			exit();
 			}
 			catch(NotEnoughStockException e){
 				JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -103,9 +112,11 @@ public class AddProductDialog extends JDialog {
 		catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "Amount must be a whole number", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-
-
-		//parent.addProductToOrder(po);
+	}
+	
+	private void exit(){
+		setVisible(false);
+		dispose();
 	}
 
 	
