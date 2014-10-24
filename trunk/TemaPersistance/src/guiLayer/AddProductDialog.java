@@ -12,6 +12,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
 import ctrLayer.exceptions.NotEnoughStockException;
 
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,8 +33,12 @@ public class AddProductDialog extends JDialog {
 	private OrderPanel target;
 
 	public AddProductDialog(Product prod, OrderPanel target) {
+		setResizable(false);
 		this.prod = prod;
 		this.target = target;
+		this.setSize(new Dimension(270, 170));
+		this.setResizable(false);
+		
 		setTitle("Add Product");
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -96,7 +102,7 @@ public class AddProductDialog extends JDialog {
 		// TODO Auto-generated method stub
 
 		try{
-			OrderCtr oCtr = new OrderCtr();
+			IFOrderCtr oCtr = new OrderCtr();
 			Product product = prod;
 			int amount = Integer.parseInt(txtAmount.getText());
 			Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
@@ -106,7 +112,7 @@ public class AddProductDialog extends JDialog {
 			exit();
 			}
 			catch(NotEnoughStockException e){
-				JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}	
 		}
 		catch (NumberFormatException e) {
