@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import modelLayer.Clothing;
-import modelLayer.Customer;
 import modelLayer.Equipment;
 import modelLayer.GunReplica;
 import modelLayer.Product;
@@ -40,13 +39,16 @@ public class DBProductTestCase {
 
 	@Test
 	public void testGetProductByID() {
-		Product product = dbProd.getProductByID(5);
-		assertNotNull(product);
+		Product pr1 = dbProd.getProductByID(5);
+		Product pr2 = dbProd.getProductByID(15);
+		Product pr3 = dbProd.getProductByID(11);
+		assertNotNull(pr1);
+		assertNotNull(pr2);
+		assertNotNull(pr3);
 	}
 
 	@Test
 	public void testInsertUpdateDeleteProduct() throws Exception {
-		//TODO
 		// Insert product
 		Product pr = new Product();
 		pr.setCountryOrigin("Testcountry");
@@ -89,11 +91,9 @@ public class DBProductTestCase {
 		pr4.setPurchasePrice(2.1);
 		pr4.setRentPrice(22);
 		pr4.setSalesPrice(2.11);
-		pr4.setStock(222);
-		
+		pr4.setStock(222);		
 
 		try {
-			
 			//Insert
 			int insert = dbProd.insertProduct(pr);
 			int insert2 = dbProd.insertProduct(pr2);
@@ -149,8 +149,17 @@ public class DBProductTestCase {
 	@Test
 	public void testGetProductsByType() {
 		ArrayList<Product> list = dbProd.getProductsByType("EqUipmEnt");
+		ArrayList<Product> list2 = dbProd.getProductsByType("CloThInG");
+		ArrayList<Product> list3 = dbProd.getProductsByType("gUnRepliCa");
+		ArrayList<Product> list4 = dbProd.getProductsByType("");
 		assertNotNull(list);
+		assertNotNull(list2);
+		assertNotNull(list3);
+		assertNotNull(list4);
 		assertTrue(list.size() != 0);
+		assertTrue(list2.size() != 0);
+		assertTrue(list3.size() != 0);
+		assertTrue(list4.size() != 0);
 	}
 
 }
