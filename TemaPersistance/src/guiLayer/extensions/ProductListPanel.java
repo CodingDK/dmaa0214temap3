@@ -113,6 +113,10 @@ public class ProductListPanel extends JPanel {
 			
 			JLabel lblSubclass_1 = new JLabel(text1);
 			panel.add(lblSubclass_1, "2, 3");
+			int end = text2.length();
+			if (end >= 15) {
+				text2 = text2.substring(0, end) + "...";
+			}
 			
 			JLabel lblSubclass = new JLabel(text2);
 			panel.add(lblSubclass, "4, 3");
