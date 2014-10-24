@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import modelLayer.Customer;
 import modelLayer.Invoice;
 import modelLayer.Order;
+import modelLayer.PartOrder;
 
 public class DBOrder implements IFDBOrder {
 	private Connection con;
@@ -40,32 +41,49 @@ public class DBOrder implements IFDBOrder {
 	
 	public int insertOrder(Order order) {
 		int rc = -1;
-		String query = "INSERT INTO ORDER (deliverStatus, deliveryDate, invoiceID, customerID) VALUES (?,?,?,?)";
-		
+		String query = "INSERT INTO ORDERS (deliverYStatus, deliveryDate, invoiceID, customerID) VALUES (?,?,?,?)";
+		ArrayList<PartOrder> orders = order.getPs();
+		IFDBPartOrder dbPartOrder = new DBPartOrder();
 		try{
-			PreparedStatement stmt = con.prepareStatement(query);
+			PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, order.getDeliveryStatus());
 			if(order.getDeliveryDate() != null){
-				stmt.setDate(2, new java.sql.Date(order.getDeliveryDate().getTime()));
+				java.sql.Date da = new java.sql.Date(order.getDeliveryDate().getTime());
+				stmt.setDate(2, da);
 			}else{
-				stmt.setNull(2, java.sql.Types.NULL);
+				stmt.setNull(2, java.sql.Types.DATE);
 			}
 			
 			if(order.getInvoice() != null){
 				stmt.setInt(3, order.getInvoice().getInvoiceID());
 			}else{
-				stmt.setNull(3, java.sql.Types.NULL);
+				stmt.setNull(3, java.sql.Types.INTEGER);
 			}
 			
 			if(order.getCustomer() != null){
 				stmt.setInt(4, order.getCustomer().getId());
 			}else{
-				stmt.setNull(4, java.sql.Types.NULL);
+				stmt.setNull(4, java.sql.Types.INTEGER);
 			}
 			
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate();
+			
+			ResultSet genRs = stmt.getGeneratedKeys();
+			if (genRs.next()) {
+				order.setOrderID(genRs.getInt(1));
+				System.out.println("GeneratedID: " + genRs.getInt(1));
+			} 
+			
 			stmt.close();
+			
+			boolean completed = dbPartOrder.insertPartOrders(orders);
+			
+			if(!completed){
+				rc = -1;
+				removeOrder(order);
+				System.out.println("Failed");
+			}
 		}catch(Exception e){
 			System.out.println("Insert Order Failed : Order");
 			e.printStackTrace();
@@ -78,7 +96,7 @@ public class DBOrder implements IFDBOrder {
 	public int updateOrder(Order order) {
 		int rc = -1;
 		
-		String query = "UPDATE ORDER SET " +
+		String query = "UPDATE ORDERS SET " +
 					   "deliveryStatus = ?, " +
 					   "deliveryDate = ?, " +
 					   "invoiceID = ?, " +
@@ -129,12 +147,22 @@ public class DBOrder implements IFDBOrder {
 		String query = "DELETE FROM ORDERS WHERE ORDERID = " + order.getOrderID();
 		
 		try{
+			
+			if(order.getPs() != null && order.getPs().size() > 0){
+				IFDBPartOrder dbPartOrder = new DBPartOrder();
+				for(PartOrder p : order.getPs()){
+					dbPartOrder.removePartOrder(p);
+				}
+			}
+			
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
-			
 			stmt.close();
+			
 		}catch(Exception e){
+			IFDBPartOrder dbPartOrder = new DBPartOrder();
+			dbPartOrder.insertPartOrders(order.getPs());
 			System.out.println("Error Remove Order : Order");
 			e.printStackTrace();
 		}
