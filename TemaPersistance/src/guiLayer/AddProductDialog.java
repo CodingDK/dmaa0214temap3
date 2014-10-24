@@ -91,8 +91,8 @@ public class AddProductDialog extends JDialog {
 				addProduct();
 			}
 		});
-		JRootPane rootPane = SwingUtilities.getRootPane(btnAdd); 
-		rootPane.setDefaultButton(btnAdd);
+//		JRootPane rootPane = SwingUtilities.getRootPane(btnAdd); 
+//		rootPane.setDefaultButton(btnAdd);
 		getContentPane().add(btnAdd, "5, 10");
 
 		JButton btnCancel = new JButton("Cancel");
@@ -104,8 +104,6 @@ public class AddProductDialog extends JDialog {
 		getContentPane().add(btnCancel, "7, 10, right, default");
 	}
 	private void addProduct() {
-		// TODO Auto-generated method stub
-
 		try{
 			OrderCtr oCtr = new OrderCtr(); //TODO IFOrderCtr -- Giver syntax: Unhandled error 
 			Product product = prod;
