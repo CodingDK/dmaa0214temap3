@@ -8,6 +8,8 @@ public class PartOrderTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<PartOrder> items;
 	
+	public PartOrderTableModel(){}
+	
 	public PartOrderTableModel(ArrayList<PartOrder> it) {
 		items = it;
 	}
