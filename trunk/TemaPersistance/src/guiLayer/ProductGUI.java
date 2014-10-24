@@ -1,5 +1,6 @@
 package guiLayer;
 
+import guiLayer.extensions.JDoubleField;
 import guiLayer.extensions.JTextFieldLimit;
 
 import javax.swing.JPanel;
@@ -175,6 +176,7 @@ public class ProductGUI extends JPanel {
 		panel_4.add(lblNewLabel_3, "1, 5, left, default");
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"None", "Clothing", "Gunreplica", "Equipment"}));
 		panel_4.add(comboBox, "3, 5, fill, default");
 		fields.add(comboBox);
 		
@@ -256,6 +258,7 @@ public class ProductGUI extends JPanel {
 		panel_6.add(lblNewLabel_6, "1, 5, left, default");
 		
 		txtCreateMinStock = new JTextField();
+		txtCreateMinStock.setDocument(new JTextFieldLimit(10, true, false));
 		panel_6.add(txtCreateMinStock, "3, 5, fill, default");
 		txtCreateMinStock.setColumns(10);
 		
@@ -263,27 +266,28 @@ public class ProductGUI extends JPanel {
 		panel_6.add(lblNewLabel_7, "1, 7, left, default");
 		
 		txtCreateStock = new JTextField();
+		txtCreateStock.setDocument(new JTextFieldLimit(10, true, false));
 		panel_6.add(txtCreateStock, "3, 7, fill, default");
 		txtCreateStock.setColumns(10);
 		
 		JLabel lblNewLabel_8 = new JLabel("Purchase Price:");
 		panel_6.add(lblNewLabel_8, "1, 9, right, default");
 		
-		txtPurchasePrice = new JTextField();
+		txtPurchasePrice = new JDoubleField();
 		panel_6.add(txtPurchasePrice, "3, 9, fill, default");
 		txtPurchasePrice.setColumns(10);
 		
 		JLabel lblNewLabel_9 = new JLabel("Sales Price:");
 		panel_6.add(lblNewLabel_9, "1, 11, left, default");
 		
-		txtSalesPrice = new JTextField();
+		txtSalesPrice = new JDoubleField();
 		panel_6.add(txtSalesPrice, "3, 11, fill, default");
 		txtSalesPrice.setColumns(10);
 		
 		JLabel lblNewLabel_10 = new JLabel("Rent Price");
 		panel_6.add(lblNewLabel_10, "1, 13, left, default");
 		
-		txtRentPrice = new JTextField();
+		txtRentPrice = new JDoubleField();
 		panel_6.add(txtRentPrice, "3, 13, fill, default");
 		txtRentPrice.setColumns(10);
 		
@@ -341,7 +345,7 @@ public class ProductGUI extends JPanel {
 		JButton btnNewButton_2 = new JButton("Create");
 		panel_9.add(btnNewButton_2, "4, 1, right, default");
 		
-		addOnChangeListener();
+		//addOnChangeListener();
 
 	}
 
