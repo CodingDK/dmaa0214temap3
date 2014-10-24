@@ -45,6 +45,8 @@ public class DBOrder implements IFDBOrder {
 		ArrayList<PartOrder> orders = order.getPs();
 		IFDBPartOrder dbPartOrder = new DBPartOrder();
 		try{
+			DBConnection.startTransaction();
+			
 			PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, order.getDeliveryStatus());
 			if(order.getDeliveryDate() != null){
@@ -73,18 +75,23 @@ public class DBOrder implements IFDBOrder {
 			if (genRs.next()) {
 				order.setOrderID(genRs.getInt(1));
 				System.out.println("GeneratedID: " + genRs.getInt(1));
+				for(PartOrder pO : orders){
+					pO.setParent(order);
+				}
 			} 
 			
 			stmt.close();
 			
 			boolean completed = dbPartOrder.insertPartOrders(orders);
 			
-			if(!completed){
-				rc = -1;
-				removeOrder(order);
-				System.out.println("Failed");
-			}
+			//if(!completed){
+			//	rc = -1;
+			//	removeOrder(order);
+			//	System.out.println("Failed");
+			//}
+			DBConnection.commitTransaction();
 		}catch(Exception e){
+			DBConnection.rollBackTransaction();
 			System.out.println("Insert Order Failed : Order");
 			e.printStackTrace();
 		}

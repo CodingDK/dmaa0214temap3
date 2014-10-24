@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
@@ -20,6 +21,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import ctrLayer.IFOrderCtr;
+import ctrLayer.OrderCtr;
 
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
@@ -35,6 +39,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
+
 public class OrderPanel extends JPanel {
 	private JTable table;
 	private JPanel cardPanel;
@@ -47,11 +53,20 @@ public class OrderPanel extends JPanel {
 	private Customer customer;
 	private ArrayList<PartOrder> partOrders;
 	private PartOrderTableModel model;
+	private JCheckBox chckbxInvoice;
+	private JLabel lblVat;
+	private JLabel lblSubtotal;
+	private JLabel lblTotal;
+	private double totalPrice = 0;
+	private double subTotal = 0;
+	private double vat = 0;
+	private Main parent;
 
 	/**
 	 * Create the panel.
 	 */
-	public OrderPanel() {
+	public OrderPanel(Main parent) {
+		this.parent = parent;
 		partOrders = new ArrayList<PartOrder>();
 		
 		setLayout(new FormLayout(new ColumnSpec[] {
@@ -125,10 +140,10 @@ public class OrderPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
-		JPanel lblVAT = new JPanel();
-		lblVAT.setBorder(new LineBorder(Color.GRAY));
-		panel_4.add(lblVAT, "1, 2, fill, fill");
-		lblVAT.setLayout(new FormLayout(new ColumnSpec[] {
+		JPanel TotalPanel = new JPanel();
+		TotalPanel.setBorder(new LineBorder(Color.GRAY));
+		panel_4.add(TotalPanel, "1, 2, fill, fill");
+		TotalPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				ColumnSpec.decode("max(55dlu;default):grow"),
@@ -143,22 +158,22 @@ public class OrderPanel extends JPanel {
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,}));
 		
 		JLabel lblNewLabel_3 = new JLabel("Subtotal:");
-		lblVAT.add(lblNewLabel_3, "2, 2");
+		TotalPanel.add(lblNewLabel_3, "2, 2");
 		
-		JLabel lblSubtotal = new JLabel("100,-");
-		lblVAT.add(lblSubtotal, "3, 2, right, default");
+		lblSubtotal = new JLabel(subTotal + ",-");
+		TotalPanel.add(lblSubtotal, "3, 2, right, default");
 		
 		JLabel lblNewLabel_2 = new JLabel("VAT:");
-		lblVAT.add(lblNewLabel_2, "2, 4");
+		TotalPanel.add(lblNewLabel_2, "2, 4");
 		
-		JLabel lblNewLabel_5 = new JLabel("20,-");
-		lblVAT.add(lblNewLabel_5, "3, 4, right, default");
+		lblVat = new JLabel(vat + ",-");
+		TotalPanel.add(lblVat, "3, 4, right, default");
 		
 		JLabel lblNewLabel_1 = new JLabel("Total:");
-		lblVAT.add(lblNewLabel_1, "2, 6");
+		TotalPanel.add(lblNewLabel_1, "2, 6");
 		
-		JLabel lblTotal = new JLabel("120,-");
-		lblVAT.add(lblTotal, "3, 6, right, default");
+		lblTotal = new JLabel(totalPrice + ",-");
+		TotalPanel.add(lblTotal, "3, 6, right, default");
 		
 		customerInfoPanel = new JPanel();
 		customerInfoPanel.setBorder(new LineBorder(Color.GRAY));
@@ -197,12 +212,22 @@ public class OrderPanel extends JPanel {
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5, "1, 4, fill, fill");
 		panel_5.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnCommitSale = new JButton("Commit Sale");
+		btnCommitSale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				commitSale();
+			}
+		});
 		panel_5.add(btnCommitSale, "1, 1");
+		
+		chckbxInvoice = new JCheckBox("Invoice");
+		panel_5.add(chckbxInvoice, "3, 1");
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
@@ -237,6 +262,21 @@ public class OrderPanel extends JPanel {
 		cardPanel.add(cPanel, "Customer");
 	}
 	
+	protected void commitSale() {
+		if(partOrders.size() > 0){
+			IFOrderCtr oCtr = new OrderCtr();
+			int rc = oCtr.createOrder(partOrders, customer, chckbxInvoice.isSelected());
+			System.out.println(rc);
+			if(rc == 1){
+				JOptionPane.showMessageDialog(null, "The order was created!", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+				parent.replaceOrderPanel();
+			}else{
+				JOptionPane.showMessageDialog(null, "The order creation Failed!", "InfoBox", JOptionPane.WARNING_MESSAGE);
+			}
+			
+		}
+	}
+
 	public void switchPanel(){
 		CardLayout cl = (CardLayout)(cardPanel.getLayout());
 		if(switchPanel){
@@ -269,7 +309,22 @@ public class OrderPanel extends JPanel {
 		if(pO != null){
 			partOrders.add(pO);
 			updateTable();
+			
+			subTotal = 0;
+			
+			for(PartOrder p : partOrders){
+				subTotal += (p.getAmount() * p.getUnitPrice());
+			}
+			
+			vat = subTotal * 0.25;
+			totalPrice = subTotal + vat;
+			
+			lblVat.setText(vat + ",-");
+			lblTotal.setText(totalPrice + ",-");
+			lblSubtotal.setText(subTotal + ",-");
 		}
+		
+		
 	}
 
 	private void updateTable() {

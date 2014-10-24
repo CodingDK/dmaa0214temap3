@@ -23,7 +23,7 @@ public class DBPartOrder implements IFDBPartOrder {
 	}
 	
 	@Override
-	public boolean insertPartOrders(ArrayList<PartOrder> partOrders) {
+	public boolean insertPartOrders(ArrayList<PartOrder> partOrders) throws Exception{
 		boolean retBool = true;
 		DBConnection.startTransaction();
 		if(partOrders.size() > 0){
@@ -36,6 +36,8 @@ public class DBPartOrder implements IFDBPartOrder {
 				retBool = false;
 				e.printStackTrace();
 				DBConnection.rollBackTransaction();
+				
+				throw new Exception("Failed to insert part order");
 			}
 		}
 

@@ -13,6 +13,8 @@ import javax.swing.JTabbedPane;
 public class Main extends JFrame {
 
 	private JPanel contentPane;
+	private OrderPanel panel;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * Launch the application.
@@ -42,10 +44,10 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		OrderPanel panel = new OrderPanel();
+		panel = new OrderPanel(this);
 		tabbedPane.addTab("Order", null, panel, null);
 		
 		ProductGUI panel_1 = new ProductGUI();
@@ -56,6 +58,14 @@ public class Main extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_3, null);
+	}
+	
+	
+	public void replaceOrderPanel(){
+		tabbedPane.remove(panel);
+		panel = new OrderPanel(this);
+		tabbedPane.insertTab("Order", null, panel, null, 0);
+		tabbedPane.setSelectedIndex(0);
 	}
 
 }

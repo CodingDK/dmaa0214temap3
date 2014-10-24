@@ -20,12 +20,12 @@ public class OrderCtr implements IFOrderCtr {
 	public OrderCtr() {}
 	
 	@Override
-	public void createOrder(ArrayList<PartOrder> poList, Customer cust, boolean invoice) {
+	public int createOrder(ArrayList<PartOrder> poList, Customer cust, boolean invoice) {
 		IFDBOrder dbOrder = new DBOrder();
 		Order o = new Order();
 		o.setPs(poList);
 		o.setCustomer(cust);
-		
+		o.setDeliveryStatus("Order Created");
 		if(invoice){
 			Invoice i = new Invoice();
 			IFDBInvoice dbInv = new DBInvoice();
@@ -33,7 +33,7 @@ public class OrderCtr implements IFOrderCtr {
 			o.setInvoice(i);
 		}
 		
-		dbOrder.insertOrder(o);
+		return dbOrder.insertOrder(o);
 	}
 	
 	@Override
