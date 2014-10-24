@@ -26,8 +26,12 @@ public class DBPartOrder implements IFDBPartOrder {
 	public int insertPartOrder(PartOrder pOrder) {
 		int rc = -1;
 		String query = "INSERT INTO PARTORDER (orderID, productID, amount, unitPrice) values (?,?,?,?)";
+		IFDBProduct dbProd = new DBProduct();
+		
+		pOrder.getProduct().setStock(pOrder.getProduct().getStock() - pOrder.getAmount());
 		
 		try{
+			DBConnection.startTransaction();
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, pOrder.getParent().getOrderID());
@@ -38,7 +42,12 @@ public class DBPartOrder implements IFDBPartOrder {
 			rc = stmt.executeUpdate();
 			
 			stmt.close();
+			
+			dbProd.updateProduct(pOrder.getProduct());
+			
+			DBConnection.commitTransaction();
 		}catch(Exception e){
+			DBConnection.rollBackTransaction();
 			System.out.println("Error Inserting : Part Order");
 			e.printStackTrace();
 		}
@@ -51,7 +60,12 @@ public class DBPartOrder implements IFDBPartOrder {
 	public int updatePartOrder(PartOrder pOrder) {
 		int rc = -1;
 		
+		IFDBProduct dbProd = new DBProduct();
+		Product p = dbProd.getProductByID(pOrder.getProduct().getId());
+		p.setStock(p.getStock() - pOrder.getAmount());
+		
 		try{
+			DBConnection.startTransaction();
 			String query = "UPDATE PARTORDER SET"
 					+ " productID = ?,"
 					+ " amount = ?"
@@ -65,7 +79,12 @@ public class DBPartOrder implements IFDBPartOrder {
 			stmt.setInt(4, pOrder.getParent().getOrderID());
 			rc = stmt.executeUpdate();
 			stmt.close();
+			
+			dbProd.updateProduct(p);
+			
+			DBConnection.commitTransaction();
 		}catch(Exception e){
+			DBConnection.rollBackTransaction();
 			System.out.println("Error Updating : Part Order");
 			e.printStackTrace();
 		}
@@ -78,12 +97,20 @@ public class DBPartOrder implements IFDBPartOrder {
 		int rc = -1;
 		String query = "DELETE FROM PARTORDER WHERE ORDERID = " + pOrder.getParent().getOrderID();
 		
+		IFDBProduct dbProd = new DBProduct();
+		pOrder.getProduct().setStock(pOrder.getProduct().getStock() + pOrder.getAmount());
+		
 		try{
+			DBConnection.startTransaction();
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			rc = stmt.executeUpdate(query);
 			stmt.close();
+			
+			dbProd.updateProduct(pOrder.getProduct());
+			DBConnection.commitTransaction();
 		}catch(Exception e){
+			DBConnection.rollBackTransaction();
 			System.out.println("Query Exception : Remove Part Order");
 			e.printStackTrace();
 		}

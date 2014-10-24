@@ -1,5 +1,7 @@
 package guiLayer;
 
+import guiLayer.extensions.PartOrderTableModel;
+
 import javax.swing.JPanel;
 
 import java.awt.GridBagLayout;
@@ -31,6 +33,7 @@ import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class OrderPanel extends JPanel {
 	private JTable table;
@@ -42,11 +45,15 @@ public class OrderPanel extends JPanel {
 	private JLabel lblCityPostal;
 	private JPanel customerInfoPanel;
 	private Customer customer;
+	private ArrayList<PartOrder> partOrders;
+	private PartOrderTableModel model;
 
 	/**
 	 * Create the panel.
 	 */
 	public OrderPanel() {
+		partOrders = new ArrayList<PartOrder>();
+		
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("652px:grow"),
@@ -82,13 +89,8 @@ public class OrderPanel extends JPanel {
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
-			}
-		));
+		model = new PartOrderTableModel(partOrders);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
@@ -264,7 +266,15 @@ public class OrderPanel extends JPanel {
 	}
 	
 	public void addProductToOrder(PartOrder pO){
-		
+		if(pO != null){
+			partOrders.add(pO);
+			updateTable();
+		}
+	}
+
+	private void updateTable() {
+		model.refresh(partOrders);
+		model.fireTableDataChanged();
 	}
 
 }
