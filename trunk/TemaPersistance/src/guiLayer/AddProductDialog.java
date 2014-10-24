@@ -36,6 +36,7 @@ public class AddProductDialog extends JDialog {
 	private boolean done = false;
 
 	public AddProductDialog(Product prod, OrderPanel target) {
+		super((JDialog)null, true);
 		setResizable(false);
 		this.prod = prod;
 		this.target = target;
@@ -74,7 +75,7 @@ public class AddProductDialog extends JDialog {
 		JLabel lblPrice = new JLabel("Unit price:");
 		getContentPane().add(lblPrice, "3, 6, left, default");
 
-		txtUnitPrice = new JTextField();
+		txtUnitPrice = new JTextField("" + prod.getSalesPrice());
 		getContentPane().add(txtUnitPrice, "5, 6, 3, 1, fill, default");
 		txtUnitPrice.setColumns(10);
 
@@ -110,6 +111,7 @@ public class AddProductDialog extends JDialog {
 			int amount = Integer.parseInt(txtAmount.getText());
 			Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
 			try{
+			oCtr.createPartOrder(product, amount, unitPrice);
 			PartOrder po = oCtr.createPartOrder(product, amount, unitPrice);
 			target.addProductToOrder(po);
 			done = true;
@@ -117,7 +119,9 @@ public class AddProductDialog extends JDialog {
 			}
 			catch(NotEnoughStockException e){
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}	
+			}
+			
+			done = true;
 		}
 		catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "Amount must be a whole number", "Error", JOptionPane.ERROR_MESSAGE);
@@ -126,7 +130,6 @@ public class AddProductDialog extends JDialog {
 	
 	private void exit(){
 		setVisible(false);
-		dispose();
 	}
 	
 	public boolean isDone(){
