@@ -2,6 +2,7 @@ package ctrLayer;
 
 import java.util.ArrayList;
 
+import ctrLayer.exceptions.NotEnoughStockException;
 import dbLayer.DBInvoice;
 import dbLayer.DBOrder;
 import dbLayer.DBProduct;
@@ -54,13 +55,13 @@ public class OrderCtr implements IFOrderCtr {
 	}
 	
 	@Override
-	public PartOrder createPartOrder(Product product, int amount, double unitPrice) throws Exception {
+	public PartOrder createPartOrder(Product product, int amount, double unitPrice) throws NotEnoughStockException {
 		PartOrder pO = new PartOrder();
 		pO.setAmount(amount);
 		pO.setProduct(product);
 		pO.setUnitPrice(unitPrice);
 		if(product.getStock() < amount){
-			throw new Exception("Not enough items in stock!");
+			throw new NotEnoughStockException("Not enough items in stock!");
 		}
 		return pO;
 	}
