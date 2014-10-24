@@ -19,6 +19,8 @@ import ctrLayer.exceptions.NotEnoughStockException;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -31,6 +33,7 @@ public class AddProductDialog extends JDialog {
 	private JTextField txtUnitPrice;
 	private Product prod;
 	private OrderPanel target;
+	private boolean done = false;
 
 	public AddProductDialog(Product prod, OrderPanel target) {
 		setResizable(false);
@@ -88,6 +91,8 @@ public class AddProductDialog extends JDialog {
 				addProduct();
 			}
 		});
+		JRootPane rootPane = SwingUtilities.getRootPane(btnAdd); 
+		rootPane.setDefaultButton(btnAdd);
 		getContentPane().add(btnAdd, "5, 10");
 
 		JButton btnCancel = new JButton("Cancel");
@@ -102,14 +107,15 @@ public class AddProductDialog extends JDialog {
 		// TODO Auto-generated method stub
 
 		try{
-			IFOrderCtr oCtr = new OrderCtr();
+			OrderCtr oCtr = new OrderCtr(); //TODO IFOrderCtr -- Giver syntax: Unhandled error 
 			Product product = prod;
 			int amount = Integer.parseInt(txtAmount.getText());
 			Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
 			try{
 			PartOrder po = oCtr.createPartOrder(product, amount, unitPrice);
 			target.addProductToOrder(po);
-			exit();
+			done = true;
+			setVisible(false);
 			}
 			catch(NotEnoughStockException e){
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -123,6 +129,10 @@ public class AddProductDialog extends JDialog {
 	private void exit(){
 		setVisible(false);
 		dispose();
+	}
+	
+	public boolean isDone(){
+		return done;
 	}
 
 	
