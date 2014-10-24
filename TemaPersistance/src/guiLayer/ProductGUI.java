@@ -345,7 +345,7 @@ public class ProductGUI extends JPanel {
 		JButton btnNewButton_2 = new JButton("Create");
 		panel_9.add(btnNewButton_2, "4, 1, right, default");
 		
-		//addOnChangeListener();
+		addOnChangeListener();
 
 	}
 
@@ -406,6 +406,8 @@ public class ProductGUI extends JPanel {
 	}
 
 	private void updateFields(Component c) {
+		ArrayList<Component> comps = new ArrayList<Component>();
+		comps.addAll(fields);
 		boolean empty = true;
 		if(c instanceof JTextField) {
 			empty = ((JTextField) c).getText().isEmpty();
@@ -414,12 +416,12 @@ public class ProductGUI extends JPanel {
 			empty = (((JComboBox<?>) c).getSelectedIndex() == 0);
 		}
 		if(!empty) {
-			for (Component component : fields) {
+			comps.remove(c);
+			for (Component component : comps) {
 				component.setEnabled(false);
 			}
-			c.setEnabled(true);
 		} else {
-			for (Component component : fields) {
+			for (Component component : comps) {
 				component.setEnabled(true);
 			}
 		}

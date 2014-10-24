@@ -1,6 +1,7 @@
 package guiLayer;
 
 import guiLayer.extensions.CustomerCellRender;
+import guiLayer.extensions.JTextFieldLimit;
 
 import javax.swing.JPanel;
 
@@ -109,6 +110,7 @@ public class CustomerPanel extends JPanel {
 		panel_3.add(lblNewLabel, "1, 3, left, default");
 		
 		txtID = new JTextField();
+		txtID.setDocument(new JTextFieldLimit(10, true, false));
 		panel_3.add(txtID, "3, 3, fill, default");
 		txtID.setColumns(10);
 		fields.add(txtID);
@@ -252,17 +254,19 @@ public class CustomerPanel extends JPanel {
 	}
 
 	private void updateFields(Component c) {
+		ArrayList<Component> comps = new ArrayList<Component>();
+		comps.addAll(fields);
 		boolean empty = true;
 		if(c instanceof JTextField) {
 			empty = ((JTextField) c).getText().isEmpty();
 		}
 		if(!empty) {
-			for (Component component : fields) {
+			comps.remove(c);
+			for (Component component : comps) {
 				component.setEnabled(false);
 			}
-			c.setEnabled(true);
 		} else {
-			for (Component component : fields) {
+			for (Component component : comps) {
 				component.setEnabled(true);
 			}
 		}
