@@ -22,8 +22,28 @@ public class DBPartOrder implements IFDBPartOrder {
 		return miscWhere("ORDERID = " + order.getOrderID(), retAsso);
 	}
 	
+	@Override
+	public boolean insertPartOrders(ArrayList<PartOrder> partOrders) {
+		boolean retBool = true;
+		DBConnection.startTransaction();
+		if(partOrders.size() > 0){
+			try{
+				for(PartOrder pO : partOrders){
+					insertPartOrder(pO);
+				}
+				DBConnection.commitTransaction();
+			}catch(Exception e){
+				retBool = false;
+				e.printStackTrace();
+				DBConnection.rollBackTransaction();
+			}
+		}
+
+		return retBool;
+	}
 	
-	public int insertPartOrder(PartOrder pOrder) {
+	
+	public int insertPartOrder(PartOrder pOrder) throws Exception{
 		int rc = -1;
 		String query = "INSERT INTO PARTORDER (orderID, productID, amount, unitPrice) values (?,?,?,?)";
 		IFDBProduct dbProd = new DBProduct();
@@ -31,7 +51,6 @@ public class DBPartOrder implements IFDBPartOrder {
 		pOrder.getProduct().setStock(pOrder.getProduct().getStock() - pOrder.getAmount());
 		
 		try{
-			DBConnection.startTransaction();
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setInt(1, pOrder.getParent().getOrderID());
@@ -44,12 +63,11 @@ public class DBPartOrder implements IFDBPartOrder {
 			stmt.close();
 			
 			dbProd.updateProduct(pOrder.getProduct());
-			
-			DBConnection.commitTransaction();
+
 		}catch(Exception e){
-			DBConnection.rollBackTransaction();
 			System.out.println("Error Inserting : Part Order");
 			e.printStackTrace();
+			throw e;
 		}
 		
 		
