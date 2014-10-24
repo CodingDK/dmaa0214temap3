@@ -172,10 +172,10 @@ public class ProductPanel extends JPanel {
 			AddProductDialog addProductDialog = new AddProductDialog(p, parent); //JDialog(parent, p);
 			addProductDialog.setLocationRelativeTo(parent);
 			addProductDialog.setVisible(true);
-			//if (addProductDialog.isDone()) {
-			//	clear();
-			//}
-			//addProductDialog.dispose();
+			if (addProductDialog.isDone()) {
+				updateList(null);
+			}
+			addProductDialog.dispose();
 		}
 	}
 
@@ -211,9 +211,12 @@ public class ProductPanel extends JPanel {
 	}
 
 	private void updateList(ArrayList<Product> products) {
+		
 		DefaultListModel<Product> model = new DefaultListModel<Product>();
-		for (Product p : products) {
-			model.addElement(p);
+		if(products != null) {
+			for (Product p : products) {
+				model.addElement(p);
+			}
 		}
 		list.setModel(model);
 	}
