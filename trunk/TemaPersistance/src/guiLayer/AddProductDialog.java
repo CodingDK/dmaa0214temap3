@@ -111,7 +111,6 @@ public class AddProductDialog extends JDialog {
 			int amount = Integer.parseInt(txtAmount.getText());
 			Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
 			try{
-			oCtr.createPartOrder(product, amount, unitPrice);
 			PartOrder po = oCtr.createPartOrder(product, amount, unitPrice);
 			target.addProductToOrder(po);
 			done = true;
