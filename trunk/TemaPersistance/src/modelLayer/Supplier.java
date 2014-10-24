@@ -1,7 +1,7 @@
 package modelLayer;
 
 public class Supplier {
-	
+
 	private int id;
 	private String name;
 	private String address;
@@ -9,7 +9,7 @@ public class Supplier {
 	private String phone;
 	private String email;
 	private Zipcode zipCode;
-	
+
 	public Supplier() {
 
 	}
@@ -70,14 +70,11 @@ public class Supplier {
 	}
 
 	/**
-	 * @param zipCode the zipCode to set
+	 * @param zipCode
+	 *            the zipCode to set
 	 */
 	public void setZipCode(Zipcode zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	
-	
-	
-	
 }

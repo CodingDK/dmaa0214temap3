@@ -1,6 +1,7 @@
 package testLayer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -17,19 +18,19 @@ public class DBSupplierTestCase {
 	public void testFindSuppliersByName() {
 		DBSupplier dbSup = new DBSupplier();
 		ArrayList<Supplier> list = dbSup.findSuppliersByName("Lund");
-		
+
 		Supplier sp = null;
 		int i = 0;
 		boolean exist = false;
-		while(i < list.size() && !exist){
+		while (i < list.size() && !exist) {
 			Supplier sup = list.get(i);
-			if(sup.getName().equals("Lund")){
+			if (sup.getName().equals("Lund")) {
 				sp = sup;
 				exist = true;
 			}
 			i++;
 		}
-		
+
 		assertNotNull(sp);
 	}
 
@@ -37,19 +38,19 @@ public class DBSupplierTestCase {
 	public void testFindSuppliersByPhone() {
 		DBSupplier dbSup = new DBSupplier();
 		ArrayList<Supplier> list = dbSup.findSuppliersByPhone("88888888");
-		
+
 		Supplier sp = null;
 		int i = 0;
 		boolean exist = false;
-		while(i < list.size() && !exist){
+		while (i < list.size() && !exist) {
 			Supplier sup = list.get(i);
-			if(sup.getPhone().equals("88888888")){
+			if (sup.getPhone().equals("88888888")) {
 				sp = sup;
 				exist = true;
 			}
 			i++;
 		}
-		
+
 		assertNotNull(sp);
 	}
 
@@ -57,7 +58,7 @@ public class DBSupplierTestCase {
 	public void testFindSuppliersByID() {
 		DBSupplier dbSup = new DBSupplier();
 		Supplier sp = dbSup.findSuppliersByID(1);
-		
+
 		assertNotNull(sp);
 	}
 
@@ -74,64 +75,63 @@ public class DBSupplierTestCase {
 			sp.setPhone("00000000");
 			sp.setEmail("Noget@noget.dk");
 			sp.setZipCode(new Zipcode(8832, "Skals"));
-			
+
 			int rc = -1;
-			
+
 			try {
 				rc = dbSup.insertSupplier(sp);
 				System.out.println(rc);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	
-			if(rc == 1){
+
+			if (rc == 1) {
 				test = true;
-			}else{
+			} else {
 				System.out.println("Insert failed");
 				test = false;
 			}
 		}
-		
+
 		{
 			sp.setName("Noget");
-			
+
 			int rc = -1;
-			
+
 			try {
 				rc = dbSup.updateSupplier(sp);
 				System.out.println(rc);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	
-			if(rc == 1){
+
+			if (rc == 1) {
 				test = true;
-			}else{
+			} else {
 				System.out.println("Update failed");
 				test = false;
 			}
 		}
-		
-		{		
+
+		{
 			int rc = -1;
-			
+
 			try {
 				rc = dbSup.removeSupplier(sp);
 				System.out.println(rc);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	
-			if(rc == 1){
+
+			if (rc == 1) {
 				test = true;
-			}else{
+			} else {
 				System.out.println("Remove failed");
 				test = false;
 			}
 		}
-		
-		
+
 		assertTrue(test);
 	}
-	
+
 }

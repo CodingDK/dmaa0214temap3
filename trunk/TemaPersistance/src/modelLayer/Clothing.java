@@ -1,11 +1,12 @@
 package modelLayer;
 
 public class Clothing extends Product {
-	
+
 	private String size;
 	private String colour;
-	
-	public Clothing(int id, String name, double salesPrice, String size, boolean hidden) {
+
+	public Clothing(int id, String name, double salesPrice, String size,
+			boolean hidden) {
 		super(id, name, salesPrice, hidden);
 		this.size = size;
 	}
@@ -21,7 +22,8 @@ public class Clothing extends Product {
 	}
 
 	/**
-	 * @param size the size to set
+	 * @param size
+	 *            the size to set
 	 */
 	public void setSize(String size) {
 		this.size = size;
@@ -35,9 +37,10 @@ public class Clothing extends Product {
 	}
 
 	/**
-	 * @param colour the colour to set
+	 * @param colour
+	 *            the colour to set
 	 */
 	public void setColour(String colour) {
 		this.colour = colour;
-	}	
+	}
 }
