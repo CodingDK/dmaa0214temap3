@@ -170,8 +170,8 @@ public class ProductPanel extends JPanel {
 		}
 		else {
 			AddProductDialog addProductDialog = new AddProductDialog(p, parent); //JDialog(parent, p);
-			//addProductDialog.setLocationRelativeTo(parent);
-			//addProductDialog.setVisible(true);
+			addProductDialog.setLocationRelativeTo(parent);
+			addProductDialog.setVisible(true);
 			//if (addProductDialog.isDone()) {
 			//	clear();
 			//}
