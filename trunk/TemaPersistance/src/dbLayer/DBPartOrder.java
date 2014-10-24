@@ -151,7 +151,7 @@ public class DBPartOrder implements IFDBPartOrder {
 				pO.setAmount(rs.getInt("amount"));
 				pO.setParent(new Order(rs.getInt("orderid")));
 				pO.setProduct(new Product(rs.getInt("productID")));
-				pO.setUnitPrice(rs.getFloat("price"));
+				pO.setUnitPrice(rs.getFloat("unitPrice"));
 				if(retAsso){
 					DBOrder dbO = new DBOrder();
 					pO.setParent(dbO.getOrderByID(pO.getParent().getOrderID(), false));

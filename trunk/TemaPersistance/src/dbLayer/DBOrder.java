@@ -147,11 +147,13 @@ public class DBOrder implements IFDBOrder {
 		String query = "DELETE FROM ORDERS WHERE ORDERID = " + order.getOrderID();
 		
 		try{
+			DBConnection.startTransaction();
 			
 			if(order.getPs() != null && order.getPs().size() > 0){
 				IFDBPartOrder dbPartOrder = new DBPartOrder();
 				for(PartOrder p : order.getPs()){
-					dbPartOrder.removePartOrder(p);
+					System.out.println("Removing : " + p.getProduct().getId());
+					System.out.println("Removing PartOrder : " + dbPartOrder.removePartOrder(p));
 				}
 			}
 			
@@ -160,9 +162,9 @@ public class DBOrder implements IFDBOrder {
 			rc = stmt.executeUpdate(query);
 			stmt.close();
 			
+			DBConnection.commitTransaction();
 		}catch(Exception e){
-			IFDBPartOrder dbPartOrder = new DBPartOrder();
-			dbPartOrder.insertPartOrders(order.getPs());
+			DBConnection.rollBackTransaction();
 			System.out.println("Error Remove Order : Order");
 			e.printStackTrace();
 		}
@@ -182,11 +184,18 @@ public class DBOrder implements IFDBOrder {
 			while(rs.next()){
 				Order o = buildOrder(rs);
 				if(retAsso){
-					DBCustomer dbC = new DBCustomer();
-					o.setCustomer(dbC.getCustomerByID(o.getCustomer().getId()));
+					if(o.getCustomer() != null){
+						IFDBCustomer dbC = new DBCustomer();
+						o.setCustomer(dbC.getCustomerByID(o.getCustomer().getId()));
+					}
 					
-					DBInvoice dbI = new DBInvoice();
-					o.setInvoice(dbI.getInvoiceByID(o.getInvoice().getInvoiceID()));
+					if(o.getInvoice() != null){
+						IFDBInvoice dbI = new DBInvoice();
+						o.setInvoice(dbI.getInvoiceByID(o.getInvoice().getInvoiceID()));
+					}
+					
+					IFDBPartOrder dbPartOrder = new DBPartOrder();
+					o.setPs(dbPartOrder.findPartOrders(o, true));
 				}
 				
 				list.add(o);
@@ -222,6 +231,9 @@ public class DBOrder implements IFDBOrder {
 						DBInvoice dbI = new DBInvoice();
 						o.setInvoice(dbI.getInvoiceByID(o.getInvoice().getInvoiceID()));
 					}
+					
+					IFDBPartOrder dbPartOrder = new DBPartOrder();
+					o.setPs(dbPartOrder.findPartOrders(o, true));
 				}
 			}			
 			

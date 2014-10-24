@@ -80,7 +80,7 @@ public class DBOrderTestCase {
 		System.out.println("testInsertOrder");
 		IFDBOrder dbOrder = new DBOrder();
 		IFDBProduct dbProduct = new DBProduct();
-		/*
+		
 		Order o = new Order();
 		o.setDeliveryStatus("Teleported to Target!");
 		
@@ -96,9 +96,6 @@ public class DBOrderTestCase {
 		o.setPs(orders);
 		dbOrder.insertOrder(o);
 	
-		dbOrder.removeOrder(o);
-		*/
-		Order o = dbOrder.getOrderByID(10017, true);
 		dbOrder.removeOrder(o);
 	}
 
