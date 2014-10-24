@@ -59,6 +59,9 @@ public class OrderCtr implements IFOrderCtr {
 		pO.setAmount(amount);
 		pO.setProduct(product);
 		pO.setUnitPrice(unitPrice);
+		if(product.getStock() < amount){
+			throw new Exception("Not enough items in stock!");
+		}
 		return pO;
 	}
 	
