@@ -169,9 +169,9 @@ public class ProductPanel extends JPanel {
 			JOptionPane.showMessageDialog(parent, "You have to choice a product", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		else {
-			JDialog addProductDialog = new AddProductDialog(p, parent); //JDialog(parent, p);
-			addProductDialog.setLocationRelativeTo(parent);
-			addProductDialog.setVisible(true);
+			AddProductDialog addProductDialog = new AddProductDialog(p, parent); //JDialog(parent, p);
+			//addProductDialog.setLocationRelativeTo(parent);
+			//addProductDialog.setVisible(true);
 			//if (addProductDialog.isDone()) {
 			//	clear();
 			//}
