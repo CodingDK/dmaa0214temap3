@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.Color;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -130,6 +131,11 @@ public class ProductPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnAddSelected = new JButton("Add Selected");
+		btnAddSelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				addProductToOrder();
+			}
+		});
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 		
 		JButton btnSearchProduct = new JButton("Search Product");
@@ -154,6 +160,22 @@ public class ProductPanel extends JPanel {
 		scrollPane.setViewportView(list);
 		
 		addOnChangeListener();
+	}
+
+	private void addProductToOrder() {
+		Product p = list.getSelectedValue();
+		if(p == null) {
+			JOptionPane.showMessageDialog(parent, "You have to choice a product", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		else {
+			//JDialog addProductDialog = new //JDialog(parent, p);
+			//addProductDialog.setLocationRelativeTo(parent);
+			//addProductDialog.setVisible(true);
+			//if (addProductDialog.isDone()) {
+			//	clear();
+			//}
+			//addProductDialog.dispose();
+		}
 	}
 
 	private void searchProduct() {
@@ -228,6 +250,7 @@ public class ProductPanel extends JPanel {
 
 	private void updateFields(Component c) {
 		boolean empty = true;
+		
 		if(c instanceof JTextField) {
 			empty = ((JTextField) c).getText().isEmpty();
 		}
@@ -235,8 +258,10 @@ public class ProductPanel extends JPanel {
 			empty = (((JComboBox<?>) c).getSelectedIndex() == 0);
 		}
 		if(!empty) {
-			for (Component component : fields) {
-				component.setEnabled(false);
+			ArrayList<Component> comps = new ArrayList<Component>(fields);
+			comps.remove(c);
+			for (Component comp : comps) {
+				comp.setEnabled(false);
 			}
 			c.setEnabled(true);
 		} else {
