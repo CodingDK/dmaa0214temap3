@@ -35,7 +35,8 @@ public class DBProduct implements IFDBProduct {
 	public int insertProduct(Product product) throws Exception {
 		int rc = -1;
 		try{
-			String type = "";
+			DBConnection.startTransaction();
+			String type = null;
 			String exQuery = "";
 			String att1 = null;
 			String att2 = null;			
@@ -58,8 +59,8 @@ public class DBProduct implements IFDBProduct {
 				att2 = ((GunReplica) product).getCalibre();
 			}
 			String query = "INSERT INTO PRODUCT " 
-					+ "(name, stock, purchasePrice, salesPrice, rentPrice, countryOrigin, minStock, hidden) VALUES "
-					+ "(?,    ?,     ?,             ?,          ?,         ?,             ?,        ?);";
+					+ "(name, stock, purchasePrice, salesPrice, rentPrice, countryOrigin, minStock, supplierID, hidden, type) VALUES "
+					+ "(?,    ?,     ?,             ?,          ?,         ?,             ?,        ?,          ?,      ?);";
 			
 			PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setQueryTimeout(5);
@@ -76,25 +77,28 @@ public class DBProduct implements IFDBProduct {
 				stmt.setNull(8, java.sql.Types.NULL);
 			}
 			stmt.setBoolean(9, product.isHidden());
-			if(type != null){
-				stmt.setString(10, att1);
-				stmt.setString(11, att2);
-			}
+			stmt.setString(10, type);
 			rc = stmt.executeUpdate();
 			ResultSet genRs = stmt.getGeneratedKeys();
 			if (genRs.next()) {
 				product.setId(genRs.getInt(1));
-				System.out.println("GeneratedID: " + genRs.getInt(1)); //TODO Delete later
-				exQuery = "INSERT INTO" + type + "(productID, " + exQuery + " VALUES (?, ?, ?)";
 				if(!exQuery.isEmpty()){
+					exQuery = "INSERT INTO " + type + "(productID, " + exQuery + " VALUES (?, ?, ?)";
 					PreparedStatement stmt2 = con.prepareStatement(exQuery);
+					stmt2.setInt(1, product.getId());
+					stmt2.setString(2, att1);
+					stmt2.setString(3, att2);
 					rc += stmt2.executeUpdate(); 
+					stmt2.close();
 				}
-			} 
+			}
 			stmt.close();
+			DBConnection.commitTransaction();
 		}
 		catch(Exception e){
 			System.out.println("Error in inserting product - " + e);
+			DBConnection.rollBackTransaction();
+			e.printStackTrace();
 		}
 		return rc;
 	}
@@ -143,10 +147,7 @@ public class DBProduct implements IFDBProduct {
 			
 			if(type != null){
 				query += query2;
-			}
-			
-			System.out.println(query); //TODO Delete later
-			
+			}			
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setQueryTimeout(5);
 			stmt.setString(1, product.getName());
@@ -181,8 +182,19 @@ public class DBProduct implements IFDBProduct {
 	
 	public int removeProduct(Product product) {
 		int rp = -1;
+		String type = "";
 		try {
-			String query = "DELETE FROM PRODUCT WHERE productID = " + product.getId();
+			if(product instanceof Equipment) {
+				type = "Equipment";
+			} else if(product instanceof Clothing){
+				type = "Clothing";
+			} else if(product instanceof GunReplica){
+				type = "GunReplica";
+			}
+			String query = "DELETE FROM PRODUCT WHERE productID = " + product.getId() + "; ";
+			if(!type.isEmpty()){
+				query += "DELETE FROM " + type + " WHERE productID = " + product.getId();
+			}
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			rp = stmt.executeUpdate(query);
@@ -193,7 +205,7 @@ public class DBProduct implements IFDBProduct {
 			if(e.getErrorCode() == 547) {
 				product.setHidden(true);
 				rp = updateProduct(product);
-				System.out.println("Customer is now hidden");
+				System.out.println("Product is now hidden");
 			} else {
 				e.printStackTrace();
 			}
@@ -301,12 +313,12 @@ public class DBProduct implements IFDBProduct {
 			query2 = " left join EQUIPMENT e on p.productID = e.productID";
 		} else if(type.equalsIgnoreCase("GunReplica")){
 			query += ", g.fabric, g.calibre";
-			query2 = " left join GUNREPLICAS g on p.productID = g.productID";
+			query2 = " left join GUNREPLICA g on p.productID = g.productID";
 		} else if(type.isEmpty()){
 			query += ", c.size, c.colour, e.type, e.description, g.fabric, g.calibre";
 			query2 =  " left join CLOTHING c on p.productID = c.productID" 
 					+ " left join EQUIPMENT e on p.productID = e.productID"
-					+ " left join GUNREPLICAS g on p.productID = g.productID";
+					+ " left join GUNREPLICA g on p.productID = g.productID";
 		}
 
 		query += " FROM PRODUCT p " + query2;
@@ -328,6 +340,7 @@ public class DBProduct implements IFDBProduct {
 			}
 			
 		}
+
 		//System.out.println(type + "= " + query);
 		return query;
 	}
