@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -321,5 +322,10 @@ public class OrderPanel extends JPanel {
 	protected ArrayList<PartOrder> getPartOrders() {
 		return partOrders;
 	}
+	
+	public JFrame getParentFrame() {
+		return parent;
+	}
+		
 
 }
