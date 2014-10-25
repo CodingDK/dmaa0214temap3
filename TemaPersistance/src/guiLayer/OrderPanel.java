@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 
 import modelLayer.Customer;
 import modelLayer.PartOrder;
+import modelLayer.Product;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -319,8 +320,18 @@ public class OrderPanel extends JPanel {
 		model.fireTableDataChanged();
 	}
 	
-	protected ArrayList<PartOrder> getPartOrders() {
-		return partOrders;
+	protected PartOrder getPartOrder(Product produt) {
+		PartOrder retPO = null;
+		int i = 0;
+		boolean found = false;
+		while (i < partOrders.size() && !found) {
+			if (partOrders.get(i).getProduct().getId() == produt.getId()) {
+				retPO = partOrders.get(i);
+				found = true;
+			}
+			i++;
+		}
+		return retPO;
 	}
 	
 	public JFrame getParentFrame() {

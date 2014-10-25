@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -33,6 +34,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
+
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
@@ -137,7 +139,7 @@ public class ProductPanel extends JPanel {
 				searchProduct();
 			}
 		});
-		this.parent.getParentFrame().getRootPane().setDefaultButton(btnSearchProduct);
+		setDefaultButton(btnSearchProduct);
 		
 		panel_2.add(btnSearchProduct, "3, 1, right, default");
 
@@ -158,13 +160,26 @@ public class ProductPanel extends JPanel {
 		list.setCellRenderer(render);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
-
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		checkSelection();
+		
 		addOnChangeListener();
 	}
 
 	private void checkSelection() {
-		// TODO Auto-generated method stub
-		
+		btnAddSelected.setEnabled(!list.isSelectionEmpty());
+		String text = "Add Selected"; 
+		if (!list.isSelectionEmpty()) {
+			setDefaultButton(btnAddSelected);
+			if (parent.getPartOrder(list.getSelectedValue()) != null) {
+				text = "Edit Selected";
+			}
+		}
+		btnAddSelected.setText(text);
+	}
+	
+	private void setDefaultButton(JButton btn) {
+		this.parent.getParentFrame().getRootPane().setDefaultButton(btn);
 	}
 
 	private void addProductToOrder() {
@@ -180,6 +195,7 @@ public class ProductPanel extends JPanel {
 			addProductDialog.setVisible(true);
 			if (addProductDialog.isDone()) {
 				updateList(null);
+				setDefaultButton(btnSearchProduct);
 			}
 			addProductDialog.dispose();
 		}
@@ -276,7 +292,7 @@ public class ProductPanel extends JPanel {
 				comp.setEnabled(false);
 			}
 			c.setEnabled(true);
-			parent.getParentFrame().getRootPane().setDefaultButton(btnSearchProduct);
+			setDefaultButton(btnSearchProduct);
 		} else {
 			for (Component component : fields) {
 				component.setEnabled(true);
