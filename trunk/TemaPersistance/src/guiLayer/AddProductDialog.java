@@ -8,8 +8,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -43,7 +41,7 @@ public class AddProductDialog extends JDialog {
 		super((JDialog) null, true);
 		this.target = target;
 		this.prod = prod;
-		this.existingPO = getExistingPartOrder();
+		this.existingPO = target.getPartOrder(prod);
 		setResizable(false);
 		this.target = target;
 		this.setSize(new Dimension(270, 170));
@@ -133,27 +131,19 @@ public class AddProductDialog extends JDialog {
 		this.getRootPane().setDefaultButton(btnAdd);
 	}
 
-	private PartOrder getExistingPartOrder() {
-		PartOrder retPO = null;
-		int i = 0;
-		boolean found = false;
-		ArrayList<PartOrder> partOrders = target.getPartOrders();
-		while (i < partOrders.size() && !found) {
-			if (partOrders.get(i).getProduct().getId() == prod.getId()) {
-				retPO = partOrders.get(i);
-				found = true;
-			}
-			i++;
-		}
-		return retPO;
-	}
-
 	private void addProduct() {
 		try {
 			IFOrderCtr oCtr = new OrderCtr(); 
 			
 			Product product = prod;
+			if (txtUnitPrice.getText().isEmpty()) {
+				throw new SubmitException("Unitprice can't be empty", txtUnitPrice);
+			} else if (txtAmount.getText().isEmpty()) {
+				throw new SubmitException("Amount can't be empty", txtAmount);
+			}
+				
 			double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+			
 			int amount = Integer.parseInt(txtAmount.getText());
 			if(amount <= 0) {
 				throw new SubmitException("Amount have to be greather than 0", txtAmount);
