@@ -35,6 +35,8 @@ import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
 
 public class CustomerPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JTextField txtPhone;
 	private JTextField txtID;
 	private JTextField txtName;

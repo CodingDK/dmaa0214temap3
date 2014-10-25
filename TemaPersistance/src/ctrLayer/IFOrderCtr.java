@@ -11,7 +11,7 @@ public interface IFOrderCtr {
 
 	public int createOrder(ArrayList<PartOrder> poList, Customer cust,
 			boolean invoice);
-
+	
 	public ArrayList<Product> getProductsByName(String productName);
 
 	public ArrayList<Product> getProductsByType(String type);
@@ -20,6 +20,8 @@ public interface IFOrderCtr {
 
 	public PartOrder createPartOrder(Product product, int amount,
 			double unitPrice) throws NotEnoughStockException;
+	
+	public PartOrder editPartOrder(PartOrder partOrder, int newAmount, double newUnitPrice) throws NotEnoughStockException;
 
 	/**
 	 * Search for a customer by name

@@ -12,7 +12,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 public class CustomerListPanel extends JPanel {
-	private boolean isSelected;
+	private static final long serialVersionUID = 1L;
 	private JPanel listPanel;
 
 	/**
@@ -20,7 +20,6 @@ public class CustomerListPanel extends JPanel {
 	 */
 	public CustomerListPanel(String name, String address, int zipcode,
 			String phone, String city, boolean isSelected) {
-		this.isSelected = isSelected;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { ColumnSpec.decode("default:grow"), },
 				new RowSpec[] { RowSpec.decode("max(29dlu;default):grow"), }));

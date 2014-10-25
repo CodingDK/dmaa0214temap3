@@ -33,6 +33,8 @@ import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
 
 public class OrderPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JPanel cardPanel;
 	private boolean switchPanel = true;
@@ -287,9 +289,12 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
-	public void addProductToOrder(PartOrder pO) {
+	public void addPartOrder(PartOrder pO) {
 		if (pO != null) {
-			partOrders.add(pO);
+			if(!partOrders.contains(pO)) {
+				partOrders.add(pO);
+			}
+			
 			updateTable();
 
 			subTotal = 0;
@@ -311,6 +316,10 @@ public class OrderPanel extends JPanel {
 	private void updateTable() {
 		model.refresh(partOrders);
 		model.fireTableDataChanged();
+	}
+	
+	protected ArrayList<PartOrder> getPartOrders() {
+		return partOrders;
 	}
 
 }

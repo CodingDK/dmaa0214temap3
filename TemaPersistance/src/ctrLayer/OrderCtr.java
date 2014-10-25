@@ -57,14 +57,25 @@ public class OrderCtr implements IFOrderCtr {
 	@Override
 	public PartOrder createPartOrder(Product product, int amount,
 			double unitPrice) throws NotEnoughStockException {
+		if (product.getStock() < amount) {
+			throw new NotEnoughStockException("Not enough items in stock!");
+		}
 		PartOrder pO = new PartOrder();
 		pO.setAmount(amount);
 		pO.setProduct(product);
 		pO.setUnitPrice(unitPrice);
-		if (product.getStock() < amount) {
+		return pO;
+	}
+
+	@Override
+	public PartOrder editPartOrder(PartOrder partOrder, int newAmount,
+			double newUnitPrice) throws NotEnoughStockException {
+		if (partOrder.getProduct().getStock() < newAmount) {
 			throw new NotEnoughStockException("Not enough items in stock!");
 		}
-		return pO;
+		partOrder.setAmount(newAmount);
+		partOrder.setUnitPrice(newUnitPrice);
+		return partOrder;
 	}
 
 	@Override
