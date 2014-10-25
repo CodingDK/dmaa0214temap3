@@ -8,26 +8,56 @@ import modelLayer.Order;
 
 public interface IFDBOrder {
 
-	// Get all Orders
+	/**
+	 * Get all Orders
+	 * @return List of all Orders in the system
+	 */
 	public ArrayList<Order> getAllOrders();
 
-	// Get Orders by Invoice
+	/**
+	 * Get Orders by Invoice
+	 * @param invoice The invoice object to look for
+	 * @param retAsso If true: include associations to other objects
+	 * @return List of found orders
+	 */
 	public ArrayList<Order> getOrdersByInvoice(Invoice invoice, boolean retAsso);
 
-	// Get Orders by Customer
+	/**
+	 * Get Orders by Customer
+	 * @param customer The Customer object to look for
+	 * @param retAsso If true: include associations to other objects
+	 * @return List of found orders
+	 */
 	public ArrayList<Order> getOrdersByCustomer(Customer customer,
 			boolean retAsso);
 
-	//
+	/**
+	 * Get an Order by id
+	 * @param id The id of the order to look for
+	 * @param retAsso If true: include associations to other objects
+	 * @return The found Order object or null
+	 */
 	public Order getOrderByID(int id, boolean retAsso);
 
-	// Insert new Order
+	/**
+	 * Insert a new Order
+	 * @param order The order object to insert
+	 * @return numbers of affected rows
+	 */
 	public int insertOrder(Order order);
 
-	// Update a Order
+	/**
+	 * Update an order object
+	 * @param order The order object to update
+	 * @return numbers of affected rows
+	 */
 	public int updateOrder(Order order);
 
-	// Remove Order
+	/**
+	 * Remove an Order
+	 * @param order The order object to remove
+	 * @return numbers of affected rows
+	 */
 	public int removeOrder(Order order);
 
 }

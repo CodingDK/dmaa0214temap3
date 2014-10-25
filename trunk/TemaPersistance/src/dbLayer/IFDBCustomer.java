@@ -16,7 +16,7 @@ public interface IFDBCustomer {
 	/**
 	 * Find Customers by name
 	 * 
-	 * @param name
+	 * @param name The name of the customer to look for
 	 * @return list of found none-hidden customers
 	 */
 	public ArrayList<Customer> findCustomerByName(String name);
@@ -24,8 +24,7 @@ public interface IFDBCustomer {
 	/**
 	 * Find Customers by phone
 	 * 
-	 * @param phone
-	 *            The phone to find by
+	 * @param phone The phone to find by
 	 * @return list of found none-hidden customers
 	 */
 	public ArrayList<Customer> findCustomerByPhone(String phone);
@@ -33,17 +32,15 @@ public interface IFDBCustomer {
 	/**
 	 * Find a Customer by ID
 	 * 
-	 * @param id
-	 *            The id of the Customer
-	 * @return the found Customer
+	 * @param id The id of the Customer
+	 * @return the found Customer or null
 	 */
 	public Customer getCustomerByID(int id);
 
 	/**
 	 * Insert a new Customer
 	 * 
-	 * @param cust
-	 *            The Customer object to insert
+	 * @param cust The Customer object to insert
 	 * @return numbers of affected rows
 	 */
 	public int insertCustomer(Customer cust);
@@ -51,8 +48,7 @@ public interface IFDBCustomer {
 	/**
 	 * Update a Customer
 	 * 
-	 * @param cust
-	 *            The Customer object to update
+	 * @param cust The Customer object to update
 	 * @return numbers of affected rows
 	 */
 	public int updateCustomer(Customer cust);
@@ -60,8 +56,7 @@ public interface IFDBCustomer {
 	/**
 	 * Delete a Customer
 	 * 
-	 * @param cust
-	 *            The Customer object to insert
+	 * @param cust The Customer object to insert
 	 * @return numbers of affected rows
 	 */
 	public int removeCustomer(Customer cust);
