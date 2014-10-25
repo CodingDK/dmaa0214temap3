@@ -33,6 +33,8 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class ProductPanel extends JPanel {
 
@@ -40,17 +42,17 @@ public class ProductPanel extends JPanel {
 	private JTextField txtName;
 	private JTextField txtID;
 	private OrderPanel parent;
-	private IFOrderCtr oCtr;
 	private JList<Product> list;
 	private JComboBox<String> cmbType;
 	private ArrayList<Component> fields;
+	private JButton btnSearchProduct;
+	private JButton btnAddSelected;
 
 	/**
 	 * Create the panel.
 	 */
 	public ProductPanel(OrderPanel parent) {
 		this.parent = parent;
-		oCtr = new OrderCtr();
 
 		fields = new ArrayList<Component>();
 
@@ -119,7 +121,7 @@ public class ProductPanel extends JPanel {
 				FormFactory.GROWING_BUTTON_COLSPEC, },
 				new RowSpec[] { FormFactory.DEFAULT_ROWSPEC, }));
 
-		JButton btnAddSelected = new JButton("Add Selected");
+		btnAddSelected = new JButton("Add Selected");
 		btnAddSelected.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,13 +130,15 @@ public class ProductPanel extends JPanel {
 		});
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 
-		JButton btnSearchProduct = new JButton("Search Product");
+		btnSearchProduct = new JButton("Search Product");
 		btnSearchProduct.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				searchProduct();
 			}
 		});
+		this.parent.getParentFrame().getRootPane().setDefaultButton(btnSearchProduct);
+		
 		panel_2.add(btnSearchProduct, "3, 1, right, default");
 
 		JPanel panel = new JPanel();
@@ -145,12 +149,22 @@ public class ProductPanel extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		list = new JList<Product>();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				checkSelection();
+			}
+		});
 		ProductCellRender render = new ProductCellRender();
 		list.setCellRenderer(render);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
 		addOnChangeListener();
+	}
+
+	private void checkSelection() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void addProductToOrder() {
@@ -173,7 +187,7 @@ public class ProductPanel extends JPanel {
 
 	private void searchProduct() {
 		String typeStr = (String) cmbType.getSelectedItem();
-		System.out.println(typeStr);
+		IFOrderCtr oCtr = new OrderCtr();
 		if (!typeStr.equalsIgnoreCase("Select")) {
 			if (typeStr.equalsIgnoreCase("All")) {
 				typeStr = "";
@@ -203,7 +217,6 @@ public class ProductPanel extends JPanel {
 	}
 
 	private void updateList(ArrayList<Product> products) {
-
 		DefaultListModel<Product> model = new DefaultListModel<Product>();
 		if (products != null) {
 			for (Product p : products) {
@@ -263,6 +276,7 @@ public class ProductPanel extends JPanel {
 				comp.setEnabled(false);
 			}
 			c.setEnabled(true);
+			parent.getParentFrame().getRootPane().setDefaultButton(btnSearchProduct);
 		} else {
 			for (Component component : fields) {
 				component.setEnabled(true);
