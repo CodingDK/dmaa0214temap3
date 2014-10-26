@@ -1,4 +1,4 @@
-package ctrLayer.exceptions;
+package exceptions;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;

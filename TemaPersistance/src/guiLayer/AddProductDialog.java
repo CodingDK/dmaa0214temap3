@@ -1,5 +1,7 @@
 package guiLayer;
 
+import exceptions.NotEnoughStockException;
+import exceptions.SubmitException;
 import guiLayer.extensions.JDoubleField;
 import guiLayer.extensions.JTextFieldLimit;
 
@@ -8,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -25,8 +28,6 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import ctrLayer.IFOrderCtr;
 import ctrLayer.OrderCtr;
-import ctrLayer.exceptions.NotEnoughStockException;
-import ctrLayer.exceptions.SubmitException;
 
 public class AddProductDialog extends JDialog {
 	private static final long serialVersionUID = 1L;

@@ -7,11 +7,11 @@ import modelLayer.Invoice;
 import modelLayer.Order;
 import modelLayer.PartOrder;
 import modelLayer.Product;
-import ctrLayer.exceptions.NotEnoughStockException;
 import dbLayer.DBInvoice;
 import dbLayer.DBOrder;
 import dbLayer.IFDBInvoice;
 import dbLayer.IFDBOrder;
+import exceptions.NotEnoughStockException;
 
 public class OrderCtr implements IFOrderCtr {
 
