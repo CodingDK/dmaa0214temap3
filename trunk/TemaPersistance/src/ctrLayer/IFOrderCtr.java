@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import modelLayer.Customer;
 import modelLayer.PartOrder;
 import modelLayer.Product;
-import ctrLayer.exceptions.NotEnoughStockException;
+import exceptions.NotEnoughStockException;
 
 public interface IFOrderCtr {
 
