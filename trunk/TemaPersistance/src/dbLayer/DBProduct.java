@@ -184,19 +184,8 @@ public class DBProduct implements IFDBProduct {
 		int rp = -1;
 		// String type = "";
 		try {
-			// if(product instanceof Equipment) {
-			// type = "Equipment";
-			// } else if(product instanceof Clothing){
-			// type = "Clothing";
-			// } else if(product instanceof GunReplica){
-			// type = "GunReplica";
-			// }
 			String query = "DELETE FROM PRODUCT WHERE productID = "
 					+ product.getId() + "; ";
-			// if(!type.isEmpty()){
-			// query += "DELETE FROM " + type + " WHERE productID = " +
-			// product.getId();
-			// }
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			rp = stmt.executeUpdate(query);

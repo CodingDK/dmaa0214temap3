@@ -3,7 +3,9 @@ package dbLayer;
 import java.util.ArrayList;
 
 import modelLayer.Customer;
-
+/**
+ * The Interface for DBCustomer.
+ */
 public interface IFDBCustomer {
 
 	/**
@@ -41,7 +43,7 @@ public interface IFDBCustomer {
 	 * Insert a new Customer
 	 * 
 	 * @param cust The Customer object to insert
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int insertCustomer(Customer cust);
 
@@ -49,7 +51,7 @@ public interface IFDBCustomer {
 	 * Update a Customer
 	 * 
 	 * @param cust The Customer object to update
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int updateCustomer(Customer cust);
 
@@ -57,7 +59,7 @@ public interface IFDBCustomer {
 	 * Delete a Customer
 	 * 
 	 * @param cust The Customer object to insert
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int removeCustomer(Customer cust);
 
