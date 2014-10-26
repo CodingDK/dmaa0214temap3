@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import modelLayer.Customer;
 import modelLayer.Invoice;
 import modelLayer.Order;
-
+/**
+ * The Interface for DBOrder.
+ */
 public interface IFDBOrder {
 
 	/**
@@ -42,21 +44,21 @@ public interface IFDBOrder {
 	/**
 	 * Insert a new Order
 	 * @param order The order object to insert
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int insertOrder(Order order);
 
 	/**
 	 * Update an order object
 	 * @param order The order object to update
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int updateOrder(Order order);
 
 	/**
 	 * Remove an Order
 	 * @param order The order object to remove
-	 * @return numbers of affected rows
+	 * @return numbers of affected rows or -1 if it's fail
 	 */
 	public int removeOrder(Order order);
 
