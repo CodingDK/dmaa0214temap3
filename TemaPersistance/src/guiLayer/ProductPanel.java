@@ -53,7 +53,7 @@ public class ProductPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ProductPanel(OrderPanel parent) {
+	protected ProductPanel(OrderPanel parent) {
 		this.parent = parent;
 
 		fields = new ArrayList<Component>();
@@ -139,7 +139,7 @@ public class ProductPanel extends JPanel {
 				searchProduct();
 			}
 		});
-		setDefaultButton(btnSearchProduct);
+		parent.setDefaultButton(btnSearchProduct);
 		
 		panel_2.add(btnSearchProduct, "3, 1, right, default");
 
@@ -153,7 +153,7 @@ public class ProductPanel extends JPanel {
 		list = new JList<Product>();
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				checkSelection();
+				selectionListener();
 			}
 		});
 		ProductCellRender render = new ProductCellRender();
@@ -161,25 +161,21 @@ public class ProductPanel extends JPanel {
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		checkSelection();
+		selectionListener();
 		
 		addOnChangeListener();
 	}
 
-	private void checkSelection() {
+	private void selectionListener() {
 		btnAddSelected.setEnabled(!list.isSelectionEmpty());
 		String text = "Add Selected"; 
 		if (!list.isSelectionEmpty()) {
-			setDefaultButton(btnAddSelected);
+			parent.setDefaultButton(btnAddSelected);
 			if (parent.getPartOrder(list.getSelectedValue()) != null) {
 				text = "Edit Selected";
 			}
 		}
 		btnAddSelected.setText(text);
-	}
-	
-	private void setDefaultButton(JButton btn) {
-		this.parent.getParentFrame().getRootPane().setDefaultButton(btn);
 	}
 
 	private void addProductToOrder() {
@@ -189,13 +185,12 @@ public class ProductPanel extends JPanel {
 					"You have to choice a product", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else {
-			AddProductDialog addProductDialog = new AddProductDialog(p, parent); // JDialog(parent,
-																					// p);
+			AddProductDialog addProductDialog = new AddProductDialog(p, parent);
 			addProductDialog.setLocationRelativeTo(parent);
 			addProductDialog.setVisible(true);
 			if (addProductDialog.isDone()) {
 				updateList(null);
-				setDefaultButton(btnSearchProduct);
+				parent.setDefaultButton(btnSearchProduct);
 			}
 			addProductDialog.dispose();
 		}
@@ -219,8 +214,7 @@ public class ProductPanel extends JPanel {
 			}
 			updateList(pList);
 		} else if (!txtName.getText().isEmpty()) {
-			ArrayList<Product> pList = oCtr
-					.getProductsByName(txtName.getText());
+			ArrayList<Product> pList = oCtr.getProductsByName(txtName.getText());
 			updateList(pList);
 		}
 		clear();
@@ -291,12 +285,15 @@ public class ProductPanel extends JPanel {
 			for (Component comp : comps) {
 				comp.setEnabled(false);
 			}
-			c.setEnabled(true);
-			setDefaultButton(btnSearchProduct);
+			parent.setDefaultButton(btnSearchProduct);
 		} else {
 			for (Component component : fields) {
 				component.setEnabled(true);
 			}
 		}
+	}
+	
+	protected JButton getDefaultButton() {
+		return btnSearchProduct;
 	}
 }

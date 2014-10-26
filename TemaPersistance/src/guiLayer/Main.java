@@ -1,6 +1,7 @@
 package guiLayer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,8 +26,7 @@ public class Main extends JFrame {
 			@Override
 			public void run() {
 				try {
-					UIManager
-							.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					Main frame = new Main();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -41,7 +41,9 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1037, 690);
+		setTitle("Western Style");
+		setBounds(100, 100, 1000, 590);
+		setMinimumSize(new Dimension(1000, 590));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

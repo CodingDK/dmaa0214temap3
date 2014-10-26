@@ -56,11 +56,13 @@ public class OrderPanel extends JPanel {
 	private double subTotal = 0;
 	private double vat = 0;
 	private Main parent;
+	private ProductPanel pPanel;
+	private CustomerPanel cPanel;
 
 	/**
 	 * Create the panel.
 	 */
-	public OrderPanel(Main parent) {
+	protected OrderPanel(Main parent) {
 		this.parent = parent;
 		partOrders = new ArrayList<PartOrder>();
 
@@ -236,8 +238,8 @@ public class OrderPanel extends JPanel {
 		add(cardPanel, "4, 4, fill, fill");
 		cardPanel.setLayout(new CardLayout(0, 0));
 
-		ProductPanel pPanel = new ProductPanel(this);
-		CustomerPanel cPanel = new CustomerPanel(this);
+		pPanel = new ProductPanel(this);
+		cPanel = new CustomerPanel(this);
 
 		cardPanel.add(pPanel, "Product");
 		cardPanel.add(cPanel, "Customer");
@@ -261,12 +263,17 @@ public class OrderPanel extends JPanel {
 
 		}
 	}
+	
+	protected void setDefaultButton(JButton btn) {
+		getParentFrame().getRootPane().setDefaultButton(btn);
+	}
 
-	public void switchPanel() {
+	protected void switchPanel() {
 		CardLayout cl = (CardLayout) (cardPanel.getLayout());
 		if (switchPanel) {
 			btnCustomerProduct.setText("Add Product");
 			cl.show(cardPanel, "Customer");
+			setDefaultButton(cPanel.getDefaultButton());
 			switchPanel = false;
 		} else {
 			if (customer != null) {
@@ -275,11 +282,12 @@ public class OrderPanel extends JPanel {
 				btnCustomerProduct.setText("Add Customer");
 			}
 			cl.show(cardPanel, "Product");
+			setDefaultButton(pPanel.getDefaultButton());
 			switchPanel = true;
 		}
 	}
 
-	public void setCustomer(Customer c) {
+	protected void setCustomer(Customer c) {
 		if (c != null) {
 			customer = c;
 			lblAddress.setText(c.getAddress());
@@ -291,7 +299,7 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
-	public void addPartOrder(PartOrder pO) {
+	protected void addPartOrder(PartOrder pO) {
 		if (pO != null) {
 			if(!partOrders.contains(pO)) {
 				partOrders.add(pO);
@@ -334,9 +342,8 @@ public class OrderPanel extends JPanel {
 		return retPO;
 	}
 	
-	public JFrame getParentFrame() {
+	protected JFrame getParentFrame() {
 		return parent;
 	}
-		
 
 }
