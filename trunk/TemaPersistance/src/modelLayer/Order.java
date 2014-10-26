@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * An Order Object
+ * An Order Object Class
  * 
  * @author Group 3
- *
  */
 public class Order {
 
@@ -20,36 +19,23 @@ public class Order {
 	private Customer customer;
 
 	/**
-	 * Create an Order object.
-	 * 
-	 * @param ordreID
-	 * @param date
-	 * @param deliveryStatus
-	 * @param deliveryDate
-	 * @param invoice
-	 * @param partOrders
-	 * @param customer
+	 * Instantiates a new order object.
+	 *
+	 * @param orderID the order id
 	 */
-	public Order(int orderID, Date date, String deliveryStatus,
-			Date deliveryDate, Invoice invoice,
-			ArrayList<PartOrder> partOrders, Customer customer) {
-		this.orderID = orderID;
-		this.date = date;
-		this.deliveryStatus = deliveryStatus;
-		this.deliveryDate = deliveryDate;
-		this.invoice = invoice;
-		this.partOrders = partOrders;
-		this.customer = customer;
-	}
-
 	public Order(int orderID) {
 		this.orderID = orderID;
 	}
 
+	/**
+	 * Instantiates a new order object.
+	 */
 	public Order() {
 	}
 
 	/**
+	 * Gets the order id.
+	 *
 	 * @return the ordreID
 	 */
 	public int getOrderID() {
@@ -57,14 +43,17 @@ public class Order {
 	}
 
 	/**
-	 * @param ordreID
-	 *            the ordreID to set
+	 * Sets the order id.
+	 *
+	 * @param ordreID the ordreID to set
 	 */
 	public void setOrderID(int ordreID) {
 		this.orderID = ordreID;
 	}
 
 	/**
+	 * Gets the date.
+	 *
 	 * @return the date
 	 */
 	public Date getDate() {
@@ -72,14 +61,17 @@ public class Order {
 	}
 
 	/**
-	 * @param date
-	 *            the date to set
+	 * Sets the date.
+	 *
+	 * @param date the date to set
 	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
 	/**
+	 * Gets the delivery status.
+	 *
 	 * @return the deliveryStatus
 	 */
 	public String getDeliveryStatus() {
@@ -87,14 +79,17 @@ public class Order {
 	}
 
 	/**
-	 * @param deliveryStatus
-	 *            the deliveryStatus to set
+	 * Sets the delivery status.
+	 *
+	 * @param deliveryStatus the deliveryStatus to set
 	 */
 	public void setDeliveryStatus(String deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
 	}
 
 	/**
+	 * Gets the delivery date.
+	 *
 	 * @return the deliveryDate
 	 */
 	public Date getDeliveryDate() {
@@ -102,14 +97,17 @@ public class Order {
 	}
 
 	/**
-	 * @param deliveryDate
-	 *            the deliveryDate to set
+	 * Sets the delivery date.
+	 *
+	 * @param deliveryDate the deliveryDate to set
 	 */
 	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
 	/**
+	 * Gets the invoice.
+	 *
 	 * @return the invoice
 	 */
 	public Invoice getInvoice() {
@@ -117,14 +115,17 @@ public class Order {
 	}
 
 	/**
-	 * @param invoice
-	 *            the invoice to set
+	 * Sets the invoice.
+	 *
+	 * @param invoice the invoice to set
 	 */
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
 
 	/**
+	 * Gets the ps.
+	 *
 	 * @return the partOrders
 	 */
 	public ArrayList<PartOrder> getPs() {
@@ -132,14 +133,17 @@ public class Order {
 	}
 
 	/**
-	 * @param partOrders
-	 *            the partOrders to set
+	 * Sets the ps.
+	 *
+	 * @param partOrders the partOrders to set
 	 */
 	public void setPs(ArrayList<PartOrder> partOrders) {
 		this.partOrders = partOrders;
 	}
 
 	/**
+	 * Gets the customer.
+	 *
 	 * @return the customer
 	 */
 	public Customer getCustomer() {
@@ -147,8 +151,9 @@ public class Order {
 	}
 
 	/**
-	 * @param customer
-	 *            the customer to set
+	 * Sets the customer.
+	 *
+	 * @param customer the customer to set
 	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;

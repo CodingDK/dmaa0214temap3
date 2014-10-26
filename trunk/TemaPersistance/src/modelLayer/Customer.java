@@ -1,10 +1,9 @@
 package modelLayer;
 
 /**
- * A Customer Object
+ * A Class for handling Customer objects
  * 
  * @author Group 3
- *
  */
 public class Customer {
 
@@ -16,23 +15,24 @@ public class Customer {
 	private boolean hidden = false;
 
 	/**
-	 * Create a Customer object
+	 * Create a Customer object.
 	 */
 	public Customer() {
 
 	}
 
 	/**
-	 * Create a Customer object
-	 * 
-	 * @param id
-	 *            the id of the Customer
+	 * Create a Customer object.
+	 *
+	 * @param id the id of the Customer
 	 */
 	public Customer(int id) {
 		this.id = id;
 	}
 
 	/**
+	 * Gets the id.
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -40,14 +40,17 @@ public class Customer {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * Sets the id.
+	 *
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -55,14 +58,17 @@ public class Customer {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * Sets the name.
+	 *
+	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
+	 * Gets the address.
+	 *
 	 * @return the address
 	 */
 	public String getAddress() {
@@ -70,14 +76,17 @@ public class Customer {
 	}
 
 	/**
-	 * @param address
-	 *            the address to set
+	 * Sets the address.
+	 *
+	 * @param address the address to set
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	/**
+	 * Gets the zipcode.
+	 *
 	 * @return the zipcode
 	 */
 	public Zipcode getZipcode() {
@@ -85,14 +94,17 @@ public class Customer {
 	}
 
 	/**
-	 * @param zipcode
-	 *            the zipcode to set
+	 * Sets the zipcode.
+	 *
+	 * @param zipcode the zipcode to set
 	 */
 	public void setZipcode(Zipcode zipcode) {
 		this.zipcode = zipcode;
 	}
 
 	/**
+	 * Gets the phone.
+	 *
 	 * @return the phone
 	 */
 	public String getPhone() {
@@ -100,34 +112,27 @@ public class Customer {
 	}
 
 	/**
-	 * @param phone
-	 *            the phone to set
+	 * Sets the phone.
+	 *
+	 * @param phone the phone to set
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
 	/**
+	 * Checks if is hidden.
+	 *
 	 * @return the hidden
 	 */
 	public boolean isHidden() {
 		return hidden;
 	}
-
+	
 	/**
-	 * @return the hidden as int
-	 */
-	public int isHiddenAsInt() {
-		int i = 0;
-		if (hidden) {
-			i = 1;
-		}
-		return i;
-	}
-
-	/**
-	 * @param hidden
-	 *            the hidden to set
+	 * Sets the hidden.
+	 *
+	 * @param hidden the hidden to set
 	 */
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;

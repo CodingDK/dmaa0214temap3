@@ -1,10 +1,9 @@
 package modelLayer;
 
 /**
- * A Part of an Order
- * 
- * @author Group 3
+ * A PartOrder Object Class.
  *
+ * @author Group 3
  */
 public class PartOrder {
 
@@ -14,19 +13,14 @@ public class PartOrder {
 	private Product product;
 
 	/**
-	 * Create a PartSale object
-	 * 
-	 * @param amount
-	 *            The amount of the product
-	 * @param unitPrice
-	 *            The unit price for the product
-	 * @param product
-	 *            The product too add
+	 * Create a PartSale object.
 	 */
 	public PartOrder() {
 	}
 
 	/**
+	 * Gets the amount.
+	 *
 	 * @return the amount
 	 */
 	public int getAmount() {
@@ -34,14 +28,17 @@ public class PartOrder {
 	}
 
 	/**
-	 * @param amount
-	 *            the amount to set
+	 * Sets the amount.
+	 *
+	 * @param amount the amount to set
 	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
 	/**
+	 * Gets the unit price.
+	 *
 	 * @return the unitPrice
 	 */
 	public double getUnitPrice() {
@@ -49,14 +46,17 @@ public class PartOrder {
 	}
 
 	/**
-	 * @param unitPrice
-	 *            the unitPrice to set
+	 * Sets the unit price.
+	 *
+	 * @param unitPrice the unitPrice to set
 	 */
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
 	/**
+	 * Gets the product.
+	 *
 	 * @return the product
 	 */
 	public Product getProduct() {
@@ -64,14 +64,17 @@ public class PartOrder {
 	}
 
 	/**
-	 * @param product
-	 *            the product to set
+	 * Sets the product.
+	 *
+	 * @param product the product to set
 	 */
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
 	/**
+	 * Gets the parent.
+	 *
 	 * @return the parent
 	 */
 	public Order getParent() {
@@ -79,8 +82,9 @@ public class PartOrder {
 	}
 
 	/**
-	 * @param parent
-	 *            the parent to set
+	 * Sets the parent.
+	 *
+	 * @param parent the parent to set
 	 */
 	public void setParent(Order parent) {
 		this.parent = parent;

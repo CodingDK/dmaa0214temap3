@@ -1,20 +1,27 @@
 package modelLayer;
+// TODO: Auto-generated Javadoc
 
+/**
+ * A Clothing Object Class.
+ *
+ * @author Group 3
+ */
 public class Clothing extends Product {
 
 	private String size;
 	private String colour;
 
-	public Clothing(int id, String name, double salesPrice, String size,
-			boolean hidden) {
-		super(id, name, salesPrice, hidden);
-		this.size = size;
-	}
-
+	/**
+	 * Instantiates a new clothing object.
+	 */
 	public Clothing() {
+		size = null;
+		colour = null;
 	}
 
 	/**
+	 * Gets the size.
+	 *
 	 * @return the size
 	 */
 	public String getSize() {
@@ -22,14 +29,17 @@ public class Clothing extends Product {
 	}
 
 	/**
-	 * @param size
-	 *            the size to set
+	 * Sets the size.
+	 *
+	 * @param size the size to set
 	 */
 	public void setSize(String size) {
 		this.size = size;
 	}
 
 	/**
+	 * Gets the colour.
+	 *
 	 * @return the colour
 	 */
 	public String getColour() {
@@ -37,8 +47,9 @@ public class Clothing extends Product {
 	}
 
 	/**
-	 * @param colour
-	 *            the colour to set
+	 * Sets the colour.
+	 *
+	 * @param colour the colour to set
 	 */
 	public void setColour(String colour) {
 		this.colour = colour;
