@@ -23,6 +23,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import modelLayer.Customer;
 
@@ -44,11 +46,13 @@ public class CustomerPanel extends JPanel {
 	private JList<Customer> list;
 	private OrderPanel parent;
 	private ArrayList<Component> fields;
+	private JButton btnAddSelected;
+	private JButton btnSearchCustomer;
 
 	/**
 	 * Create the panel.
 	 */
-	public CustomerPanel(OrderPanel parent) {
+	protected CustomerPanel(OrderPanel parent) {
 		fields = new ArrayList<Component>();
 		this.parent = parent;
 		oCtr = new OrderCtr();
@@ -124,7 +128,7 @@ public class CustomerPanel extends JPanel {
 				FormFactory.GROWING_BUTTON_COLSPEC, },
 				new RowSpec[] { FormFactory.DEFAULT_ROWSPEC, }));
 
-		JButton btnAddSelected = new JButton("Add Selected");
+		btnAddSelected = new JButton("Add Selected");
 		btnAddSelected.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -133,7 +137,7 @@ public class CustomerPanel extends JPanel {
 		});
 		panel_2.add(btnAddSelected, "1, 1, left, default");
 
-		JButton btnSearchCustomer = new JButton("Search Customer");
+		btnSearchCustomer = new JButton("Search Customer");
 		btnSearchCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,12 +154,26 @@ public class CustomerPanel extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		list = new JList<Customer>();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				selectionListener();;
+			}
+		});
 		CustomerCellRender cRender = new CustomerCellRender();
 		list.setCellRenderer(cRender);
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 
+		parent.setDefaultButton(btnSearchCustomer);
+		
 		addOnChangeListener();
+	}
+
+	private void selectionListener() {
+		btnAddSelected.setEnabled(!list.isSelectionEmpty());
+		if (!list.isSelectionEmpty()) {
+			parent.setDefaultButton(btnAddSelected);
+		}
 	}
 
 	protected void selectedCustomer() {
@@ -240,21 +258,25 @@ public class CustomerPanel extends JPanel {
 	}
 
 	private void updateFields(Component c) {
-		ArrayList<Component> comps = new ArrayList<Component>();
-		comps.addAll(fields);
 		boolean empty = true;
 		if (c instanceof JTextField) {
 			empty = ((JTextField) c).getText().isEmpty();
 		}
 		if (!empty) {
+			ArrayList<Component> comps = new ArrayList<Component>(fields);
 			comps.remove(c);
 			for (Component component : comps) {
 				component.setEnabled(false);
 			}
+			parent.setDefaultButton(btnSearchCustomer);
 		} else {
-			for (Component component : comps) {
+			for (Component component : fields) {
 				component.setEnabled(true);
 			}
 		}
+	}
+	
+	protected JButton getDefaultButton() {
+		return btnSearchCustomer;
 	}
 }
