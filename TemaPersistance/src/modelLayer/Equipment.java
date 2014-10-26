@@ -1,17 +1,20 @@
 package modelLayer;
-
+/**
+ * A Equipment Object Class
+ * 
+ * @author Group 3
+ */
 public class Equipment extends Product {
 
 	private String type;
 	private String description;
 
-	public Equipment(int id, String name, double salePrice, String type,
-			boolean hidden) {
-		super(id, name, salePrice, hidden);
-		this.type = type;
-	}
-
+	/**
+	 * Instantiates a new Equipment object.
+	 */
 	public Equipment() {
+		type = null;
+		description = null;
 	}
 
 	/**
@@ -22,8 +25,7 @@ public class Equipment extends Product {
 	}
 
 	/**
-	 * @param type
-	 *            the type to set
+	 * @param type the type to set
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -37,8 +39,7 @@ public class Equipment extends Product {
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
